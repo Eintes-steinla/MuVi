@@ -3,10 +3,67 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         xmlns:local="clr-namespace:MuVi.Views"
         mc:Ignorable="d"
         Title="LoginView" Height="450" Width="800">
-    <Grid>
-        
+    <Grid Background="#FAFAFA">
+
+        <Card Padding="30"
+              Width="360"
+              VerticalAlignment="Center"
+              HorizontalAlignment="Center"
+              materialDesign:ShadowAssist.ShadowDepth="Depth4">
+
+            <StackPanel>
+
+                <!-- LOGO -->
+                <TextBlock
+                    Text="MuVi"
+                    FontSize="36"
+                    FontWeight="Bold"
+                    HorizontalAlignment="Center"
+                    Foreground="#673AB7"/>
+
+                <TextBlock
+                    Text="Login to continue"
+                    Margin="0,0,0,30"
+                    HorizontalAlignment="Center"
+                    Foreground="Gray"/>
+
+                <!-- USERNAME / EMAIL -->
+                <TextBox
+                    x:Name="txtUsername"
+                    materialDesign:HintAssist.Hint="Username or Email"
+                    Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                    Margin="0,0,0,15"/>
+
+                <!-- PASSWORD -->
+                <PasswordBox
+                    x:Name="txtPassword"
+                    materialDesign:HintAssist.Hint="Password"
+                    Style="{StaticResource MaterialDesignOutlinedPasswordBox}"
+                    Margin="0,0,0,25"/>
+
+                <!-- LOGIN BUTTON -->
+                <Button
+                    Content="LOGIN"
+                    Height="45"
+                    Margin="0,0,0,15"
+                    Background="#673AB7"
+                    Foreground="White"
+                    FontWeight="SemiBold"
+                    Style="{StaticResource MaterialDesignRaisedButton}"/>
+
+                <!-- REGISTER -->
+                <Button
+                    Content="Create new account"
+                    Style="{StaticResource MaterialDesignFlatButton}"
+                    Foreground="#673AB7"
+                    HorizontalAlignment="Center"/>
+
+            </StackPanel>
+
+        </Card>
     </Grid>
 </Window>

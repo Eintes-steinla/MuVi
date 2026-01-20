@@ -1,0 +1,6 @@
+E:\vstimPJ\MuVi\MuVi\obj\Debug\net8.0-windows\MuVi.csproj.AssemblyReference.cache
+E:\vstimPJ\MuVi\MuVi\obj\Debug\net8.0-windows\MainWindow.g.cs
+E:\vstimPJ\MuVi\MuVi\obj\Debug\net8.0-windows\App.g.cs
+E:\vstimPJ\MuVi\MuVi\obj\Debug\net8.0-windows\MuVi_Content.g.cs
+E:\vstimPJ\MuVi\MuVi\obj\Debug\net8.0-windows\MuVi_MarkupCompile.cache
+E:\vstimPJ\MuVi\MuVi\obj\Debug\net8.0-windows\MuVi_MarkupCompile.lref

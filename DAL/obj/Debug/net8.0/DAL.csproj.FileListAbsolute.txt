@@ -1,0 +1,16 @@
+E:\vstimPJ\MuVi\DAL\bin\Debug\net8.0\DAL.deps.json
+E:\vstimPJ\MuVi\DAL\bin\Debug\net8.0\DAL.dll
+E:\vstimPJ\MuVi\DAL\bin\Debug\net8.0\DAL.pdb
+E:\vstimPJ\MuVi\DAL\bin\Debug\net8.0\DTO.dll
+E:\vstimPJ\MuVi\DAL\bin\Debug\net8.0\DTO.pdb
+E:\vstimPJ\MuVi\DAL\obj\Debug\net8.0\DAL.csproj.AssemblyReference.cache
+E:\vstimPJ\MuVi\DAL\obj\Debug\net8.0\DAL.GeneratedMSBuildEditorConfig.editorconfig
+E:\vstimPJ\MuVi\DAL\obj\Debug\net8.0\DAL.AssemblyInfoInputs.cache
+E:\vstimPJ\MuVi\DAL\obj\Debug\net8.0\DAL.AssemblyInfo.cs
+E:\vstimPJ\MuVi\DAL\obj\Debug\net8.0\DAL.csproj.CoreCompileInputs.cache
+E:\vstimPJ\MuVi\DAL\obj\Debug\net8.0\DAL.sourcelink.json
+E:\vstimPJ\MuVi\DAL\obj\Debug\net8.0\DAL.csproj.Up2Date
+E:\vstimPJ\MuVi\DAL\obj\Debug\net8.0\DAL.dll
+E:\vstimPJ\MuVi\DAL\obj\Debug\net8.0\refint\DAL.dll
+E:\vstimPJ\MuVi\DAL\obj\Debug\net8.0\DAL.pdb
+E:\vstimPJ\MuVi\DAL\obj\Debug\net8.0\ref\DAL.dll

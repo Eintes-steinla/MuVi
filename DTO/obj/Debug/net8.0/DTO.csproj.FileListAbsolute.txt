@@ -1,0 +1,12 @@
+E:\vstimPJ\MuVi\DTO\bin\Debug\net8.0\DTO.deps.json
+E:\vstimPJ\MuVi\DTO\bin\Debug\net8.0\DTO.dll
+E:\vstimPJ\MuVi\DTO\bin\Debug\net8.0\DTO.pdb
+E:\vstimPJ\MuVi\DTO\obj\Debug\net8.0\DTO.GeneratedMSBuildEditorConfig.editorconfig
+E:\vstimPJ\MuVi\DTO\obj\Debug\net8.0\DTO.AssemblyInfoInputs.cache
+E:\vstimPJ\MuVi\DTO\obj\Debug\net8.0\DTO.AssemblyInfo.cs
+E:\vstimPJ\MuVi\DTO\obj\Debug\net8.0\DTO.csproj.CoreCompileInputs.cache
+E:\vstimPJ\MuVi\DTO\obj\Debug\net8.0\DTO.sourcelink.json
+E:\vstimPJ\MuVi\DTO\obj\Debug\net8.0\DTO.dll
+E:\vstimPJ\MuVi\DTO\obj\Debug\net8.0\refint\DTO.dll
+E:\vstimPJ\MuVi\DTO\obj\Debug\net8.0\DTO.pdb
+E:\vstimPJ\MuVi\DTO\obj\Debug\net8.0\ref\DTO.dll

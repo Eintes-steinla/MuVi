@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("MuVi")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Release")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+4f8b4a2f7c4d2dfa090c9b6d90f7b86f000e82bd")]
 [assembly: System.Reflection.AssemblyProductAttribute("MuVi")]
 [assembly: System.Reflection.AssemblyTitleAttribute("MuVi")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
