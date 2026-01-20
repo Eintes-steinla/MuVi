@@ -3,67 +3,237 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-        xmlns:local="clr-namespace:MuVi.Views"
         mc:Ignorable="d"
-        Title="LoginView" Height="450" Width="800">
-    <Grid Background="#FAFAFA">
+        Title="MuVi - Login" 
+        Height="700" 
+        Width="1100"
+        WindowStyle="None"
+        AllowsTransparency="True"
+        Background="Transparent"
+        WindowState="Maximized"
+        WindowStartupLocation="CenterScreen"
+        ResizeMode="NoResize">
 
-        <Card Padding="30"
-              Width="360"
-              VerticalAlignment="Center"
-              HorizontalAlignment="Center"
-              materialDesign:ShadowAssist.ShadowDepth="Depth4">
+    <Window.Resources>
+        <ResourceDictionary>
 
-            <StackPanel>
+            <!-- Storyboard for fade-in animation -->
+            <Storyboard x:Key="FadeInAnimation">
+                <DoubleAnimation Storyboard.TargetName="MainCard"
+                               Storyboard.TargetProperty="Opacity"
+                               From="0" To="1" 
+                               Duration="0:0:0.5"/>
+                <ThicknessAnimation Storyboard.TargetName="MainCard"
+                                  Storyboard.TargetProperty="Margin"
+                                  From="0,50,0,0" To="0,0,0,0"
+                                  Duration="0:0:0.5">
+                    <ThicknessAnimation.EasingFunction>
+                        <CubicEase EasingMode="EaseOut"/>
+                    </ThicknessAnimation.EasingFunction>
+                </ThicknessAnimation>
+            </Storyboard>
+        </ResourceDictionary>
+    </Window.Resources>
 
-                <!-- LOGO -->
-                <TextBlock
-                    Text="MuVi"
-                    FontSize="36"
-                    FontWeight="Bold"
-                    HorizontalAlignment="Center"
-                    Foreground="#673AB7"/>
+    <Window.Triggers>
+        <EventTrigger RoutedEvent="Window.Loaded">
+            <BeginStoryboard Storyboard="{StaticResource FadeInAnimation}"/>
+        </EventTrigger>
+    </Window.Triggers>
 
-                <TextBlock
-                    Text="Login to continue"
-                    Margin="0,0,0,30"
-                    HorizontalAlignment="Center"
-                    Foreground="Gray"/>
+    <!-- Main Container -->
+    <Grid Background="{StaticResource BackgroundGradientBrush}">
 
-                <!-- USERNAME / EMAIL -->
-                <TextBox
-                    x:Name="txtUsername"
-                    materialDesign:HintAssist.Hint="Username or Email"
-                    Style="{StaticResource MaterialDesignOutlinedTextBox}"
-                    Margin="0,0,0,15"/>
+        <!-- Background Decorative Circles -->
+        <Canvas>
+            <Ellipse Width="400" Height="400" 
+                    Canvas.Left="-200" Canvas.Top="-200"
+                    Fill="{StaticResource PrimaryPurpleBrush}" 
+                    Opacity="0.1"/>
+            <Ellipse Width="300" Height="300" 
+                    Canvas.Right="-150" Canvas.Bottom="-150"
+                    Fill="{StaticResource AccentPinkBrush}" 
+                    Opacity="0.1"/>
+        </Canvas>
 
-                <!-- PASSWORD -->
-                <PasswordBox
-                    x:Name="txtPassword"
-                    materialDesign:HintAssist.Hint="Password"
-                    Style="{StaticResource MaterialDesignOutlinedPasswordBox}"
-                    Margin="0,0,0,25"/>
+        <Grid x:Name="MainCard">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="450"/>
+            </Grid.ColumnDefinitions>
 
-                <!-- LOGIN BUTTON -->
-                <Button
-                    Content="LOGIN"
-                    Height="45"
-                    Margin="0,0,0,15"
-                    Background="#673AB7"
-                    Foreground="White"
-                    FontWeight="SemiBold"
-                    Style="{StaticResource MaterialDesignRaisedButton}"/>
+            <!-- Left Side - Branding -->
+            <Grid Grid.Column="0" Margin="80,0">
+                <StackPanel VerticalAlignment="Center">
+                    <!-- Logo -->
+                    <!--<Image Source="/Assets/Images/logo.png" 
+                           Width="80" Height="80" 
+                           HorizontalAlignment="Center"
+                           Margin="0,0,0,20"/>-->
 
-                <!-- REGISTER -->
-                <Button
-                    Content="Create new account"
-                    Style="{StaticResource MaterialDesignFlatButton}"
-                    Foreground="#673AB7"
-                    HorizontalAlignment="Center"/>
+                    <!-- App Name -->
+                    <TextBlock Text="MuVi" 
+                             Style="{StaticResource TitleLabel}"
+                             FontSize="69"
+                             HorizontalAlignment="Center"
+                             Margin="0,0,0,0">
+                        <TextBlock.Effect>
+                            <DropShadowEffect Color="{StaticResource PrimaryPurple}" 
+                                            BlurRadius="30" 
+                                            ShadowDepth="0" 
+                                            Opacity="0.8"/>
+                        </TextBlock.Effect>
+                    </TextBlock>
 
-            </StackPanel>
+                    <!-- Tagline -->
+                    <TextBlock Text="MuVi - Nơi điện ảnh kể câu chuyện của bạn" 
+                             Style="{StaticResource SubtitleLabel}"
+                             FontSize="18"
+                             HorizontalAlignment="Center"
+                             TextAlignment="Center"
+                             LineHeight="28"
+                             Margin="0,0,0,60"/>
 
-        </Card>
+                    <!-- Features List -->
+                    <StackPanel Margin="0,0,0,0" HorizontalAlignment="Center">
+                        <StackPanel Orientation="Horizontal" Margin="0,0,0,20">
+                            <Image Source="/Assets/Icons/icons8-heart-48.png" Width="22" Margin="0,0,10,0"/>
+                            <TextBlock Text="Kiến tạo vũ trụ phim riêng" 
+                                       Foreground="{StaticResource TextSecondaryBrush}"
+                                       FontSize="15" VerticalAlignment="Center"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" Margin="0,0,0,20">
+                            <Image Source="/Assets/Icons/icons8-heart-48.png" Width="22" Margin="0,0,10,0"/>
+                            <TextBlock Text="Săn siêu phẩm bom tấn mới" 
+                                     Foreground="{StaticResource TextSecondaryBrush}"
+                                     FontSize="15" VerticalAlignment="Center"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <Image Source="/Assets/Icons/icons8-heart-48.png" Width="22" Margin="0,0,10,0"/>
+                            <TextBlock Text="Trọn vẹn mọi khoảnh khắc" 
+                                     Foreground="{StaticResource TextSecondaryBrush}"
+                                     FontSize="15" VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </StackPanel>
+                </StackPanel>
+            </Grid>
+
+            <!-- Right Side - Login Form -->
+            <Border Grid.Column="1" 
+                    Style="{StaticResource GlassCard}"
+                    Margin="0,40,40,40"
+                    Padding="50">
+                <Grid>
+                    <!-- Close Button -->
+                    <Button 
+                            HorizontalAlignment="Right" 
+                            VerticalAlignment="Top"
+                            Width="36" Height="36"
+                            Background="Transparent"
+                            Foreground="{StaticResource TextSecondaryBrush}"
+                            BorderThickness="0"
+                            Cursor="Hand"
+                            Click="CloseButton_Click">
+                        <Image Source="/Assets/Icons/icons8-close-window-64.png"/>
+                        <Button.Style>
+                            <Style TargetType="Button">
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="Button">
+                                            <Border x:Name="border" 
+                                                  Background="{TemplateBinding Background}"
+                                                  CornerRadius="18">
+                                                <ContentPresenter HorizontalAlignment="Center" 
+                                                                VerticalAlignment="Center"/>
+                                            </Border>
+                                            <ControlTemplate.Triggers>
+                                                <Trigger Property="IsMouseOver" Value="True">
+                                                    <Setter TargetName="border" Property="Background" Value="Transparent"/>
+                                                </Trigger>
+                                            </ControlTemplate.Triggers>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </Button.Style>
+                    </Button>
+
+                    <!-- Login Form -->
+                    <StackPanel VerticalAlignment="Center" Margin="0,0,0,0">
+                        <!-- Title -->
+                        <TextBlock Text="Đăng Nhập" TextAlignment="Center"
+                                   Style="{StaticResource TitleLabel}"
+                                   Margin="0,0,0,40"/>
+
+                        <!-- Username/Email Field -->
+                        <TextBlock Text="Tên đăng nhập hoặc Email" 
+                                   Style="{StaticResource FormLabel}"/>
+                        <TextBox x:Name="UsernameTextBox"
+                                 Style="{StaticResource ModernTextBox}"
+                                 Margin="0,0,0,20"
+                                 Text="{Binding Username, UpdateSourceTrigger=PropertyChanged}"/>
+
+                        <!-- Password Field -->
+                        <TextBlock Text="Mật khẩu" 
+                                 Style="{StaticResource FormLabel}"/>
+                        <PasswordBox x:Name="PasswordBox"
+                                   Style="{StaticResource ModernPasswordBox}"
+                                   Margin="0,0,0,15"
+                                   PasswordChanged="PasswordBox_PasswordChanged"/>
+
+                        <!-- Remember Me & Forgot Password -->
+                        <Grid Margin="0,0,0,20">
+                            <CheckBox Content="Ghi nhớ đăng nhập" 
+                                    Style="{StaticResource ModernCheckBox}"
+                                    IsChecked="{Binding RememberMe}"
+                                    HorizontalAlignment="Left"/>
+                            <TextBlock Text="Quên mật khẩu?" 
+                                     Style="{StaticResource LinkLabel}"
+                                     HorizontalAlignment="Right"
+                                     VerticalAlignment="Center"
+                                     MouseLeftButtonDown="ForgotPassword_Click"/>
+                        </Grid>
+
+                        <!-- Login Button -->
+                        <Button Content="Đăng Nhập" 
+                              Style="{StaticResource PrimaryButton}"
+                              Height="48"
+                              Margin="0,0,0,20"
+                              Command="{Binding LoginCommand}"/>
+
+                        <!-- Divider -->
+                        <Grid Margin="0,10,0,20">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+                            <Border Grid.Column="0" Height="1" 
+                                  Background="#3A3A3A" 
+                                  VerticalAlignment="Center"/>
+                            <TextBlock Grid.Column="1" 
+                                     Text="HOẶC" 
+                                     Foreground="{StaticResource TextHintBrush}"
+                                     FontSize="12"
+                                     Margin="15,0"/>
+                            <Border Grid.Column="2" Height="1" 
+                                  Background="#3A3A3A" 
+                                  VerticalAlignment="Center"/>
+                        </Grid>
+
+                        <!-- Register Link -->
+                        <StackPanel Orientation="Horizontal" 
+                                  HorizontalAlignment="Center">
+                            <TextBlock Text="Chưa có tài khoản? " 
+                                     Foreground="{StaticResource TextSecondaryBrush}"
+                                     FontSize="13"/>
+                            <TextBlock Text="Đăng ký ngay" 
+                                     Style="{StaticResource LinkLabel}"
+                                     MouseLeftButtonDown="RegisterLink_Click"/>
+                        </StackPanel>
+                    </StackPanel>
+                </Grid>
+            </Border>
+        </Grid>
     </Grid>
 </Window>
