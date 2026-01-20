@@ -12,8 +12,16 @@ namespace MuVi.DAL
         /// CONNECTION STRING
         /// </summary>
 
-        private static readonly string connectionString =
-            @"Server=.;Database=QLBH;Trusted_Connection=True;TrustServerCertificate=True";
+        private static readonly string connectionString = @"
+            Data Source=.\SQLEXPRESS;
+            Initial Catalog=MuVi;
+            Integrated Security=True;
+            Connect Timeout=30;
+            Encrypt=False;
+            TrustServerCertificate=True;
+            ApplicationIntent=ReadWrite;
+            MultiSubnetFailover=False
+        ";
 
         public static SqlConnection GetConnection()
         {
@@ -29,9 +37,7 @@ namespace MuVi.DAL
         /// <param name="param"></param>
         /// <returns></returns>
 
-        public static List<T> Query<T>(
-            string sql,
-            object param = null)
+        public static List<T> Query<T>(string sql, object param = null)
         {
             using var conn = GetConnection();
             return conn.Query<T>(sql, param).AsList();
@@ -46,9 +52,7 @@ namespace MuVi.DAL
         /// <param name="param"></param>
         /// <returns></returns>
 
-        public static T QuerySingle<T>(
-            string sql,
-            object param = null)
+        public static T QuerySingle<T>(string sql, object param = null)
         {
             using var conn = GetConnection();
             return conn.QuerySingleOrDefault<T>(sql, param);
@@ -62,16 +66,14 @@ namespace MuVi.DAL
         /// <param name="param"></param>
         /// <returns></returns>
 
-        public static int Execute(
-            string sql,
-            object param = null)
+        public static int Execute(string sql, object param = null)
         {
             using var conn = GetConnection();
             return conn.Execute(sql, param);
         }
 
         /// <summary>
-        /// EXECUTE SCALAR
+        /// Trả một giá trị duy nhất
         /// COUNT / SUM / MAX
         /// </summary>
         /// <typeparam name="T"></typeparam>
@@ -79,25 +81,21 @@ namespace MuVi.DAL
         /// <param name="param"></param>
         /// <returns></returns>
 
-        public static T ExecuteScalar<T>(
-            string sql,
-            object param = null)
+        public static T ExecuteScalar<T>(string sql, object param = null)
         {
             using var conn = GetConnection();
             return conn.ExecuteScalar<T>(sql, param);
         }
 
         /// <summary>
-        /// STORED PROCEDURE
+        /// gọi STORED PROCEDURE đã được tạo sẵn trong SQL Server
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="procName"></param>
         /// <param name="param"></param>
         /// <returns></returns>
 
-        public static List<T> QueryProcedure<T>(
-            string procName,
-            object param = null)
+        public static List<T> QueryProcedure<T>(string procName, object param = null)
         {
             using var conn = GetConnection();
             return conn.Query<T>(
@@ -108,7 +106,12 @@ namespace MuVi.DAL
         }
 
         /// <summary>
-        /// TRANSACTION
+        /// ExecuteTransaction cho phép thực thi NHIỀU câu lệnh SQL nhưng theo nguyên tắc: 
+        /// tất cả thành công hoặc tất cả thất bại
+        /// chạy tuần tự
+        /// VD: Chuyển tiền ngân hàng:
+        ///     Trừ tiền người A
+        ///     Cộng tiền người B
         /// </summary>
         /// <param name="action"></param>
         /// <returns></returns>
