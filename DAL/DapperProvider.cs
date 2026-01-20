@@ -9,7 +9,6 @@ namespace MuVi.DAL
         /// <summary>
         /// CONNECTION STRING
         /// </summary>
-
         private static readonly string connectionString = @"
             Data Source=.\SQLEXPRESS;
             Initial Catalog=MuVi;
@@ -34,7 +33,6 @@ namespace MuVi.DAL
         /// <param name="sql"></param>
         /// <param name="param"></param>
         /// <returns></returns>
-
         public static List<T> Query<T>(string sql, object? param = null)
         {
             using var conn = GetConnection();
@@ -49,7 +47,6 @@ namespace MuVi.DAL
         /// <param name="sql"></param>
         /// <param name="param"></param>
         /// <returns></returns>
-
         public static T? QuerySingle<T>(string sql, object? param = null)
         {
             using var conn = GetConnection();
@@ -63,7 +60,6 @@ namespace MuVi.DAL
         /// <param name="sql"></param>
         /// <param name="param"></param>
         /// <returns></returns>
-
         public static int Execute(string sql, object? param = null)
         {
             using var conn = GetConnection();
@@ -78,7 +74,6 @@ namespace MuVi.DAL
         /// <param name="sql"></param>
         /// <param name="param"></param>
         /// <returns></returns>
-
         public static T? ExecuteScalar<T>(string sql, object? param = null)
         {
             using var conn = GetConnection();
@@ -92,7 +87,6 @@ namespace MuVi.DAL
         /// <param name="procName"></param>
         /// <param name="param"></param>
         /// <returns></returns>
-
         public static List<T> QueryProcedure<T>(string procName, object? param = null)
         {
             using var conn = GetConnection();
@@ -113,7 +107,6 @@ namespace MuVi.DAL
         /// </summary>
         /// <param name="action"></param>
         /// <returns></returns>
-
         public static bool ExecuteTransaction(Action<SqlConnection, SqlTransaction> action)
         {
             using var conn = GetConnection();

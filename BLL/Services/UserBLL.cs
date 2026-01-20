@@ -1,25 +1,94 @@
-﻿using DAL.Repositories;
-using DTO.DTOs;
-using MuVi.DAL;
+﻿using Muvi.DAL;
 using MuVi.DTO;
+using MuVi.DTO.DTOs;
+using BCrypt.Net;
 
 namespace MuVi.BLL
 {
     public class UserBLL
     {
-        private UserDAL _userDAL = new UserDAL();
+        UserDAL userDAL = new UserDAL();
 
-        public (bool Success, string Message, UserDTO User) AuthenticateUser(string username, string password)
+        /// <summary>
+        /// xử lý đăng ký tài khoản
+        /// </summary>
+        /// <param name="username"></param>
+        /// <param name="email"></param>
+        /// <param name="password"></param>
+        /// <param name="message"></param>
+        /// <returns></returns>
+        public bool Register(string username, string email, string password, out string message)
         {
-            if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password))
-                return (false, "Tên đăng nhập và mật khẩu không được để trống!", null);
+            // Username tồn tại
+            if (userDAL.IsUsernameExists(username))
+            {
+                message = "Tên đăng nhập đã tồn tại";
+                return false;
+            }
 
-            UserDTO user = _userDAL.Login(username, password);
+            // Email tồn tại
+            if (userDAL.IsEmailExists(email))
+            {
+                message = "Email đã được sử dụng";
+                return false;
+            }
 
-            if (user != null)
-                return (true, "Đăng nhập thành công!", user);
-            else
-                return (false, "Sai tài khoản hoặc mật khẩu!", null);
+            // Hash mật khẩu
+            string hashPassword = BCrypt.Net.BCrypt.HashPassword(password);
+
+            // Tạo object User
+            UserDTO user = new UserDTO()
+            {
+                Username = username,
+                Email = email,
+                Password = hashPassword
+            };
+
+            // Lưu DB
+            bool result = userDAL.Register(user);
+
+            message = result ? "Đăng ký thành công" : "Đăng ký thất bại";
+            return result;
+        }
+
+        /// <summary>
+        /// xử lý đăng nhập
+        /// </summary>
+        /// <param name="usernameOrEmail"></param>
+        /// <param name="password"></param>
+        /// <param name="message"></param>
+        /// <returns></returns>
+        public UserDTO? Login(string usernameOrEmail, string password, out string message)
+        {
+            // Lấy user theo username hoặc email
+            UserDTO? user = userDAL.GetByUsernameOrEmail(usernameOrEmail);
+
+            if (user == null)
+            {
+                message = "Tài khoản không tồn tại";
+                return null;
+            }
+
+            // Kiểm tra tài khoản bị khóa
+            if (user.IsActive == false)
+            {
+                message = "Tài khoản đã bị khóa";
+                return null;
+            }
+
+            // So sánh mật khẩu hash
+            bool isPasswordValid = BCrypt.Net.BCrypt.Verify(password, user.Password);
+
+            if (isPasswordValid == false)
+            {
+                message = "Mật khẩu không chính xác";
+                return null;
+            }
+
+            // Thành công
+            message = "Đăng nhập thành công";
+            return user;
         }
     }
+
 }

@@ -1,42 +1,101 @@
-﻿using DAL;
-using DTO.DTOs;
+﻿using Dapper;
 using Microsoft.Data.SqlClient;
-using System;
-using System.Collections.Generic;
+using MuVi.DAL;
+using MuVi.DTO.DTOs;
 using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Muvi.DAL
 {
     public class UserDAL
     {
-        private DapperHelper db = new DapperHelper();
+        SqlConnection conn = DataProvider.GetConnection();
 
-        public UserDTO Login(string username, string password)
+        /// <summary>
+        /// kiểm tra tên người dùng đã tồn tại chưa
+        /// </summary>
+        /// <param name="username"></param>
+        /// <returns></returns>
+        public bool IsUsernameExists(string username)
         {
-            string query = "SELECT * FROM Users WHERE Username = @user AND Password = @pass AND IsActive = 1";
-            SqlParameter[] parameters = new SqlParameter[]
-            {
-                new SqlParameter("@user", username),
-                new SqlParameter("@pass", password) // Lưu ý: Thực tế nên hash password
-            };
+            string sql = "SELECT COUNT(*) FROM Users WHERE Username = @Username";
 
-            DataTable dt = db.ExecuteQuery(query, parameters);
+            using SqlConnection conn = DapperProvider.GetConnection();
 
-            if (dt.Rows.Count > 0)
+            int count = conn.ExecuteScalar<int>(sql, new { Username = username });
+
+            return count > 0;
+        }
+
+        /// <summary>
+        /// kiểm tra email đã tồn tại chưa
+        /// </summary>
+        /// <param name="email"></param>
+        /// <returns></returns>
+        public bool IsEmailExists(string email)
+        {
+            string sql = "SELECT COUNT(*) FROM Users WHERE Email = @Email";
+
+            using SqlConnection conn = DapperProvider.GetConnection();
+
+            int count = conn.ExecuteScalar<int>(sql, new { Email = email });
+
+            return count > 0;
+        }
+
+        /// <summary>
+        /// đăng ký người dùng mới
+        /// </summary>
+        /// <param name="user"></param>
+        /// <returns></returns>
+        public bool Register(UserDTO user)
+        {
+            string sql = @"
+            INSERT INTO Users
+            (
+                Username,
+                Password,
+                Email,
+                Role,
+                IsActive,
+                CreatedAt
+            )
+            VALUES
+            (
+                @Username,
+                @Password,
+                @Email,
+                'User',
+                1,
+                GETDATE()
+            )";
+
+            int rows = conn.Execute(sql, new
             {
-                DataRow row = dt.Rows[0];
-                return new UserDTO
-                {
-                    UserID = (int)row["UserID"],
-                    Username = row["Username"].ToString(),
-                    FullName = row["FullName"].ToString(),
-                    Role = row["Role"].ToString()
-                };
-            }
-            return null;
+                user.Username,
+                user.Password,
+                user.Email
+            });
+
+            return rows > 0;
+        }
+
+        /// <summary>
+        /// LẤY USER THEO USERNAME HOẶC EMAIL
+        /// </summary>
+        /// <param name="usernameOrEmail"></param>
+        /// <returns></returns>
+        public UserDTO? GetByUsernameOrEmail(string usernameOrEmail)
+        {
+            string sql = @"
+            SELECT TOP 1 *
+            FROM Users
+            WHERE Username = @Value
+               OR Email = @Value ";
+
+            return conn.QuerySingle<UserDTO>(sql, new
+            {
+                Value = usernameOrEmail
+            });
         }
     }
 }
