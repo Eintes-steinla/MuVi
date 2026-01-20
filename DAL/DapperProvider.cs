@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
+﻿using System.Data;
 using Dapper;
 using Microsoft.Data.SqlClient;
 
@@ -37,7 +35,7 @@ namespace MuVi.DAL
         /// <param name="param"></param>
         /// <returns></returns>
 
-        public static List<T> Query<T>(string sql, object param = null)
+        public static List<T> Query<T>(string sql, object? param = null)
         {
             using var conn = GetConnection();
             return conn.Query<T>(sql, param).AsList();
@@ -52,7 +50,7 @@ namespace MuVi.DAL
         /// <param name="param"></param>
         /// <returns></returns>
 
-        public static T QuerySingle<T>(string sql, object param = null)
+        public static T? QuerySingle<T>(string sql, object? param = null)
         {
             using var conn = GetConnection();
             return conn.QuerySingleOrDefault<T>(sql, param);
@@ -66,7 +64,7 @@ namespace MuVi.DAL
         /// <param name="param"></param>
         /// <returns></returns>
 
-        public static int Execute(string sql, object param = null)
+        public static int Execute(string sql, object? param = null)
         {
             using var conn = GetConnection();
             return conn.Execute(sql, param);
@@ -81,7 +79,7 @@ namespace MuVi.DAL
         /// <param name="param"></param>
         /// <returns></returns>
 
-        public static T ExecuteScalar<T>(string sql, object param = null)
+        public static T? ExecuteScalar<T>(string sql, object? param = null)
         {
             using var conn = GetConnection();
             return conn.ExecuteScalar<T>(sql, param);
@@ -95,7 +93,7 @@ namespace MuVi.DAL
         /// <param name="param"></param>
         /// <returns></returns>
 
-        public static List<T> QueryProcedure<T>(string procName, object param = null)
+        public static List<T> QueryProcedure<T>(string procName, object? param = null)
         {
             using var conn = GetConnection();
             return conn.Query<T>(

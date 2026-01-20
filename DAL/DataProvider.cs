@@ -32,7 +32,7 @@ namespace Muvi.DAL
         /// <param name="query"></param>
         /// <param name="parameters"></param>
         /// <returns></returns>
-        public static DataTable ExecuteQuery(string query, SqlParameter[] parameters = null)
+        public static DataTable ExecuteQuery(string query, SqlParameter[]? parameters = null)
         {
             DataTable data = new DataTable();
             using (SqlConnection conn = GetConnection())
@@ -57,7 +57,7 @@ namespace Muvi.DAL
         /// <param name="query"></param>
         /// <param name="parameters"></param>
         /// <returns></returns>
-        public static int ExecuteNonQuery(string query, SqlParameter[] parameters = null)
+        public static int ExecuteNonQuery(string query, SqlParameter[]? parameters = null)
         {
             int data = 0;
             using (SqlConnection conn = GetConnection())
@@ -80,7 +80,7 @@ namespace Muvi.DAL
         /// <param name="query"></param>
         /// <param name="parameters"></param>
         /// <returns></returns>
-        public static object ExecuteScalar(string query, SqlParameter[] parameters = null)
+        public static object ExecuteScalar(string query, SqlParameter[]? parameters = null)
         {
             object result;
 
@@ -106,7 +106,7 @@ namespace Muvi.DAL
         /// <param name="query"></param>
         /// <param name="parameters"></param>
         /// <returns></returns>
-        public static SqlDataReader ExecuteReader(string query, SqlParameter[] parameters = null)
+        public static SqlDataReader ExecuteReader(string query, SqlParameter[]? parameters = null)
         {
             SqlConnection conn = GetConnection();
             conn.Open();
