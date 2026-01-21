@@ -5,9 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
         Title="MuVi - Register" 
-        Height="750"
-        d:Height="1050"
-        Width="1100"
+        d:Height="720" 
+        d:Width="1280"
         WindowState="Maximized"
         WindowStyle="None"
         AllowsTransparency="True"
@@ -74,7 +73,7 @@
                             Foreground="{StaticResource TextSecondaryBrush}"
                             BorderThickness="0"
                             Cursor="Hand"
-                            Click="CloseButton_Click">
+                            Click="btnClose_Click">
                         <Image Source="/Assets/Icons/icons8-close-window-64.png"/>
                         <Button.Style>
                             <Style TargetType="Button">
@@ -115,7 +114,7 @@
                             <StackPanel Grid.Column="0" Margin="0,0,5,0">
                                 <TextBlock Text="Tên đăng nhập" 
                                            Style="{StaticResource FormLabel}"/>
-                                <TextBox x:Name="UsernameTextBox"
+                                <TextBox x:Name="txtbUsername"
                                          Style="{StaticResource ModernTextBox}"
                                          Text="{Binding Username, UpdateSourceTrigger=PropertyChanged}"/>
                             </StackPanel>
@@ -124,7 +123,7 @@
                             <StackPanel Grid.Column="1" Margin="5,0,0,0">
                                 <TextBlock Text="Email" 
                                            Style="{StaticResource FormLabel}"/>
-                                <TextBox x:Name="EmailTextBox"
+                                <TextBox x:Name="txtbEmail"
                                          Style="{StaticResource ModernTextBox}"
                                          Text="{Binding Email, UpdateSourceTrigger=PropertyChanged}"/>
                             </StackPanel>
@@ -139,27 +138,26 @@
                             <StackPanel Grid.Column="0" Margin="0,0,5,0">
                                 <TextBlock Text="Mật khẩu" 
                                            Style="{StaticResource FormLabel}"/>
-                                <PasswordBox x:Name="PasswordBox"
+                                <PasswordBox x:Name="pwd"
                                              Style="{StaticResource ModernPasswordBox}"
-                                             PasswordChanged="PasswordBox_PasswordChanged"/>
+                                             PasswordChanged="pwd_PasswordChanged"/>
                             </StackPanel>
 
                             <!-- Confirm Password Field -->
                             <StackPanel Grid.Column="1" Margin="5,0,0,0">
                                 <TextBlock Text="Xác nhận mật khẩu" 
                                            Style="{StaticResource FormLabel}"/>
-                                <PasswordBox x:Name="ConfirmPasswordBox"
+                                <PasswordBox x:Name="pwdConfirm"
                                              Style="{StaticResource ModernPasswordBox}"
-                                             PasswordChanged="ConfirmPasswordBox_PasswordChanged"/>
+                                             PasswordChanged="pwdConfirm_PasswordChanged"/>
                             </StackPanel>
                         </Grid>
 
                         <!-- Terms and Conditions -->
                         <CheckBox Style="{StaticResource ModernCheckBox}"
-                                      IsChecked="{Binding AcceptTerms}"
-                                      Margin="0,0,0,20">
-                            <TextBlock Text="Tôi đồng ý với Điều khoản dịch vụ và Chính sách bảo mật" 
-                                       TextWrapping="Wrap"/>
+                                  IsChecked="{Binding AcceptTerms}"
+                                  Margin="0,0,0,20">
+                            <TextBlock Text="Tôi đồng ý với Điều khoản dịch vụ và Chính sách bảo mật"/>
                         </CheckBox>
 
                         <!-- Register Button -->
@@ -198,7 +196,7 @@
                                          FontSize="13"/>
                             <TextBlock Text="Đăng nhập" 
                                          Style="{StaticResource LinkLabel}"
-                                         MouseLeftButtonDown="LoginLink_Click"/>
+                                         MouseLeftButtonDown="txtbLoginLink_MouseLeftButtonDown"/>
                         </StackPanel>
                     </StackPanel>
                 </Grid>

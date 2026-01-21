@@ -40,8 +40,8 @@ namespace MuVi.BLL
             UserDTO user = new UserDTO()
             {
                 Username = username,
-                Email = email,
-                Password = hashPassword
+                Password = hashPassword,
+                Email = email
             };
 
             // Lưu DB

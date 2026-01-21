@@ -2,14 +2,14 @@
 using System.Windows;
 using System.Windows.Input;
 using MuVi.Commands;
-// using BLL; // Uncomment khi đã có BLL
+using MuVi.BLL;
 
 namespace MuVi.ViewModels
 {
     public class LoginViewModel : BaseViewModel
     {
         #region Fields
-        private string _username;
+        private string _usernameOrEmail;
         private string _password;
         private bool _rememberMe;
         private bool _isLoading;
@@ -21,12 +21,14 @@ namespace MuVi.ViewModels
         /// <summary>
         /// Username hoặc Email của người dùng
         /// </summary>
-        public string Username
+        public string UsernameOrEmail
         {
-            get => _username;
+            get => _usernameOrEmail;
             set
             {
-                if (SetProperty(ref _username, value))
+                // Kiểm tra xem giá trị mới(value) có khác giá trị cũ đang nằm trong _usernameOrEmail hay không
+                // Nếu khác, nó sẽ gán _usernameOrEmail = value
+                if (SetProperty(ref _usernameOrEmail, value))
                 {
                     // Clear error khi user bắt đầu nhập
                     ErrorMessage = string.Empty;
@@ -112,7 +114,7 @@ namespace MuVi.ViewModels
         /// </summary>
         private bool CanExecuteLogin()
         {
-            return !string.IsNullOrWhiteSpace(Username)
+            return !string.IsNullOrWhiteSpace(UsernameOrEmail)
                    && !string.IsNullOrWhiteSpace(Password)
                    && !IsLoading;
         }
@@ -124,57 +126,72 @@ namespace MuVi.ViewModels
         {
             try
             {
+                // 1. Bắt đầu trạng thái chờ và xóa lỗi cũ
                 IsLoading = true;
                 ErrorMessage = string.Empty;
 
-                // TODO: Kết nối với BLL để xác thực
-                // Ví dụ:
-                // var userBLL = new UserBLL();
-                // var result = await userBLL.LoginAsync(Username, Password);
-
-                // Simulate API call
-                await System.Threading.Tasks.Task.Delay(1500);
-
-                // Mock validation - Thay thế bằng logic thực tế từ BLL
-                if (Username.ToLower() == "admin" && Password == "123456")
+                if (!ValidateInput())
                 {
-                    // Đăng nhập thành công
                     MessageBox.Show(
-                        "Đăng nhập thành công!",
+                        ErrorMessage,
+                        "Lỗi xác thực",
+                        MessageBoxButton.OK,
+                        MessageBoxImage.Warning
+                    );
+                    return;
+                }
+
+                // Giả lập một khoảng trễ nhỏ để người dùng thấy hiệu ứng Loading (tùy chọn)
+                await System.Threading.Tasks.Task.Delay(500);
+
+                // 2. Khởi tạo lớp nghiệp vụ
+                var userBLL = new UserBLL();
+
+                // 3. Gọi hàm Login từ BLL (Sử dụng Task.Run để không làm treo UI khi truy vấn DB)
+                // Chúng ta dùng biến 'message' làm tham số 'out' để nhận thông báo từ BLL
+                //var user = await System.Threading.Tasks.Task.Run(() =>
+                //    userBLL.Login(UsernameOrEmail, Password, out string message)
+                //);
+                var user = userBLL.Login(UsernameOrEmail, Password, out string message);
+
+                // 4. Kiểm tra kết quả
+                if (user != null)
+                {
+                    // ĐĂNG NHẬP THÀNH CÔNG
+                    MessageBox.Show(
+                        message,
                         "Thông báo",
                         MessageBoxButton.OK,
                         MessageBoxImage.Information
                     );
 
-                    // TODO: Navigate to main window
+                    // TODO: Lưu thông tin User vào Session hoặc Global Variable nếu cần
+                    // Ví dụ: App.CurrentUser = user;
+
+                    // TODO: Điều hướng sang màn hình chính
                     // var mainWindow = new MainWindow();
                     // mainWindow.Show();
-                    // CloseCurrentWindow();
+                    // CloseCurrentWindow(); // Bạn cần viết thêm hàm này để đóng cửa sổ Login
                 }
                 else
                 {
-                    // Đăng nhập thất bại
-                    ErrorMessage = "Tên đăng nhập hoặc mật khẩu không chính xác!";
+                    // ĐĂNG NHẬP THẤT BẠI
                     MessageBox.Show(
-                        ErrorMessage,
-                        "Lỗi đăng nhập",
+                        message,
+                        "Thông báo",
                         MessageBoxButton.OK,
-                        MessageBoxImage.Error
+                        MessageBoxImage.Information
                     );
                 }
             }
             catch (Exception ex)
             {
-                ErrorMessage = $"Đã xảy ra lỗi: {ex.Message}";
-                MessageBox.Show(
-                    ErrorMessage,
-                    "Lỗi",
-                    MessageBoxButton.OK,
-                    MessageBoxImage.Error
-                );
+                // Xử lý lỗi hệ thống (mất kết nối DB, v.v.)
+                ErrorMessage = "Lỗi hệ thống: " + ex.Message;
             }
             finally
             {
+                // 5. Kết thúc trạng thái chờ (Luôn chạy dù thành công hay thất bại)
                 IsLoading = false;
             }
         }
@@ -188,7 +205,7 @@ namespace MuVi.ViewModels
         /// </summary>
         private bool ValidateInput()
         {
-            if (string.IsNullOrWhiteSpace(Username))
+            if (string.IsNullOrWhiteSpace(UsernameOrEmail))
             {
                 ErrorMessage = "Vui lòng nhập tên đăng nhập hoặc email!";
                 return false;
@@ -200,9 +217,10 @@ namespace MuVi.ViewModels
                 return false;
             }
 
-            if (Password.Length < 6)
+            // update mk mạnh hơn
+            if (Password.Length < 8)
             {
-                ErrorMessage = "Mật khẩu phải có ít nhất 6 ký tự!";
+                ErrorMessage = "Mật khẩu phải có ít nhất 8 ký tự!";
                 return false;
             }
 

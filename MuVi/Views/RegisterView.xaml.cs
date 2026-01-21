@@ -16,26 +16,12 @@ namespace MuVi.Views
             InitializeComponent();
             _viewModel = new RegisterViewModel();
             DataContext = _viewModel;
-
-            // Enable window dragging
-            MouseLeftButtonDown += Window_MouseLeftButtonDown;
-        }
-
-        /// <summary>
-        /// Cho phép kéo window
-        /// </summary>
-        private void Window_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            if (e.ButtonState == MouseButtonState.Pressed)
-            {
-                DragMove();
-            }
         }
 
         /// <summary>
         /// Đóng window
         /// </summary>
-        private void CloseButton_Click(object sender, RoutedEventArgs e)
+        private void btnClose_Click(object sender, RoutedEventArgs e)
         {
             Application.Current.Shutdown();
         }
@@ -43,29 +29,29 @@ namespace MuVi.Views
         /// <summary>
         /// Xử lý khi password thay đổi
         /// </summary>
-        private void PasswordBox_PasswordChanged(object sender, RoutedEventArgs e)
+        private void pwd_PasswordChanged(object sender, RoutedEventArgs e)
         {
             if (DataContext is RegisterViewModel viewModel)
             {
-                viewModel.Password = PasswordBox.Password;
+                viewModel.Password = pwd.Password;
             }
         }
 
         /// <summary>
         /// Xử lý khi confirm password thay đổi
         /// </summary>
-        private void ConfirmPasswordBox_PasswordChanged(object sender, RoutedEventArgs e)
+        private void pwdConfirm_PasswordChanged(object sender, RoutedEventArgs e)
         {
             if (DataContext is RegisterViewModel viewModel)
             {
-                viewModel.ConfirmPassword = ConfirmPasswordBox.Password;
+                viewModel.ConfirmPassword = pwdConfirm.Password;
             }
         }
 
         /// <summary>
         /// Chuyển đến màn hình đăng nhập
         /// </summary>
-        private void LoginLink_Click(object sender, MouseButtonEventArgs e)
+        private void txtbLoginLink_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             var loginView = new LoginView();
             loginView.Show();

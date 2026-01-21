@@ -5,8 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
         Title="MuVi - Login" 
-        Height="700" 
-        Width="1100"
+        d:Height="720" 
+        d:Width="1280"
         WindowStyle="None"
         AllowsTransparency="True"
         Background="Transparent"
@@ -125,7 +125,7 @@
                     Padding="50">
                 <Grid>
                     <!-- Close Button -->
-                    <Button 
+                    <Button x:Name="btnClose"
                             HorizontalAlignment="Right" 
                             VerticalAlignment="Top"
                             Width="36" Height="36"
@@ -133,7 +133,7 @@
                             Foreground="{StaticResource TextSecondaryBrush}"
                             BorderThickness="0"
                             Cursor="Hand"
-                            Click="CloseButton_Click">
+                            Click="btnClose_Click">
                         <Image Source="/Assets/Icons/icons8-close-window-64.png"/>
                         <Button.Style>
                             <Style TargetType="Button">
@@ -168,34 +168,38 @@
                         <!-- Username/Email Field -->
                         <TextBlock Text="Tên đăng nhập hoặc Email" 
                                    Style="{StaticResource FormLabel}"/>
-                        <TextBox x:Name="UsernameTextBox"
+                        <TextBox x:Name="txtUsernameOrEmail"
                                  Style="{StaticResource ModernTextBox}"
                                  Margin="0,0,0,20"
-                                 Text="{Binding Username, UpdateSourceTrigger=PropertyChanged}"/>
+                                 Text="{Binding UsernameOrEmail, UpdateSourceTrigger=PropertyChanged}"/>
 
                         <!-- Password Field -->
                         <TextBlock Text="Mật khẩu" 
-                                 Style="{StaticResource FormLabel}"/>
-                        <PasswordBox x:Name="PasswordBox"
+                                   Style="{StaticResource FormLabel}"/>
+                        <PasswordBox x:Name="pwd"
                                    Style="{StaticResource ModernPasswordBox}"
                                    Margin="0,0,0,15"
-                                   PasswordChanged="PasswordBox_PasswordChanged"/>
+                                   PasswordChanged="pwd_PasswordChanged"
+                                   />
 
                         <!-- Remember Me & Forgot Password -->
                         <Grid Margin="0,0,0,20">
-                            <CheckBox Content="Ghi nhớ đăng nhập" 
+                            <CheckBox x:Name="chkRememberMe"
+                                    Content="Ghi nhớ đăng nhập" 
                                     Style="{StaticResource ModernCheckBox}"
                                     IsChecked="{Binding RememberMe}"
                                     HorizontalAlignment="Left"/>
-                            <TextBlock Text="Quên mật khẩu?" 
+                            <TextBlock x:Name="lblForgotPwd"
+                                     Text="Quên mật khẩu?" 
                                      Style="{StaticResource LinkLabel}"
                                      HorizontalAlignment="Right"
                                      VerticalAlignment="Center"
-                                     MouseLeftButtonDown="ForgotPassword_Click"/>
+                                     MouseLeftButtonDown="lblForgotPwd_MouseLeftButtonDown"/>
                         </Grid>
 
                         <!-- Login Button -->
-                        <Button Content="Đăng Nhập" 
+                        <Button x:Name="btnLogin"
+                              Content="Đăng Nhập" 
                               Style="{StaticResource PrimaryButton}"
                               Height="48"
                               Margin="0,0,0,20"
@@ -227,9 +231,10 @@
                             <TextBlock Text="Chưa có tài khoản? " 
                                      Foreground="{StaticResource TextSecondaryBrush}"
                                      FontSize="13"/>
-                            <TextBlock Text="Đăng ký ngay" 
+                            <TextBlock x:Name="txtbRegisterLink"
+                                     Text="Đăng ký ngay" 
                                      Style="{StaticResource LinkLabel}"
-                                     MouseLeftButtonDown="RegisterLink_Click"/>
+                                     MouseLeftButtonDown="txtbRegisterLink_MouseLeftButtonDown"/>
                         </StackPanel>
                     </StackPanel>
                 </Grid>

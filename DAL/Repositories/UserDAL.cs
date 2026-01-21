@@ -8,7 +8,7 @@ namespace Muvi.DAL
 {
     public class UserDAL
     {
-        SqlConnection conn = DataProvider.GetConnection();
+        SqlConnection conn = DapperProvider.GetConnection();
 
         /// <summary>
         /// kiểm tra tên người dùng đã tồn tại chưa
@@ -92,7 +92,7 @@ namespace Muvi.DAL
             WHERE Username = @Value
                OR Email = @Value ";
 
-            return conn.QuerySingle<UserDTO>(sql, new
+            return conn.QueryFirstOrDefault<UserDTO>(sql, new
             {
                 Value = usernameOrEmail
             });

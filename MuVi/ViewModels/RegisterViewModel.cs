@@ -3,17 +3,16 @@ using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Input;
 using MuVi.Commands;
-// using BLL; // Uncomment khi đã có BLL
-// using DTO; // Uncomment khi đã có DTO
+using MuVi.BLL; 
+using MuVi.DTO.DTOs; 
 
 namespace MuVi.ViewModels
 {
     public class RegisterViewModel : BaseViewModel
     {
         #region Fields
-        private string _fullName;
-        private string _email;
         private string _username;
+        private string _email;
         private string _password;
         private string _confirmPassword;
         private bool _acceptTerms;
@@ -24,14 +23,14 @@ namespace MuVi.ViewModels
         #region Properties
 
         /// <summary>
-        /// Họ và tên đầy đủ
+        /// Tên đăng nhập
         /// </summary>
-        public string FullName
+        public string Username
         {
-            get => _fullName;
+            get => _username;
             set
             {
-                if (SetProperty(ref _fullName, value))
+                if (SetProperty(ref _username, value))
                 {
                     ErrorMessage = string.Empty;
                     (RegisterCommand as RelayCommand)?.RaiseCanExecuteChanged();
@@ -48,22 +47,6 @@ namespace MuVi.ViewModels
             set
             {
                 if (SetProperty(ref _email, value))
-                {
-                    ErrorMessage = string.Empty;
-                    (RegisterCommand as RelayCommand)?.RaiseCanExecuteChanged();
-                }
-            }
-        }
-
-        /// <summary>
-        /// Tên đăng nhập
-        /// </summary>
-        public string Username
-        {
-            get => _username;
-            set
-            {
-                if (SetProperty(ref _username, value))
                 {
                     ErrorMessage = string.Empty;
                     (RegisterCommand as RelayCommand)?.RaiseCanExecuteChanged();
@@ -169,9 +152,8 @@ namespace MuVi.ViewModels
         /// </summary>
         private bool CanExecuteRegister()
         {
-            return !string.IsNullOrWhiteSpace(FullName)
+            return !string.IsNullOrWhiteSpace(Username)
                    && !string.IsNullOrWhiteSpace(Email)
-                   && !string.IsNullOrWhiteSpace(Username)
                    && !string.IsNullOrWhiteSpace(Password)
                    && !string.IsNullOrWhiteSpace(ConfirmPassword)
                    && AcceptTerms
@@ -185,64 +167,68 @@ namespace MuVi.ViewModels
         {
             try
             {
-                IsLoading = true;
-                ErrorMessage = string.Empty;
-
-                // Validate input
+                // 1. Validate dữ liệu đầu vào (Client-side)
                 if (!ValidateInput())
                 {
+                    // Hiển thị lỗi từ hàm ValidateInput đã viết sẵn
                     MessageBox.Show(
-                        ErrorMessage,
-                        "Lỗi xác thực",
-                        MessageBoxButton.OK,
-                        MessageBoxImage.Warning
-                    );
+                        ErrorMessage, 
+                        "Lỗi xác thực", 
+                        MessageBoxButton.OK, 
+                        MessageBoxImage.Warning);
                     return;
                 }
 
-                // TODO: Kết nối với BLL để đăng ký
-                // Ví dụ:
-                // var userDTO = new UserDTO
-                // {
-                //     FullName = FullName,
-                //     Email = Email,
-                //     Username = Username,
-                //     Password = Password
-                // };
-                // var userBLL = new UserBLL();
-                // var result = await userBLL.RegisterAsync(userDTO);
+                // 2. Thiết lập trạng thái chờ
+                IsLoading = true;
+                ErrorMessage = string.Empty;
 
-                // Simulate API call
-                await System.Threading.Tasks.Task.Delay(2000);
+                // Giả lập độ trễ để người dùng thấy UI Loading
+                await System.Threading.Tasks.Task.Delay(1500);
 
-                // Mock success - Thay thế bằng logic thực tế từ BLL
-                var result = MessageBox.Show(
-                    "Đăng ký thành công!\n\nBạn có muốn đăng nhập ngay không?",
-                    "Thành công",
-                    MessageBoxButton.YesNo,
-                    MessageBoxImage.Information
+                // 3. Khởi tạo BLL và thực hiện đăng ký
+                var userBLL = new UserBLL();
+                string message = "";
+
+                // Chạy nghiệp vụ đăng ký (bao gồm Check trùng Username/Email và Hash mật khẩu)
+                bool isSuccess = await System.Threading.Tasks.Task.Run(() =>
+                    userBLL.Register(Username, Email, Password, out message)
                 );
 
-                if (result == MessageBoxResult.Yes)
+                // 4. Kiểm tra kết quả trả về từ BLL
+                if (isSuccess)
                 {
-                    // TODO: Navigate to Login
-                    // var loginWindow = new LoginView();
-                    // loginWindow.Show();
-                    // CloseCurrentWindow();
+                    // ĐĂNG KÝ THÀNH CÔNG
+                    var result = MessageBox.Show(
+                        $"{message}\n\nBạn có muốn chuyển đến màn hình đăng nhập không?",
+                        "Thành công",
+                        MessageBoxButton.YesNo,
+                        MessageBoxImage.Information
+                    );
+
+                    if (result == MessageBoxResult.Yes)
+                    {
+                        // TODO: Thực hiện điều hướng về View Login
+                        // Ví dụ sử dụng Mediator hoặc đóng cửa sổ hiện tại
+                        // NavigateToLogin(); 
+                    }
+                }
+                else
+                {
+                    // ĐĂNG KÝ THẤT BẠI (Do trùng tên, trùng email...)
+                    ErrorMessage = message;
+                    MessageBox.Show(message, "Thông báo", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
             }
             catch (Exception ex)
             {
-                ErrorMessage = $"Đã xảy ra lỗi: {ex.Message}";
-                MessageBox.Show(
-                    ErrorMessage,
-                    "Lỗi",
-                    MessageBoxButton.OK,
-                    MessageBoxImage.Error
-                );
+                // Xử lý lỗi hệ thống bất ngờ (mất điện, mất mạng...)
+                ErrorMessage = $"Đã xảy ra lỗi hệ thống: {ex.Message}";
+                MessageBox.Show(ErrorMessage, "Lỗi", MessageBoxButton.OK, MessageBoxImage.Error);
             }
             finally
             {
+                // 5. Luôn trả trạng thái Loading về false
                 IsLoading = false;
             }
         }
@@ -256,16 +242,22 @@ namespace MuVi.ViewModels
         /// </summary>
         private bool ValidateInput()
         {
-            // Validate Full Name
-            if (string.IsNullOrWhiteSpace(FullName))
+            // Validate Username
+            if (string.IsNullOrWhiteSpace(Username))
             {
-                ErrorMessage = "Vui lòng nhập họ và tên!";
+                ErrorMessage = "Vui lòng nhập tên đăng nhập!";
                 return false;
             }
 
-            if (FullName.Length < 3)
+            if (Username.Length < 3)
             {
-                ErrorMessage = "Họ và tên phải có ít nhất 3 ký tự!";
+                ErrorMessage = "Tên đăng nhập phải có ít nhất 3 ký tự!";
+                return false;
+            }
+
+            if (!IsValidUsername(Username))
+            {
+                ErrorMessage = "Tên đăng nhập chỉ được chứa chữ cái, số và dấu gạch dưới!";
                 return false;
             }
 
@@ -282,25 +274,6 @@ namespace MuVi.ViewModels
                 return false;
             }
 
-            // Validate Username
-            if (string.IsNullOrWhiteSpace(Username))
-            {
-                ErrorMessage = "Vui lòng nhập tên đăng nhập!";
-                return false;
-            }
-
-            if (Username.Length < 4)
-            {
-                ErrorMessage = "Tên đăng nhập phải có ít nhất 4 ký tự!";
-                return false;
-            }
-
-            if (!IsValidUsername(Username))
-            {
-                ErrorMessage = "Tên đăng nhập chỉ được chứa chữ cái, số và dấu gạch dưới!";
-                return false;
-            }
-
             // Validate Password
             if (string.IsNullOrWhiteSpace(Password))
             {
@@ -308,7 +281,7 @@ namespace MuVi.ViewModels
                 return false;
             }
 
-            if (Password.Length < 6)
+            if (Password.Length < 8)
             {
                 ErrorMessage = "Mật khẩu phải có ít nhất 6 ký tự!";
                 return false;
