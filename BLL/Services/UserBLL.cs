@@ -89,6 +89,16 @@ namespace MuVi.BLL
             message = "Đăng nhập thành công";
             return user;
         }
+
+        /// <summary>
+        /// lần cuối đăng nhập
+        /// </summary>
+        /// <param name="userID"></param>
+        /// <returns></returns>
+        public bool UpdateLastLogin(int userID)
+        {
+            return userDAL.UpdateLastLogin(userID);
+        }
     }
 
 }

@@ -1,8 +1,9 @@
-﻿using System;
+﻿using MuVi.BLL;
+using MuVi.Commands;
+using MuVi.Helpers;
+using System;
 using System.Windows;
 using System.Windows.Input;
-using MuVi.Commands;
-using MuVi.BLL;
 
 namespace MuVi.ViewModels
 {
@@ -30,9 +31,7 @@ namespace MuVi.ViewModels
                 // Nếu khác, nó sẽ gán _usernameOrEmail = value
                 if (SetProperty(ref _usernameOrEmail, value))
                 {
-                    // Clear error khi user bắt đầu nhập
                     ErrorMessage = string.Empty;
-                    // Update trạng thái nút Login
                     (LoginCommand as RelayCommand)?.RaiseCanExecuteChanged();
                 }
             }
@@ -126,7 +125,6 @@ namespace MuVi.ViewModels
         {
             try
             {
-                // 1. Bắt đầu trạng thái chờ và xóa lỗi cũ
                 IsLoading = true;
                 ErrorMessage = string.Empty;
 
@@ -141,22 +139,21 @@ namespace MuVi.ViewModels
                     return;
                 }
 
-                // Giả lập một khoảng trễ nhỏ để người dùng thấy hiệu ứng Loading (tùy chọn)
                 await System.Threading.Tasks.Task.Delay(500);
 
-                // 2. Khởi tạo lớp nghiệp vụ
                 var userBLL = new UserBLL();
 
-                // 3. Gọi hàm Login từ BLL (Sử dụng Task.Run để không làm treo UI khi truy vấn DB)
-                // Chúng ta dùng biến 'message' làm tham số 'out' để nhận thông báo từ BLL
-                //var user = await System.Threading.Tasks.Task.Run(() =>
-                //    userBLL.Login(UsernameOrEmail, Password, out string message)
-                //);
                 var user = userBLL.Login(UsernameOrEmail, Password, out string message);
 
-                // 4. Kiểm tra kết quả
                 if (user != null)
                 {
+                    if (RememberMe)
+                    {
+                        AppSession.Instance.CurrentUser = user;
+                        AppSession.Instance.LoginTime = DateTime.Now;
+                    }
+
+                    Task.Run(() => userBLL.UpdateLastLogin(user.UserID));
                     // ĐĂNG NHẬP THÀNH CÔNG
                     MessageBox.Show(
                         message,
@@ -186,12 +183,10 @@ namespace MuVi.ViewModels
             }
             catch (Exception ex)
             {
-                // Xử lý lỗi hệ thống (mất kết nối DB, v.v.)
                 ErrorMessage = "Lỗi hệ thống: " + ex.Message;
             }
             finally
             {
-                // 5. Kết thúc trạng thái chờ (Luôn chạy dù thành công hay thất bại)
                 IsLoading = false;
             }
         }

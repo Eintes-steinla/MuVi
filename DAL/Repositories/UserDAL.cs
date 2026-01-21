@@ -97,5 +97,24 @@ namespace Muvi.DAL
                 Value = usernameOrEmail
             });
         }
+
+        /// <summary>
+        /// thời gian đăng nhập cuối cùng
+        /// </summary>
+        /// <param name="userID></param>
+        /// <returns></returns>
+        public bool UpdateLastLogin(int userID)
+        {
+            using (var conn = DapperProvider.GetConnection())
+            {
+                // Câu lệnh SQL cập nhật thời gian hiện tại của hệ thống SQL Server
+                string sql = "UPDATE Users SET LastLogin = GETDATE() WHERE UserId = @Id";
+
+                // Execute trả về số dòng bị ảnh hưởng
+                int rowsAffected = conn.Execute(sql, new { Id = userID });
+
+                return rowsAffected > 0;
+            }
+        }
     }
 }

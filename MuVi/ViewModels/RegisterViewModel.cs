@@ -283,7 +283,7 @@ namespace MuVi.ViewModels
 
             if (Password.Length < 8)
             {
-                ErrorMessage = "Mật khẩu phải có ít nhất 6 ký tự!";
+                ErrorMessage = "Mật khẩu phải có ít nhất 8 ký tự!";
                 return false;
             }
 
