@@ -12,13 +12,13 @@ namespace MuVi.BLL
 
         public bool AddGenre(GenreDTO genre, out string message)
         {
-            if (string.IsNullOrWhiteSpace(genre.Name))
+            if (string.IsNullOrWhiteSpace(genre.GenreName))
             {
                 message = "Tên thể loại không được để trống.";
                 return false;
             }
 
-            if (_genreDAL.IsGenreNameExists(genre.Name))
+            if (_genreDAL.IsGenreNameExists(genre.GenreName))
             {
                 message = "Thể loại này đã tồn tại.";
                 return false;

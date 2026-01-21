@@ -11,8 +11,7 @@ namespace Muvi.DAL
     {
         public List<GenreDTO> GetAll()
         {
-            // Sử dụng AS để map GenreName trong DB vào thuộc tính Name trong DTO
-            string sql = "SELECT GenreID, GenreName AS Name, Description FROM Genres ORDER BY GenreName";
+            string sql = "SELECT GenreID, GenreName, Description FROM Genres ORDER BY GenreName";
 
             using SqlConnection conn = DapperProvider.GetConnection();
             return conn.Query<GenreDTO>(sql).ToList();
@@ -20,7 +19,7 @@ namespace Muvi.DAL
 
         public GenreDTO? GetById(int id)
         {
-            string sql = "SELECT GenreID, GenreName AS Name, Description FROM Genres WHERE GenreID = @Id";
+            string sql = "SELECT GenreID, GenreName, Description FROM Genres WHERE GenreID = @Id";
 
             using SqlConnection conn = DapperProvider.GetConnection();
             return conn.QueryFirstOrDefault<GenreDTO>(sql, new { Id = id });
@@ -28,7 +27,7 @@ namespace Muvi.DAL
 
         public bool IsGenreNameExists(string name)
         {
-            string sql = "SELECT COUNT(*) FROM Genres WHERE GenreName = @Name";
+            string sql = "SELECT COUNT(*) FROM Genres WHERE GenreName = @GenreName";
 
             using SqlConnection conn = DapperProvider.GetConnection();
             return conn.ExecuteScalar<int>(sql, new { Name = name }) > 0;
@@ -36,7 +35,7 @@ namespace Muvi.DAL
 
         public bool Insert(GenreDTO genre)
         {
-            string sql = "INSERT INTO Genres (GenreName, Description) VALUES (@Name, @Description)";
+            string sql = "INSERT INTO Genres (GenreName, Description) VALUES (@GenreName, @Description)";
 
             using SqlConnection conn = DapperProvider.GetConnection();
             return conn.Execute(sql, genre) > 0;
@@ -44,7 +43,7 @@ namespace Muvi.DAL
 
         public bool Update(GenreDTO genre)
         {
-            string sql = "UPDATE Genres SET GenreName = @Name, Description = @Description WHERE GenreID = @GenreID";
+            string sql = "UPDATE Genres SET GenreName = @GenreName, Description = @Description WHERE GenreID = @GenreID";
 
             using SqlConnection conn = DapperProvider.GetConnection();
             return conn.Execute(sql, genre) > 0;
