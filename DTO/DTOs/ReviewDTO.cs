@@ -8,5 +8,10 @@
         public int Rating { get; set; }
         public string? Comment { get; set; }
         public int LikeCount { get; set; }
+        public string CreatedAt { get; set; } = "";
+
+        // Thuộc tính lấy thêm từ bảng Users
+        public string? Username { get; set; }
+        public string? Avatar { get; set; }
     }
 }
