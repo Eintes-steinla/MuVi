@@ -2,14 +2,11 @@
 using Microsoft.Data.SqlClient;
 using MuVi.DAL;
 using MuVi.DTO.DTOs;
-using System.Data;
 
 namespace Muvi.DAL
 {
     public class UserDAL
     {
-        SqlConnection conn = DapperProvider.GetConnection();
-
         /// <summary>
         /// kiểm tra tên người dùng đã tồn tại chưa
         /// </summary>
@@ -69,6 +66,8 @@ namespace Muvi.DAL
                 GETDATE()
             )";
 
+            using SqlConnection conn = DapperProvider.GetConnection();
+
             int rows = conn.Execute(sql, new
             {
                 user.Username,
@@ -91,6 +90,8 @@ namespace Muvi.DAL
             FROM Users
             WHERE Username = @Value
                OR Email = @Value ";
+
+            using SqlConnection conn = DapperProvider.GetConnection();
 
             return conn.QueryFirstOrDefault<UserDTO>(sql, new
             {
