@@ -49,5 +49,47 @@ namespace MuVi.BLL
             message = result ? "Đã xóa phim khỏi hệ thống." : "Không tìm thấy phim để xóa.";
             return result;
         }
+
+        // Thêm vào trong class MovieBLL
+        public List<MovieDTO> GetTopMoviesByViewCount(int count)
+        {
+            // Lấy toàn bộ danh sách và dùng LINQ để sắp xếp theo lượt xem
+            return _movieDAL.GetAll()
+                .OrderByDescending(m => m.ViewCount)
+                .Take(count)
+                .ToList();
+        }
+
+        public List<MovieDTO> GetNewReleases(int count)
+        {
+            // Sắp xếp theo năm phát hành và ID mới nhất
+            return _movieDAL.GetAll()
+                .OrderByDescending(m => m.ReleaseYear)
+                .ThenByDescending(m => m.MovieID)
+                .Take(count)
+                .ToList();
+        }
+
+        public List<MovieDTO> SearchMovies(string keyword)
+        {
+            if (string.IsNullOrWhiteSpace(keyword)) return new List<MovieDTO>();
+            return _movieDAL.SearchByTitle(keyword);
+        }
+
+        public List<MovieDTO> GetMoviesByType(string movieType)
+        {
+            // movieType có thể là "Phim lẻ" hoặc "Phim bộ" dựa trên cột MovieType trong DB
+            return _movieDAL.GetAll()
+                .Where(m => m.MovieType == movieType)
+                .ToList();
+        }
+
+        public List<MovieDTO> GetMoviesByGenre(int genreId)
+        {
+            // Lưu ý: Hàm này cần Join với bảng MovieCategory trong SQL
+            // Tạm thời nếu DAL chưa có hàm chuyên biệt, ta có thể dùng DAL để lấy 
+            // Nhưng tốt nhất là nên viết một hàm GetByGenreId trong MovieDAL
+            return _movieDAL.GetAll(); // Bạn nên bổ sung query Join ở tầng DAL sau
+        }
     }
 }

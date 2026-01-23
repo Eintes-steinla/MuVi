@@ -84,3 +84,7 @@ E:\vstimPJ\MuVi\MuVi\obj\Debug\net8.0-windows\App.baml
 E:\vstimPJ\MuVi\MuVi\obj\Debug\net8.0-windows\MainWindow.baml
 E:\vstimPJ\MuVi\MuVi\obj\Debug\net8.0-windows\Views\RegisterView.baml
 E:\vstimPJ\MuVi\MuVi\obj\Debug\net8.0-windows\Views\RegisterView.g.cs
+E:\vstimPJ\MuVi\MuVi\obj\Debug\net8.0-windows\Views\DashboardView.baml
+E:\vstimPJ\MuVi\MuVi\obj\Debug\net8.0-windows\Views\DashboardView.g.cs
+E:\vstimPJ\MuVi\MuVi\obj\Debug\net8.0-windows\Views\AdminView.baml
+E:\vstimPJ\MuVi\MuVi\obj\Debug\net8.0-windows\Views\AdminView.g.cs

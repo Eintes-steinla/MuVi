@@ -30,5 +30,21 @@ namespace MuVi.BLL
             message = result ? "Đã xóa khỏi lịch sử." : "Xóa thất bại.";
             return result;
         }
+
+        // Thêm vào trong class ViewHistoryBLL
+        public List<MovieDTO> GetHistoryByUser(int userId)
+        {
+            // Lấy danh sách HistoryDTO từ DAL
+            var history = _historyDAL.GetByUserId(userId);
+
+            // Chuyển đổi hoặc lấy danh sách phim từ lịch sử (giả lập)
+            var movieDAL = new MovieDAL();
+            var allMovies = movieDAL.GetAll();
+
+            // Trình tự: Lấy các MovieID từ history và map sang MovieDTO
+            return (from h in history
+                    join m in allMovies on h.MovieID equals m.MovieID
+                    select m).Distinct().ToList();
+        }
     }
 }

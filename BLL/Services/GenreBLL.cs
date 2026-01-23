@@ -10,6 +10,11 @@ namespace MuVi.BLL
 
         public List<GenreDTO> GetGenres() => _genreDAL.GetAll();
 
+        // Thêm vào trong class GenreBLL
+        public List<GenreDTO> GetAllGenres()
+        {
+            return _genreDAL.GetAll();
+        }
         public bool AddGenre(GenreDTO genre, out string message)
         {
             if (string.IsNullOrWhiteSpace(genre.GenreName))
