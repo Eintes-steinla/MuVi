@@ -28,6 +28,7 @@
     <None Remove="Assets\Icons\icons8-plus-60.png" />
     <None Remove="Assets\Icons\icons8-refresh-48.png" />
     <None Remove="Assets\Icons\icons8-remove-48.png" />
+    <None Remove="Assets\Icons\icons8-review-48.png" />
     <None Remove="Assets\Icons\icons8-search-48.png" />
     <None Remove="Assets\Icons\icons8-series-48.png" />
     <None Remove="Assets\Icons\icons8-start-50.png" />
@@ -102,6 +103,9 @@
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Assets\Icons\icons8-remove-48.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Assets\Icons\icons8-review-48.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Assets\Icons\icons8-search-48.png">

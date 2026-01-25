@@ -10,11 +10,11 @@ none
 false
 TRACE;DEBUG;NET;NET8_0;NETCOREAPP;WINDOWS;WINDOWS7_0;NET5_0_OR_GREATER;NET6_0_OR_GREATER;NET7_0_OR_GREATER;NET8_0_OR_GREATER;NETCOREAPP3_0_OR_GREATER;NETCOREAPP3_1_OR_GREATER;WINDOWS7_0_OR_GREATER
 E:\vstimPJ\MuVi\MuVi\App.xaml
-6-292172027
+71316764388
 22-932332663
-161065830409
+19-1457835240
 2241005631928
-MainWindow.xaml;Resources\Themes\DarkPurpleTheme.xaml;Views\AdminView.xaml;Views\DashboardView.xaml;Views\LoginView.xaml;Views\RegisterView.xaml;
+MainWindow.xaml;Resources\Themes\DarkPurpleTheme.xaml;Views\AdminView.xaml;Views\DashboardView.xaml;Views\LoginView.xaml;Views\RegisterView.xaml;Views\UC\MovieUC.xaml;
 
 False
 

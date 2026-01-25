@@ -88,3 +88,6 @@ E:\vstimPJ\MuVi\MuVi\obj\Debug\net8.0-windows\Views\DashboardView.baml
 E:\vstimPJ\MuVi\MuVi\obj\Debug\net8.0-windows\Views\DashboardView.g.cs
 E:\vstimPJ\MuVi\MuVi\obj\Debug\net8.0-windows\Views\AdminView.baml
 E:\vstimPJ\MuVi\MuVi\obj\Debug\net8.0-windows\Views\AdminView.g.cs
+E:\vstimPJ\MuVi\MuVi\obj\Debug\net8.0-windows\Views\UC\MovieUC.g.cs
+E:\vstimPJ\MuVi\MuVi\obj\Debug\net8.0-windows\Views\UC\MovieUC.baml
+E:\vstimPJ\MuVi\MuVi\obj\Debug\net8.0-windows\GeneratedInternalTypeHelper.g.cs
