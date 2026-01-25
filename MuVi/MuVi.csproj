@@ -16,6 +16,7 @@
     <None Remove="Assets\Icons\icons8-end-50.png" />
     <None Remove="Assets\Icons\icons8-expand-arrow-48.png" />
     <None Remove="Assets\Icons\icons8-export-60.png" />
+    <None Remove="Assets\Icons\icons8-eye-48.png" />
     <None Remove="Assets\Icons\icons8-heart-48.png" />
     <None Remove="Assets\Icons\icons8-history-50.png" />
     <None Remove="Assets\Icons\icons8-home-page-50.png" />
@@ -24,6 +25,7 @@
     <None Remove="Assets\Icons\icons8-logout-64.png" />
     <None Remove="Assets\Icons\icons8-movies-60.png" />
     <None Remove="Assets\Icons\icons8-next-48.png" />
+    <None Remove="Assets\Icons\icons8-pencil-48.png" />
     <None Remove="Assets\Icons\icons8-play-48.png" />
     <None Remove="Assets\Icons\icons8-plus-60.png" />
     <None Remove="Assets\Icons\icons8-refresh-48.png" />
@@ -69,6 +71,9 @@
     <Resource Include="Assets\Icons\icons8-export-60.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
+    <Resource Include="Assets\Icons\icons8-eye-48.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="Assets\Icons\icons8-heart-48.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
@@ -91,6 +96,9 @@
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Assets\Icons\icons8-next-48.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Assets\Icons\icons8-pencil-48.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Assets\Icons\icons8-play-48.png">

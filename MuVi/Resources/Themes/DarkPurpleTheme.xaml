@@ -437,23 +437,6 @@
 
     <!-- ========== DATAGRID STYLES ========== -->
 
-    <Style x:Key="ModernDataGrid" TargetType="DataGrid">
-        <Setter Property="Background" Value="{StaticResource BackgroundLightBrush}"/>
-        <Setter Property="Foreground" Value="{StaticResource TextPrimaryBrush}"/>
-        <Setter Property="BorderThickness" Value="0"/>
-        <Setter Property="RowBackground" Value="{StaticResource BackgroundMediumBrush}"/>
-        <Setter Property="AlternatingRowBackground" Value="{StaticResource BackgroundLightBrush}"/>
-        <Setter Property="GridLinesVisibility" Value="None"/>
-        <Setter Property="HeadersVisibility" Value="Column"/>
-        <Setter Property="AutoGenerateColumns" Value="False"/>
-        <Setter Property="CanUserAddRows" Value="False"/>
-        <Setter Property="CanUserDeleteRows" Value="False"/>
-        <Setter Property="CanUserResizeRows" Value="False"/>
-        <Setter Property="SelectionMode" Value="Single"/>
-        <Setter Property="SelectionUnit" Value="FullRow"/>
-        <Setter Property="IsReadOnly" Value="True"/>
-    </Style>
-
     <Style x:Key="DataGridHeaderStyle" TargetType="DataGridColumnHeader">
         <Setter Property="Background" Value="{StaticResource BackgroundLightBrush}"/>
         <Setter Property="Foreground" Value="{StaticResource TextPrimaryBrush}"/>
@@ -482,7 +465,7 @@
         <Setter Property="Background" Value="Transparent"/>
         <Setter Property="Foreground" Value="{StaticResource TextSecondaryBrush}"/>
         <Setter Property="BorderThickness" Value="0"/>
-        <Setter Property="Padding" Value="15,10"/>
+        <Setter Property="Padding" Value="15,0"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="DataGridCell">
@@ -504,17 +487,42 @@
 
     <Style x:Key="DataGridRowStyle" TargetType="DataGridRow">
         <Setter Property="Background" Value="{StaticResource BackgroundMediumBrush}"/>
-        <Setter Property="Margin" Value="0,2"/>
+        <Setter Property="Margin" Value="0,1"/>
         <Style.Triggers>
             <Trigger Property="IsMouseOver" Value="True">
                 <Setter Property="Background" Value="{StaticResource BackgroundLightBrush}"/>
             </Trigger>
             <Trigger Property="IsSelected" Value="True">
-                <Setter Property="Background" Value="{StaticResource PrimaryPurpleBrush}"/>
+                <Setter Property="Background" Value="{StaticResource PrimaryPurpleDarkBrush}"/>
             </Trigger>
         </Style.Triggers>
     </Style>
 
+    <Style x:Key="ModernDataGrid" TargetType="DataGrid">
+        <Setter Property="RowStyle" Value="{StaticResource DataGridRowStyle}"/>
+        <Setter Property="ColumnHeaderStyle" Value="{StaticResource DataGridHeaderStyle}"/>
+        <Setter Property="CellStyle" Value="{StaticResource DataGridCellStyle}"/>
+
+        <Setter Property="Background" Value="{StaticResource BackgroundLightBrush}"/>
+        <Setter Property="Foreground" Value="{StaticResource TextPrimaryBrush}"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="RowBackground" Value="{StaticResource BackgroundMediumBrush}"/>
+        <Setter Property="AlternatingRowBackground" Value="{StaticResource BackgroundLightBrush}"/>
+        <Setter Property="GridLinesVisibility" Value="None"/>
+        <Setter Property="HeadersVisibility" Value="Column"/>
+        <Setter Property="AutoGenerateColumns" Value="False"/>
+        <Setter Property="CanUserAddRows" Value="False"/>
+        <Setter Property="SelectionMode" Value="Single"/>
+
+        <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto"/>
+        <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto"/>
+        <Setter Property="ScrollViewer.CanContentScroll" Value="True"/>
+
+        <Setter Property="ColumnWidth" Value="SizeToHeader"/>
+        <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+
+    </Style>
+    
     <!-- ========== LABEL STYLES ========== -->
 
     <Style x:Key="FormLabel" TargetType="TextBlock">
@@ -774,7 +782,6 @@
     <!-- ========== SCROLLBAR STYLE ========== -->
 
     <Style TargetType="ScrollBar">
-        <Setter Property="Width" Value="8"/>
         <Setter Property="Background" Value="Transparent"/>
         <Setter Property="Template">
             <Setter.Value>
@@ -794,7 +801,9 @@
                     </Grid>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="true">
-                            <Setter Property="Width" Value="12"/>
+                        </Trigger>
+                        <Trigger Property="Orientation" Value="Horizontal">
+                            <Setter TargetName="PART_Track" Property="IsDirectionReversed" Value="false"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

@@ -1,6 +1,4 @@
-﻿using MuVi.Interfaces;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,9 +18,5 @@ namespace MuVi.Views.UC
     {
         public MovieUC() { InitializeComponent(); }
 
-        public void RefreshData()
-        {
-            // Code để tải dữ liệu phim lên dgData
-        }
     }
 }

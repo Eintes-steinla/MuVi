@@ -115,7 +115,8 @@
                     BorderThickness="0,0,0,1">
                 <TabControl x:Name="tabControl"
                           Style="{StaticResource ModernTabControl}"
-                          Margin="20,0">
+                          Margin="20,0"
+                          SelectionChanged="TabControl_SelectionChanged">
                     <TabItem Style="{StaticResource ModernTabItem}" Tag="User">
                         <TabItem.Header>
                             <StackPanel Orientation="Horizontal">
@@ -257,7 +258,6 @@
             <!-- Main Content Area -->
             <Grid  Grid.Row="2" Margin="20">
                 <ContentControl x:Name="ContentArea" >
-                    <uc:MovieUC />
                 </ContentControl>
             </Grid>
         </Grid>

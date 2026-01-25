@@ -117,5 +117,65 @@ namespace Muvi.DAL
                 return rowsAffected > 0;
             }
         }
+
+        /// <summary>
+        /// Lấy toàn bộ danh sách người dùng để hiển thị lên DataGrid
+        /// </summary>
+        public IEnumerable<UserDTO> GetAll()
+        {
+            string sql = "SELECT * FROM Users ORDER BY CreatedAt DESC";
+            using SqlConnection conn = DapperProvider.GetConnection();
+            return conn.Query<UserDTO>(sql);
+        }
+        public IEnumerable<UserDTO> GetUsersPaged(int pageNumber, int pageSize)
+        {
+            // pageNumber: Trang hiện tại (1, 2, 3...)
+            // pageSize: Số dòng mỗi trang (ví dụ: 10)
+            string sql = @"SELECT * FROM Users 
+                   ORDER BY UserID ASC
+                   OFFSET @Offset ROWS 
+                   FETCH NEXT @PageSize ROWS ONLY";
+
+            using SqlConnection conn = DapperProvider.GetConnection();
+            return conn.Query<UserDTO>(sql, new
+            {
+                Offset = (pageNumber - 1) * pageSize,
+                PageSize = pageSize
+            });
+        }
+
+        /// <summary>
+        /// Tìm kiếm người dùng theo Tên hoặc Email (Phục vụ bộ lọc ở giao diện)
+        /// </summary>
+        public IEnumerable<UserDTO> SearchUsers(string keyword)
+        {
+            string sql = @"SELECT * FROM Users 
+                   WHERE Username LIKE @Key OR Email LIKE @Key 
+                   ORDER BY CreatedAt DESC";
+            using SqlConnection conn = DapperProvider.GetConnection();
+            return conn.Query<UserDTO>(sql, new { Key = $"%{keyword}%" });
+        }
+
+        /// <summary>
+        /// Cập nhật trạng thái IsActive (Khóa hoặc Mở khóa tài khoản)
+        /// </summary>
+        public bool UpdateStatus(int userId, bool isActive)
+        {
+            string sql = "UPDATE Users SET IsActive = @Status WHERE UserId = @Id";
+            using SqlConnection conn = DapperProvider.GetConnection();
+            int rows = conn.Execute(sql, new { Status = isActive, Id = userId });
+            return rows > 0;
+        }
+
+        /// <summary>
+        /// Xóa người dùng
+        /// </summary>
+        public bool Delete(int userId)
+        {
+            string sql = "DELETE FROM Users WHERE UserId = @Id";
+            using SqlConnection conn = DapperProvider.GetConnection();
+            int rows = conn.Execute(sql, new { Id = userId });
+            return rows > 0;
+        }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MuVi.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,9 +21,29 @@ namespace MuVi.Views.UC
     /// </summary>
     public partial class UserUC : UserControl
     {
+        private UserViewModel _userModel;
+
         public UserUC()
         {
             InitializeComponent();
+            _userModel = new UserViewModel();
+            DataContext = _userModel;
+        }
+
+        public void btnPrevPage_Click(object sender, RoutedEventArgs e)
+        {
+            if (this.DataContext is UserViewModel vm)
+            {
+                vm.PreviousPage(); 
+            }
+        }
+
+        private void btnNextPage_Click(object sender, RoutedEventArgs e)
+        {
+            if (this.DataContext is UserViewModel vm)
+            {
+                vm.NextPage();
+            }
         }
     }
 }

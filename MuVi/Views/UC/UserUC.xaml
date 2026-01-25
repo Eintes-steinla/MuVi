@@ -4,8 +4,14 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:MuVi.Views.UC"
+             xmlns:vm="clr-namespace:MuVi.ViewModels"
              mc:Ignorable="d" 
-             d:DesignHeight="600" d:DesignWidth="1500">
+             d:DesignHeight="650" d:DesignWidth="1500">
+
+    <UserControl.DataContext>
+        <vm:UserViewModel />
+    </UserControl.DataContext>
+
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="300"/>
@@ -165,84 +171,160 @@ Margin="0,0,5,0"/>
 
                 <!-- DataGrid -->
                 <DataGrid x:Name="dgData"
-                                Grid.Row="1"
-                                Style="{StaticResource ModernDataGrid}"
-                                AutoGenerateColumns="False"
-                                CanUserAddRows="False"
-                                CanUserDeleteRows="False"
-                                SelectionMode="Extended"
-                                SelectionUnit="FullRow">
+                          Grid.Row="1"
+                          Style="{StaticResource ModernDataGrid}"
+                          ItemsSource="{Binding UserList}"
+                          AutoGenerateColumns="False"
+                          CanUserAddRows="False"
+                          CanUserDeleteRows="False"
+                          SelectionMode="Extended"
+                          SelectionUnit="FullRow"
+                          ScrollViewer.HorizontalScrollBarVisibility="Auto"
+                          ScrollViewer.CanContentScroll="True">
+                    
+
+
                     <DataGrid.Columns>
                         <!-- Checkbox Column -->
-                        <DataGridCheckBoxColumn Width="Auto">
+                        <DataGridCheckBoxColumn Width="60">
                             <DataGridCheckBoxColumn.Header>
                                 <CheckBox x:Name="chkSelectAll"
-                                                Style="{StaticResource ModernCheckBox}"/>
+                                          IsChecked="{Binding DataContext.IsAllSelected, RelativeSource={RelativeSource AncestorType=DataGrid}, UpdateSourceTrigger=PropertyChanged}"
+                                          Style="{StaticResource ModernCheckBox}"/>
                             </DataGridCheckBoxColumn.Header>
+
+                            <DataGridCheckBoxColumn.Binding>
+                                <Binding Path="IsSelected" UpdateSourceTrigger="PropertyChanged"/>
+                            </DataGridCheckBoxColumn.Binding>
+
+                            <DataGridCheckBoxColumn.ElementStyle>
+                                <Style TargetType="CheckBox" BasedOn="{StaticResource ModernCheckBox}">
+                                </Style>
+                            </DataGridCheckBoxColumn.ElementStyle>
                         </DataGridCheckBoxColumn>
 
                         <!-- ID Column -->
-                        <DataGridTextColumn Header="ID" 
-                                                  Width="80"
-                                                  IsReadOnly="True"/>
+                        <DataGridTextColumn Header="ID"
+                                            Binding="{Binding UserID}"
+                                            Width="60"
+                                            IsReadOnly="True">
+                            <DataGridTextColumn.ElementStyle>
+                                <Style TargetType="TextBlock">
+                                    <Setter Property="VerticalAlignment" Value="Center"/>
+                                </Style>
+                            </DataGridTextColumn.ElementStyle>
+                        </DataGridTextColumn>
 
                         <!-- Username Column -->
                         <DataGridTextColumn Header="Tên người dùng" 
+                                            Binding="{Binding Username}"
                                                   Width="120"
-                                                  IsReadOnly="True"/>
-
-                        <!-- Password Column -->
-                        <DataGridTextColumn Header="Mật khẩu" 
-                                                  Width="120"
-                                                  IsReadOnly="True"/>
+                                                  IsReadOnly="True">
+                            <DataGridTextColumn.ElementStyle>
+                                <Style TargetType="TextBlock">
+                                    <Setter Property="VerticalAlignment" Value="Center"/>
+                                </Style>
+                            </DataGridTextColumn.ElementStyle>
+                        </DataGridTextColumn>
 
                         <!-- Email Column -->
                         <DataGridTextColumn Header="Email" 
+                                            Binding="{Binding Email}"
                                                   Width="100"
-                                                  IsReadOnly="True"/>
+                                                  IsReadOnly="True">
+                            <DataGridTextColumn.ElementStyle>
+                                <Style TargetType="TextBlock">
+                                    <Setter Property="VerticalAlignment" Value="Center"/>
+                                </Style>
+                            </DataGridTextColumn.ElementStyle>
+                        </DataGridTextColumn>
 
                         <!-- Date Of Birth Column -->
                         <DataGridTextColumn Header="Ngày sinh" 
+                                            Binding="{Binding DateOfBirth}"
                                                   Width="100"
-                                                  IsReadOnly="True"/>
+                                                  IsReadOnly="True">
+                            <DataGridTextColumn.ElementStyle>
+                                <Style TargetType="TextBlock">
+                                    <Setter Property="VerticalAlignment" Value="Center"/>
+                                </Style>
+                            </DataGridTextColumn.ElementStyle>
+                        </DataGridTextColumn>
 
                         <!-- Avatar Column -->
                         <DataGridTextColumn Header="Ảnh đại diện" 
+                                            Binding="{Binding Avatar}"
                                                   Width="120"
-                                                  IsReadOnly="True"/>
+                                                  IsReadOnly="True">
+                            <DataGridTextColumn.ElementStyle>
+                                <Style TargetType="TextBlock">
+                                    <Setter Property="VerticalAlignment" Value="Center"/>
+                                </Style>
+                            </DataGridTextColumn.ElementStyle>
+                        </DataGridTextColumn>
 
                         <!-- Role Column -->
                         <DataGridTextColumn Header="Vai trò" 
+                                            Binding="{Binding Role}"
                                                   Width="100"
-                                                  IsReadOnly="True"/>
+                                                  IsReadOnly="True">
+                            <DataGridTextColumn.ElementStyle>
+                                <Style TargetType="TextBlock">
+                                    <Setter Property="VerticalAlignment" Value="Center"/>
+                                </Style>
+                            </DataGridTextColumn.ElementStyle>
+                        </DataGridTextColumn>
 
                         <!-- Is Active Column -->
                         <DataGridTextColumn Header="Trạng thái" 
+                                            Binding="{Binding IsActive}"
                                                   Width="100"
-                                                  IsReadOnly="True"/>
+                                                  IsReadOnly="True">
+                            <DataGridTextColumn.ElementStyle>
+                                <Style TargetType="TextBlock">
+                                    <Setter Property="VerticalAlignment" Value="Center"/>
+                                </Style>
+                            </DataGridTextColumn.ElementStyle>
+                        </DataGridTextColumn>
+                        
+                        <!-- Last Login Column -->
+                        <DataGridTextColumn Header="Lần cuối đăng nhập" 
+                                            Binding="{Binding LastLogin}"
+                                                  Width="150"
+                                                  IsReadOnly="True">
+                            <DataGridTextColumn.ElementStyle>
+                                <Style TargetType="TextBlock">
+                                    <Setter Property="VerticalAlignment" Value="Center"/>
+                                </Style>
+                            </DataGridTextColumn.ElementStyle>
+                        </DataGridTextColumn>
 
                         <!-- Actions Column -->
                         <DataGridTemplateColumn Header="Thao tác" Width="180">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
-                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                                        <Button Content="✏️" 
-                                                      ToolTip="Chỉnh sửa"
-                                                      Style="{StaticResource SecondaryButton}"
-                                                      Padding="8,4"
-                                                      Margin="2"/>
-
-                                        <Button Content="🗑️" 
-                                                      ToolTip="Xóa"
-                                                      Style="{StaticResource SecondaryButton}"
-                                                      Padding="8,4"
-                                                      Margin="2"/>
-
-                                        <Button Content="👁️" 
-                                                      ToolTip="Xem chi tiết"
-                                                      Style="{StaticResource SecondaryButton}"
-                                                      Padding="8,4"
-                                                      Margin="2"/>
+                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                                        <Button Style="{StaticResource SecondaryButton}"
+                                                Padding="8,4"
+                                                Margin="2">
+                                            <Image Source="/Assets/Icons/icons8-pencil-48.png"
+                                                   Height="15" Width="15"
+                                                   Margin="2"/>
+                                        </Button>
+                                        <Button Style="{StaticResource SecondaryButton}"
+                                                Padding="8,4"
+                                                Margin="2">
+                                            <Image Source="/Assets/Icons/icons8-remove-48.png"
+                                                   Height="15" Width="15"
+                                                   Margin="2"/>
+                                        </Button>
+                                        <Button Style="{StaticResource SecondaryButton}"
+                                                Padding="8,4"
+                                                Margin="2">
+                                            <Image Source="/Assets/Icons/icons8-eye-48.png"
+                                                   Height="15" Width="15"
+                                                   Margin="2"/>
+                                        </Button>
                                     </StackPanel>
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
@@ -272,6 +354,7 @@ Margin="0,0,5,0"/>
                         </Button>
 
                         <Button x:Name="btnPrevPage"
+                                Click="btnPrevPage_Click"
                                       Style="{StaticResource SecondaryButton}"
                                       Margin="0,0,0,0"
                                       >
@@ -289,6 +372,7 @@ Margin="0,0,5,0"/>
                         </Button>
 
                         <Button x:Name="btnNextPage"
+                                Click="btnNextPage_Click"
                                       Style="{StaticResource SecondaryButton}"
                                       Margin="0,0,10,0"
                                       >

@@ -211,35 +211,35 @@ namespace MuVi.ViewModels
                     var genreBLL = new GenreBLL();
 
                     // Load phim xu hướng (sắp xếp theo lượt xem)
-                    var trending = movieBLL.GetTopMoviesByViewCount(10);
+                    //var trending = movieBLL.GetTopMoviesByViewCount(10);
 
                     // Load phim mới phát hành (sắp xếp theo năm phát hành)
-                    var newMovies = movieBLL.GetNewReleases(10);
+                    //var newMovies = movieBLL.GetNewReleases(10);
 
                     // Load thể loại
                     var genres = genreBLL.GetAllGenres();
 
                     // Cập nhật UI trên UI thread
-                    App.Current.Dispatcher.Invoke(() =>
-                    {
-                        TrendingMovies.Clear();
-                        foreach (var movie in trending)
-                        {
-                            TrendingMovies.Add(movie);
-                        }
+                    //App.Current.Dispatcher.Invoke(() =>
+                    //{
+                    //    TrendingMovies.Clear();
+                    //    foreach (var movie in trending)
+                    //    {
+                    //        TrendingMovies.Add(movie);
+                    //    }
 
-                        NewReleases.Clear();
-                        foreach (var movie in newMovies)
-                        {
-                            NewReleases.Add(movie);
-                        }
+                    //    NewReleases.Clear();
+                    //    foreach (var movie in newMovies)
+                    //    {
+                    //        NewReleases.Add(movie);
+                    //    }
 
-                        Genres.Clear();
-                        foreach (var genre in genres)
-                        {
-                            Genres.Add(genre);
-                        }
-                    });
+                    //    Genres.Clear();
+                    //    foreach (var genre in genres)
+                    //    {
+                    //        Genres.Add(genre);
+                    //    }
+                    //});
                 });
             }
             catch (Exception ex)
@@ -273,18 +273,18 @@ namespace MuVi.ViewModels
                 await Task.Run(() =>
                 {
                     var movieBLL = new MovieBLL();
-                    var searchResults = movieBLL.SearchMovies(SearchText);
+                    //var searchResults = movieBLL.SearchMovies(SearchText);
 
-                    App.Current.Dispatcher.Invoke(() =>
-                    {
-                        TrendingMovies.Clear();
-                        foreach (var movie in searchResults.Take(10))
-                        {
-                            TrendingMovies.Add(movie);
-                        }
+                    //App.Current.Dispatcher.Invoke(() =>
+                    //{
+                    //    TrendingMovies.Clear();
+                    //    foreach (var movie in searchResults.Take(10))
+                    //    {
+                    //        TrendingMovies.Add(movie);
+                    //    }
 
-                        NewReleases.Clear();
-                    });
+                    //    NewReleases.Clear();
+                    //});
                 });
             }
             catch (Exception ex)
@@ -383,22 +383,22 @@ namespace MuVi.ViewModels
                 await Task.Run(() =>
                 {
                     var movieBLL = new MovieBLL();
-                    var filteredMovies = movieBLL.GetMoviesByGenre(genreId);
+                    //var filteredMovies = movieBLL.GetMoviesByGenre(genreId);
 
-                    App.Current.Dispatcher.Invoke(() =>
-                    {
-                        TrendingMovies.Clear();
-                        foreach (var movie in filteredMovies.Take(10))
-                        {
-                            TrendingMovies.Add(movie);
-                        }
+                    //App.Current.Dispatcher.Invoke(() =>
+                    //{
+                    //    TrendingMovies.Clear();
+                    //    foreach (var movie in filteredMovies.Take(10))
+                    //    {
+                    //        TrendingMovies.Add(movie);
+                    //    }
 
-                        NewReleases.Clear();
-                        foreach (var movie in filteredMovies.Skip(10).Take(10))
-                        {
-                            NewReleases.Add(movie);
-                        }
-                    });
+                    //    NewReleases.Clear();
+                    //    foreach (var movie in filteredMovies.Skip(10).Take(10))
+                    //    {
+                    //        NewReleases.Add(movie);
+                    //    }
+                    //});
                 });
             }
             catch (Exception ex)
@@ -468,22 +468,22 @@ namespace MuVi.ViewModels
                 await Task.Run(() =>
                 {
                     var movieBLL = new MovieBLL();
-                    var movies = movieBLL.GetMoviesByType(movieType);
+                    //var movies = movieBLL.GetMoviesByType(movieType);
 
-                    App.Current.Dispatcher.Invoke(() =>
-                    {
-                        TrendingMovies.Clear();
-                        foreach (var movie in movies.Take(10))
-                        {
-                            TrendingMovies.Add(movie);
-                        }
+                    //App.Current.Dispatcher.Invoke(() =>
+                    //{
+                    //    TrendingMovies.Clear();
+                    //    foreach (var movie in movies.Take(10))
+                    //    {
+                    //        TrendingMovies.Add(movie);
+                    //    }
 
-                        NewReleases.Clear();
-                        foreach (var movie in movies.Skip(10).Take(10))
-                        {
-                            NewReleases.Add(movie);
-                        }
-                    });
+                    //    NewReleases.Clear();
+                    //    foreach (var movie in movies.Skip(10).Take(10))
+                    //    {
+                    //        NewReleases.Add(movie);
+                    //    }
+                    //});
                 });
             }
             catch (Exception ex)

@@ -99,6 +99,28 @@ namespace MuVi.BLL
         {
             return userDAL.UpdateLastLogin(userID);
         }
+
+        /// <summary>
+        /// lấy tất cả user
+        /// </summary>
+        /// <returns></returns>
+        private int currentPage = 1;
+        private int pageSize = 10; // Mỗi trang 10 dòng
+        public IEnumerable<UserDTO> GetUsers() => userDAL.GetUsersPaged(currentPage, pageSize);
+        // Hàm thực hiện khi ấn nút "Trang sau"
+        public void NextPage()
+        {
+            currentPage++;
+        }
+
+        // Hàm thực hiện khi ấn nút "Trang trước"
+        public void PreviousPage()
+        {
+            if (currentPage > 1)
+            {
+                currentPage--;
+            }
+        }
     }
 
 }
