@@ -8,10 +8,6 @@
              mc:Ignorable="d" 
              d:DesignHeight="650" d:DesignWidth="1500">
 
-    <UserControl.DataContext>
-        <vm:UserViewModel />
-    </UserControl.DataContext>
-
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="300"/>
@@ -21,72 +17,56 @@
 
         <!-- Left Panel - Filter & Search -->
         <Border Grid.Column="0" 
-                        Style="{StaticResource GlassCard}"
-                        Padding="20">
+                Style="{StaticResource GlassCard}"
+                Padding="20">
             <StackPanel>
                 <!-- Search Box -->
                 <Grid Margin="0,0,0,20">
                     <TextBox x:Name="txtSearch"
-                                   Style="{StaticResource SearchBox}"
-                                   />
+                             Style="{StaticResource SearchBox}"
+                             Text="{Binding SearchKeyword, UpdateSourceTrigger=PropertyChanged}"/>
                 </Grid>
 
                 <!-- Divider -->
                 <Border Height="1" 
-                                Background="#3A3A3A"
-                                Margin="0,0,0,20"/>
+                        Background="#3A3A3A"
+                        Margin="0,0,0,20"/>
 
                 <!-- Filter by Status -->
                 <TextBlock Text="Trạng thái" 
-                                 Style="{StaticResource FormLabel}"/>
+                           Style="{StaticResource FormLabel}"/>
                 <ComboBox x:Name="cmbStatus"
-                                Style="{StaticResource ModernComboBox}"
-                                Margin="0,0,0,15"
-                                >
+                          Style="{StaticResource ModernComboBox}"
+                          Margin="0,0,0,15"
+                          SelectedValue="{Binding SelectedStatus}"
+                          SelectedValuePath="Content">
                     <ComboBoxItem Content="Tất cả" IsSelected="True"/>
-                    <ComboBoxItem Content="Đang chiếu"/>
-                    <ComboBoxItem Content="Hoàn thành"/>
-                    <ComboBoxItem Content="Sắp chiếu"/>
+                    <ComboBoxItem Content="Hoạt động"/>
+                    <ComboBoxItem Content="Không hoạt động"/>
                 </ComboBox>
 
-                <!-- Filter by Type -->
-                <TextBlock Text="Loại phim" 
-                                 Style="{StaticResource FormLabel}"/>
-                <ComboBox x:Name="cmbMovieType"
-                                Style="{StaticResource ModernComboBox}"
-                                Margin="0,0,0,15"
-                                >
+                <!-- Filter by Role -->
+                <TextBlock Text="Vai trò" 
+                           Style="{StaticResource FormLabel}"/>
+                <ComboBox x:Name="cmbRole"
+                          Style="{StaticResource ModernComboBox}"
+                          Margin="0,0,0,15"
+                          SelectedValue="{Binding SelectedRole}"
+                          SelectedValuePath="Content">
                     <ComboBoxItem Content="Tất cả" IsSelected="True"/>
-                    <ComboBoxItem Content="Phim lẻ"/>
-                    <ComboBoxItem Content="Phim bộ"/>
-                </ComboBox>
-
-                <!-- Filter by Year -->
-                <TextBlock Text="Năm phát hành" 
-                                 Style="{StaticResource FormLabel}"/>
-                <ComboBox x:Name="cmbYear"
-                                Style="{StaticResource ModernComboBox}"
-                                Margin="0,0,0,15"
-                                >
-                    <ComboBoxItem Content="Tất cả" IsSelected="True"/>
-                    <ComboBoxItem Content="2024"/>
-                    <ComboBoxItem Content="2023"/>
-                    <ComboBoxItem Content="2022"/>
-                    <ComboBoxItem Content="2021"/>
-                    <ComboBoxItem Content="2020"/>
+                    <ComboBoxItem Content="Admin"/>
+                    <ComboBoxItem Content="User"/>
                 </ComboBox>
 
                 <Separator Style="{StaticResource ModernSeparator}"/>
 
                 <!-- Clear Filter Button -->
-                <Button 
-                              Style="{StaticResource PrimaryButton}"
-                              >
-                    <StackPanel Orientation="Horizontal"
-                                        Margin="10">
+                <Button Style="{StaticResource PrimaryButton}"
+                        Command="{Binding ClearFilterCommand}">
+                    <StackPanel Orientation="Horizontal" Margin="10">
                         <Image Source="/Assets/Icons/icons8-refresh-48.png"
-                                       Height="19" Width="19"
-                                       Margin="0,0,5,0"/>
+                               Height="19" Width="19"
+                               Margin="0,0,5,0"/>
                         <TextBlock Text="Xóa bộ lọc"/>
                     </StackPanel>
                 </Button>
@@ -95,8 +75,8 @@
 
         <!-- Right Panel - Data Grid -->
         <Border Grid.Column="2" 
-                        Style="{StaticResource GlassCard}"
-                        Padding="20">
+                Style="{StaticResource GlassCard}"
+                Padding="20">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
@@ -114,27 +94,25 @@
                     <!-- Left buttons -->
                     <StackPanel Grid.Column="0" Orientation="Horizontal">
                         <Button x:Name="btnAdd"
-                                      Style="{StaticResource PrimaryButton}"
-                                      Margin="0,0,10,0"
-                                      >
-                            <StackPanel Orientation="Horizontal"
-                                                Margin="7,5">
+                                Click="btnAdd_Click"
+                                Style="{StaticResource PrimaryButton}"
+                                Margin="0,0,10,0">
+                            <StackPanel Orientation="Horizontal" Margin="7,5">
                                 <Image Source="/Assets/Icons/icons8-plus-60.png"
-                                               Height="20" Width="20"
-                                               Margin="0,0,5,0"/>
+                                       Height="20" Width="20"
+                                       Margin="0,0,5,0"/>
                                 <TextBlock Text="Thêm mới"/>
                             </StackPanel>
                         </Button>
 
                         <Button x:Name="btnDelete"
-                                      Style="{StaticResource PrimaryButton}"
-                                      Margin="0,0,10,0"
-                                      >
-                            <StackPanel Orientation="Horizontal"
-                                                Margin="7,5">
+                                Command="{Binding DeleteSelectedCommand}"
+                                Style="{StaticResource PrimaryButton}"
+                                Margin="0,0,10,0">
+                            <StackPanel Orientation="Horizontal" Margin="7,5">
                                 <Image Source="/Assets/Icons/icons8-remove-48.png"
-                                               Height="19" Width="19"
-                                               Margin="0,0,5,0"/>
+                                       Height="19" Width="19"
+                                       Margin="0,0,5,0"/>
                                 <TextBlock Text="Xóa"/>
                             </StackPanel>
                         </Button>
@@ -143,26 +121,24 @@
                     <!-- Right buttons -->
                     <StackPanel Grid.Column="1" Orientation="Horizontal">
                         <Button x:Name="btnRefresh"
-                                      Style="{StaticResource PrimaryButton}"
-                                      Margin="0,0,10,0"
-                                      >
-                            <StackPanel Orientation="Horizontal"
-            Margin="7,5">
+                                Command="{Binding RefreshCommand}"
+                                Style="{StaticResource PrimaryButton}"
+                                Margin="0,0,10,0">
+                            <StackPanel Orientation="Horizontal" Margin="7,5">
                                 <Image Source="/Assets/Icons/icons8-refresh-48.png"
-           Height="19" Width="19"
-           Margin="0,0,5,0"/>
+                                       Height="19" Width="19"
+                                       Margin="0,0,5,0"/>
                                 <TextBlock Text="Làm mới"/>
                             </StackPanel>
                         </Button>
 
                         <Button x:Name="btnExport"
-                                      Style="{StaticResource PrimaryButton}"
-                                      >
-                            <StackPanel Orientation="Horizontal"
- Margin="7,5">
+                                Click="btnExport_Click"
+                                Style="{StaticResource PrimaryButton}">
+                            <StackPanel Orientation="Horizontal" Margin="7,5">
                                 <Image Source="/Assets/Icons/icons8-export-60.png"
-Height="19" Width="19"
-Margin="0,0,5,0"/>
+                                       Height="19" Width="19"
+                                       Margin="0,0,5,0"/>
                                 <TextBlock Text="Xuất Excel"/>
                             </StackPanel>
                         </Button>
@@ -181,15 +157,15 @@ Margin="0,0,5,0"/>
                           SelectionUnit="FullRow"
                           ScrollViewer.HorizontalScrollBarVisibility="Auto"
                           ScrollViewer.CanContentScroll="True">
-                    
-
 
                     <DataGrid.Columns>
                         <!-- Checkbox Column -->
                         <DataGridCheckBoxColumn Width="60">
                             <DataGridCheckBoxColumn.Header>
                                 <CheckBox x:Name="chkSelectAll"
-                                          IsChecked="{Binding DataContext.IsAllSelected, RelativeSource={RelativeSource AncestorType=DataGrid}, UpdateSourceTrigger=PropertyChanged}"
+                                          IsChecked="{Binding DataContext.IsAllSelected, 
+                                                      RelativeSource={RelativeSource AncestorType=DataGrid}, 
+                                                      UpdateSourceTrigger=PropertyChanged}"
                                           Style="{StaticResource ModernCheckBox}"/>
                             </DataGridCheckBoxColumn.Header>
 
@@ -198,8 +174,7 @@ Margin="0,0,5,0"/>
                             </DataGridCheckBoxColumn.Binding>
 
                             <DataGridCheckBoxColumn.ElementStyle>
-                                <Style TargetType="CheckBox" BasedOn="{StaticResource ModernCheckBox}">
-                                </Style>
+                                <Style TargetType="CheckBox" BasedOn="{StaticResource ModernCheckBox}"/>
                             </DataGridCheckBoxColumn.ElementStyle>
                         </DataGridCheckBoxColumn>
 
@@ -286,7 +261,7 @@ Margin="0,0,5,0"/>
                                 </Style>
                             </DataGridTextColumn.ElementStyle>
                         </DataGridTextColumn>
-                        
+
                         <!-- Last Login Column -->
                         <DataGridTextColumn Header="Lần cuối đăng nhập" 
                                             Binding="{Binding LastLogin}"
@@ -305,6 +280,8 @@ Margin="0,0,5,0"/>
                                 <DataTemplate>
                                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
                                         <Button Style="{StaticResource SecondaryButton}"
+                                                Click="btnEdit_Click"
+                                                Tag="{Binding}"
                                                 Padding="8,4"
                                                 Margin="2">
                                             <Image Source="/Assets/Icons/icons8-pencil-48.png"
@@ -312,6 +289,8 @@ Margin="0,0,5,0"/>
                                                    Margin="2"/>
                                         </Button>
                                         <Button Style="{StaticResource SecondaryButton}"
+                                                Click="btnDeleteRow_Click"
+                                                Tag="{Binding}"
                                                 Padding="8,4"
                                                 Margin="2">
                                             <Image Source="/Assets/Icons/icons8-remove-48.png"
@@ -319,6 +298,8 @@ Margin="0,0,5,0"/>
                                                    Margin="2"/>
                                         </Button>
                                         <Button Style="{StaticResource SecondaryButton}"
+                                                Click="btnView_Click"
+                                                Tag="{Binding}"
                                                 Padding="8,4"
                                                 Margin="2">
                                             <Image Source="/Assets/Icons/icons8-eye-48.png"
@@ -341,56 +322,51 @@ Margin="0,0,5,0"/>
                     </Grid.ColumnDefinitions>
 
                     <!-- Pagination Buttons -->
-                    <StackPanel Grid.Column="1" 
-                                      Orientation="Horizontal">
+                    <StackPanel Grid.Column="1" Orientation="Horizontal">
                         <Button x:Name="btnFirstPage"
-                                      Style="{StaticResource SecondaryButton}"
-                                      Margin="0,0,10,0">
-                            <StackPanel Orientation="Horizontal"
-                                                Margin="5">
+                                Click="btnFirstPage_Click"
+                                Style="{StaticResource SecondaryButton}"
+                                Margin="0,0,10,0">
+                            <StackPanel Orientation="Horizontal" Margin="5">
                                 <Image Source="/Assets/Icons/icons8-start-50.png"
-                                               Height="20" Width="20"/>
+                                       Height="20" Width="20"/>
                             </StackPanel>
                         </Button>
 
                         <Button x:Name="btnPrevPage"
                                 Click="btnPrevPage_Click"
-                                      Style="{StaticResource SecondaryButton}"
-                                      Margin="0,0,0,0"
-                                      >
-                            <StackPanel Orientation="Horizontal"
-                                                Margin="10">
+                                Style="{StaticResource SecondaryButton}"
+                                Margin="0,0,0,0">
+                            <StackPanel Orientation="Horizontal" Margin="10">
                                 <Image Source="/Assets/Icons/icons8-back-48.png"
-                                                Height="10" Width="10"/>
+                                       Height="10" Width="10"/>
                             </StackPanel>
                         </Button>
 
                         <Button Margin="10,0"
-                                        Style="{StaticResource SecondaryButton}">
-                            <TextBlock Foreground="{StaticResource TextSecondaryBrush}"
-                                               Margin="10,0"/>
+                                Style="{StaticResource SecondaryButton}">
+                            <TextBlock Text="{Binding PageInfo}"
+                                       Foreground="{StaticResource TextSecondaryBrush}"
+                                       Margin="10,0"/>
                         </Button>
 
                         <Button x:Name="btnNextPage"
                                 Click="btnNextPage_Click"
-                                      Style="{StaticResource SecondaryButton}"
-                                      Margin="0,0,10,0"
-                                      >
-                            <StackPanel Orientation="Horizontal"
-                                                Margin="10">
+                                Style="{StaticResource SecondaryButton}"
+                                Margin="0,0,10,0">
+                            <StackPanel Orientation="Horizontal" Margin="10">
                                 <Image Source="/Assets/Icons/icons8-next-48.png"
-                                               Height="10" Width="10"/>
+                                       Height="10" Width="10"/>
                             </StackPanel>
                         </Button>
 
                         <Button x:Name="btnLastPage"
-                                      Style="{StaticResource SecondaryButton}"
-                                      Margin="0"
-                                      >
-                            <StackPanel Orientation="Horizontal"
-            Margin="5">
+                                Click="btnLastPage_Click"
+                                Style="{StaticResource SecondaryButton}"
+                                Margin="0">
+                            <StackPanel Orientation="Horizontal" Margin="5">
                                 <Image Source="/Assets/Icons/icons8-end-50.png"
-           Height="20" Width="20"/>
+                                       Height="20" Width="20"/>
                             </StackPanel>
                         </Button>
                     </StackPanel>

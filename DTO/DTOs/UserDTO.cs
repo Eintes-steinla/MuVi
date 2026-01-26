@@ -1,4 +1,6 @@
-﻿namespace MuVi.DTO.DTOs
+﻿using System.ComponentModel;
+
+namespace MuVi.DTO.DTOs
 {
     public class UserDTO
     {
@@ -16,6 +18,27 @@
         public string? DateOfBirth { get; set; }
         public string? Avatar { get; set; }
 
+
+        // Property for checkbox selection
+        private bool _isSelected;
+        public bool IsSelected
+        {
+            get => _isSelected;
+            set
+            {
+                if (_isSelected != value)
+                {
+                    _isSelected = value;
+                    OnPropertyChanged(nameof(IsSelected));
+                }
+            }
+        }
+
+        public event PropertyChangedEventHandler? PropertyChanged;
+        protected void OnPropertyChanged(string propertyName)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
     }
 
 }

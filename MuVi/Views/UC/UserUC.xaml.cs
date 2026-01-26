@@ -1,49 +1,110 @@
 ﻿using MuVi.ViewModels;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using MuVi.Views.AddView;
+using MuVi.DTO.DTOs;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace MuVi.Views.UC
 {
-    /// <summary>
-    /// Interaction logic for UserUC.xaml
-    /// </summary>
     public partial class UserUC : UserControl
     {
-        private UserViewModel _userModel;
+        private UserViewModel _viewModel;
 
         public UserUC()
         {
             InitializeComponent();
-            _userModel = new UserViewModel();
-            DataContext = _userModel;
+            _viewModel = new UserViewModel();
+            DataContext = _viewModel;
         }
 
-        public void btnPrevPage_Click(object sender, RoutedEventArgs e)
+        // Pagination events
+        private void btnPrevPage_Click(object sender, RoutedEventArgs e)
         {
-            if (this.DataContext is UserViewModel vm)
-            {
-                vm.PreviousPage(); 
-            }
+            _viewModel.PreviousPage();
         }
 
         private void btnNextPage_Click(object sender, RoutedEventArgs e)
         {
-            if (this.DataContext is UserViewModel vm)
+            _viewModel.NextPage();
+        }
+
+        private void btnFirstPage_Click(object sender, RoutedEventArgs e)
+        {
+            _viewModel.FirstPage();
+        }
+
+        private void btnLastPage_Click(object sender, RoutedEventArgs e)
+        {
+            _viewModel.LastPage();
+        }
+
+        // CRUD operations
+        private void btnAdd_Click(object sender, RoutedEventArgs e)
+        {
+            // Open Add/Edit window with no user (Add mode)
+            var addEditWindow = new UserAddView();
+            if (addEditWindow.ShowDialog() == true)
             {
-                vm.NextPage();
+                _viewModel.LoadUsers();
             }
+        }
+
+        private void btnEdit_Click(object sender, RoutedEventArgs e)
+        {
+            if (sender is Button button && button.Tag is UserDTO user)
+            {
+                // Open Add/Edit window with user data (Edit mode)
+                var addEditWindow = new UserAddView(user);
+                if (addEditWindow.ShowDialog() == true)
+                {
+                    _viewModel.LoadUsers();
+                }
+            }
+        }
+
+        private void btnDeleteRow_Click(object sender, RoutedEventArgs e)
+        {
+            if (sender is Button button && button.Tag is UserDTO user)
+            {
+                var result = MessageBox.Show(
+                    $"Bạn có chắc chắn muốn xóa người dùng '{user.Username}'?",
+                    "Xác nhận xóa",
+                    MessageBoxButton.YesNo,
+                    MessageBoxImage.Question);
+
+                if (result == MessageBoxResult.Yes)
+                {
+                    // Call BLL to delete user
+                    var bll = new MuVi.BLL.UserBLL();
+                    bool success = bll.DeleteUser(user.UserID, out string message);
+
+                    MessageBox.Show(message, success ? "Thành công" : "Lỗi",
+                        MessageBoxButton.OK, success ? MessageBoxImage.Information : MessageBoxImage.Error);
+
+                    if (success)
+                    {
+                        _viewModel.LoadUsers();
+                    }
+                }
+            }
+        }
+
+        private void btnView_Click(object sender, RoutedEventArgs e)
+        {
+            if (sender is Button button && button.Tag is UserDTO user)
+            {
+                // !
+                // Open view details window
+                var viewWindow = new UserAddView(user);
+                viewWindow.ShowDialog();
+            }
+        }
+
+        private void btnExport_Click(object sender, RoutedEventArgs e)
+        {
+            // Implement Excel export functionality
+            MessageBox.Show("Chức năng xuất Excel đang được phát triển", "Thông báo",
+                MessageBoxButton.OK, MessageBoxImage.Information);
         }
     }
 }

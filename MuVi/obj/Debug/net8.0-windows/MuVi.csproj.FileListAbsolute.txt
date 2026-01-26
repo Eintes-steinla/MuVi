@@ -106,4 +106,5 @@ E:\vstimPJ\MuVi\MuVi\obj\Debug\net8.0-windows\Views\UC\GenreUC.baml
 E:\vstimPJ\MuVi\MuVi\obj\Debug\net8.0-windows\Views\UC\HistoryUC.baml
 E:\vstimPJ\MuVi\MuVi\obj\Debug\net8.0-windows\Views\UC\ReviewUC.baml
 E:\vstimPJ\MuVi\MuVi\obj\Debug\net8.0-windows\Views\UC\UserUC.baml
-E:\vstimPJ\MuVi\MuVi\obj\Debug\net8.0-windows\GeneratedInternalTypeHelper.g.cs
+E:\vstimPJ\MuVi\MuVi\obj\Debug\net8.0-windows\Views\AddView\UserAddView.baml
+E:\vstimPJ\MuVi\MuVi\obj\Debug\net8.0-windows\Views\AddView\UserAddView.g.cs
