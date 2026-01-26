@@ -16,6 +16,7 @@ namespace MuVi.BLL
         private string _searchKeyword = "";
         private string _statusFilter = "Tất cả";
         private string _roleFilter = "Tất cả";
+        private DateTime? _dateFilter = null;
 
         public bool Register(string username, string email, string password, out string message)
         {
@@ -103,6 +104,13 @@ namespace MuVi.BLL
             {
                 allUsers = allUsers.Where(u => u.Role == _roleFilter);
             }
+            
+            // Apply date filter
+            if (_dateFilter != null)
+            {
+                allUsers = allUsers.Where(u => u.DateOfBirth.HasValue &&
+                                               u.DateOfBirth.Value.Date == _dateFilter.Value.Date);
+            }
 
             // Apply pagination
             return allUsers
@@ -134,6 +142,12 @@ namespace MuVi.BLL
             {
                 allUsers = allUsers.Where(u => u.Role == _roleFilter);
             }
+            
+            if (_dateFilter != null)
+            {
+                allUsers = allUsers.Where(u => u.DateOfBirth.HasValue && 
+                                               u.DateOfBirth.Value.Date == _dateFilter.Value.Date);
+            }
 
             int totalRecords = allUsers.Count();
             return (int)Math.Ceiling(totalRecords / (double)pageSize);
@@ -157,11 +171,18 @@ namespace MuVi.BLL
             currentPage = 1;
         }
 
+        public void SetDateFilter(DateTime? date)
+        {
+            _dateFilter = date;
+            currentPage = 1;
+        }
+
         public void ClearFilters()
         {
             _searchKeyword = "";
             _statusFilter = "Tất cả";
             _roleFilter = "Tất cả";
+            _dateFilter = null;
             currentPage = 1;
         }
 

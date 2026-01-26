@@ -58,6 +58,15 @@
                     <ComboBoxItem Content="User"/>
                 </ComboBox>
 
+                <!-- Filter by Birth -->
+                <TextBlock Text="Ngày sinh" 
+                           Style="{StaticResource FormLabel}"/>
+                <DatePicker x:Name="dpDateOfBirth"
+                            Style="{StaticResource ModernDatePicker}"
+                            SelectedDate="{Binding SelectedDate}"
+                            Margin="0,0,0,15">
+                </DatePicker>
+
                 <Separator Style="{StaticResource ModernSeparator}"/>
 
                 <!-- Clear Filter Button -->
@@ -275,7 +284,7 @@
                         </DataGridTextColumn>
 
                         <!-- Actions Column -->
-                        <DataGridTemplateColumn Header="Thao tác" Width="180">
+                        <DataGridTemplateColumn Header="Thao tác" Width="120">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
                                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">

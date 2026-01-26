@@ -15,7 +15,7 @@ namespace MuVi.DTO.DTOs
 
         // additional properties
         public string? FullName { get; set; }
-        public string? DateOfBirth { get; set; }
+        public DateTime? DateOfBirth { get; set; }
         public string? Avatar { get; set; }
 
 

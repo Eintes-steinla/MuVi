@@ -79,6 +79,22 @@ namespace MuVi.ViewModels
             }
         }
 
+        // Date of birth filter
+        private DateTime? _selectedDate;
+        public DateTime? SelectedDate
+        {
+            get => _selectedDate;
+            set
+            {
+                _selectedDate = value;
+                OnPropertyChanged(nameof(SelectedDate));
+
+                _userBLL.SetDateFilter(value);
+
+                LoadUsers();
+            }
+        }
+
         // Pagination info
         private string _pageInfo;
         public string PageInfo
@@ -189,6 +205,7 @@ namespace MuVi.ViewModels
             SearchKeyword = "";
             SelectedStatus = "Tất cả";
             SelectedRole = "Tất cả";
+            SelectedDate = null;
             _userBLL.ClearFilters();
             LoadUsers();
         }
