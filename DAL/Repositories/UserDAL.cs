@@ -10,40 +10,28 @@ namespace Muvi.DAL
         /// <summary>
         /// kiểm tra tên người dùng đã tồn tại chưa
         /// </summary>
-        /// <param name="username"></param>
-        /// <returns></returns>
         public bool IsUsernameExists(string username)
         {
             string sql = "SELECT COUNT(*) FROM Users WHERE Username = @Username";
-
             using SqlConnection conn = DapperProvider.GetConnection();
-
             int count = conn.ExecuteScalar<int>(sql, new { Username = username });
-
             return count > 0;
         }
 
         /// <summary>
         /// kiểm tra email đã tồn tại chưa
         /// </summary>
-        /// <param name="email"></param>
-        /// <returns></returns>
         public bool IsEmailExists(string email)
         {
             string sql = "SELECT COUNT(*) FROM Users WHERE Email = @Email";
-
             using SqlConnection conn = DapperProvider.GetConnection();
-
             int count = conn.ExecuteScalar<int>(sql, new { Email = email });
-
             return count > 0;
         }
 
         /// <summary>
         /// đăng ký người dùng mới
         /// </summary>
-        /// <param name="user"></param>
-        /// <returns></returns>
         public bool Register(UserDTO user)
         {
             string sql = @"
@@ -67,7 +55,6 @@ namespace Muvi.DAL
             )";
 
             using SqlConnection conn = DapperProvider.GetConnection();
-
             int rows = conn.Execute(sql, new
             {
                 user.Username,
@@ -79,10 +66,86 @@ namespace Muvi.DAL
         }
 
         /// <summary>
+        /// Thêm người dùng mới với đầy đủ thông tin
+        /// </summary>
+        public bool AddUser(UserDTO user)
+        {
+            string sql = @"
+            INSERT INTO Users
+            (
+                Username,
+                Password,
+                Email,
+                DateOfBirth,
+                Avatar,
+                Role,
+                IsActive,
+                CreatedAt,
+                UpdatedAt
+            )
+            VALUES
+            (
+                @Username,
+                @Password,
+                @Email,
+                @DateOfBirth,
+                @Avatar,
+                @Role,
+                @IsActive,
+                GETDATE(),
+                GETDATE()
+            )";
+
+            using SqlConnection conn = DapperProvider.GetConnection();
+            int rows = conn.Execute(sql, new
+            {
+                user.Username,
+                user.Password,
+                user.Email,
+                user.DateOfBirth,
+                user.Avatar,
+                user.Role,
+                user.IsActive
+            });
+
+            return rows > 0;
+        }
+
+        /// <summary>
+        /// Cập nhật thông tin người dùng
+        /// </summary>
+        public bool UpdateUser(UserDTO user)
+        {
+            string sql = @"
+            UPDATE Users 
+            SET 
+                Username = @Username,
+                Email = @Email,
+                DateOfBirth = @DateOfBirth,
+                Avatar = @Avatar,
+                Role = @Role,
+                IsActive = @IsActive,
+                UpdatedAt = GETDATE()
+            WHERE UserID = @UserID";
+
+            using SqlConnection conn = DapperProvider.GetConnection();
+            int rows = conn.Execute(sql, new
+            {
+                user.UserID,
+                user.Username,
+                user.Email,
+                user.DateOfBirth,
+                user.Avatar,
+                user.Role,
+                user.IsActive
+            });
+
+            return rows > 0;
+        }
+
+        /// <summary>
         /// LẤY USER THEO USERNAME HOẶC EMAIL
         /// </summary>
-        /// <param name="usernameOrEmail"></param>
-        /// <returns></returns>
         public UserDTO? GetByUsernameOrEmail(string usernameOrEmail)
         {
             string sql = @"
@@ -92,7 +155,6 @@ namespace Muvi.DAL
                OR Email = @Value ";
 
             using SqlConnection conn = DapperProvider.GetConnection();
-
             return conn.QueryFirstOrDefault<UserDTO>(sql, new
             {
                 Value = usernameOrEmail
@@ -100,26 +162,30 @@ namespace Muvi.DAL
         }
 
         /// <summary>
+        /// Lấy user theo ID
+        /// </summary>
+        public UserDTO? GetById(int userId)
+        {
+            string sql = "SELECT * FROM Users WHERE UserID = @UserId";
+            using SqlConnection conn = DapperProvider.GetConnection();
+            return conn.QueryFirstOrDefault<UserDTO>(sql, new { UserId = userId });
+        }
+
+        /// <summary>
         /// thời gian đăng nhập cuối cùng
         /// </summary>
-        /// <param name="userID></param>
-        /// <returns></returns>
         public bool UpdateLastLogin(int userID)
         {
             using (var conn = DapperProvider.GetConnection())
             {
-                // Câu lệnh SQL cập nhật thời gian hiện tại của hệ thống SQL Server
                 string sql = "UPDATE Users SET LastLogin = GETDATE() WHERE UserId = @Id";
-
-                // Execute trả về số dòng bị ảnh hưởng
                 int rowsAffected = conn.Execute(sql, new { Id = userID });
-
                 return rowsAffected > 0;
             }
         }
 
         /// <summary>
-        /// Lấy toàn bộ danh sách người dùng để hiển thị lên DataGrid
+        /// Lấy toàn bộ danh sách người dùng
         /// </summary>
         public IEnumerable<UserDTO> GetAll()
         {
@@ -127,10 +193,12 @@ namespace Muvi.DAL
             using SqlConnection conn = DapperProvider.GetConnection();
             return conn.Query<UserDTO>(sql);
         }
+
+        /// <summary>
+        /// Lấy users phân trang
+        /// </summary>
         public IEnumerable<UserDTO> GetUsersPaged(int pageNumber, int pageSize)
         {
-            // pageNumber: Trang hiện tại (1, 2, 3...)
-            // pageSize: Số dòng mỗi trang (ví dụ: 10)
             string sql = @"SELECT * FROM Users 
                    ORDER BY UserID ASC
                    OFFSET @Offset ROWS 
@@ -145,7 +213,7 @@ namespace Muvi.DAL
         }
 
         /// <summary>
-        /// Tìm kiếm người dùng theo Tên hoặc Email (Phục vụ bộ lọc ở giao diện)
+        /// Tìm kiếm người dùng
         /// </summary>
         public IEnumerable<UserDTO> SearchUsers(string keyword)
         {
@@ -157,11 +225,11 @@ namespace Muvi.DAL
         }
 
         /// <summary>
-        /// Cập nhật trạng thái IsActive (Khóa hoặc Mở khóa tài khoản)
+        /// Cập nhật trạng thái IsActive
         /// </summary>
         public bool UpdateStatus(int userId, bool isActive)
         {
-            string sql = "UPDATE Users SET IsActive = @Status WHERE UserId = @Id";
+            string sql = "UPDATE Users SET IsActive = @Status, UpdatedAt = GETDATE() WHERE UserId = @Id";
             using SqlConnection conn = DapperProvider.GetConnection();
             int rows = conn.Execute(sql, new { Status = isActive, Id = userId });
             return rows > 0;

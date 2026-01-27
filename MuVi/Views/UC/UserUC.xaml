@@ -24,7 +24,8 @@
                 <Grid Margin="0,0,0,20">
                     <TextBox x:Name="txtSearch"
                              Style="{StaticResource SearchBox}"
-                             Text="{Binding SearchKeyword, UpdateSourceTrigger=PropertyChanged}"/>
+                             Text="{Binding SearchKeyword, UpdateSourceTrigger=PropertyChanged}"
+                             ToolTip="Tìm kiếm theo tên, email"/>
                 </Grid>
 
                 <!-- Divider -->

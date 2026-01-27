@@ -270,7 +270,7 @@
         <Setter Property="Foreground" Value="{StaticResource TextPrimaryBrush}"/>
         <Setter Property="BorderBrush" Value="#3A3A3A"/>
         <Setter Property="BorderThickness" Value="2"/>
-        <Setter Property="Padding" Value="16,8"/>
+        <Setter Property="Padding" Value="16,12"/>
         <Setter Property="FontSize" Value="14"/>
         <Setter Property="HorizontalContentAlignment" Value="Left"/>
         <Setter Property="VerticalContentAlignment" Value="Center"/>
@@ -293,6 +293,7 @@
                                         <Setter.Value>
                                             <ControlTemplate TargetType="ToggleButton">
                                                 <Border x:Name="border"
+                                                        Padding="0,2"
                                                     Background="{TemplateBinding Background}"
                                                     BorderBrush="{TemplateBinding BorderBrush}"
                                                     BorderThickness="{TemplateBinding BorderThickness}"
@@ -820,7 +821,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="ScrollBar">
-                    <Grid x:Name="Bg" SnapsToDevicePixels="true">
+                    <Grid x:Name="Bg" SnapsToDevicePixels="true" Opacity="0" Background="Transparent">
                         <Track x:Name="PART_Track" IsDirectionReversed="true" IsEnabled="{TemplateBinding IsEnabled}">
                             <Track.Thumb>
                                 <Thumb>
@@ -835,6 +836,24 @@
                     </Grid>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="true">
+                            <Trigger.EnterActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetName="Bg" 
+                                     Storyboard.TargetProperty="Opacity" 
+                                     To="1" Duration="0:0:0.3"/>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </Trigger.EnterActions>
+                            <Trigger.ExitActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetName="Bg" 
+                                     Storyboard.TargetProperty="Opacity" 
+                                     To="0" Duration="0:0:0.5"/>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </Trigger.ExitActions>
                         </Trigger>
                         <Trigger Property="Orientation" Value="Horizontal">
                             <Setter TargetName="PART_Track" Property="IsDirectionReversed" Value="false"/>
@@ -883,7 +902,7 @@
         <Setter Property="Foreground" Value="{StaticResource TextPrimaryBrush}"/>
         <Setter Property="BorderThickness" Value="2"/>
         <Setter Property="BorderBrush" Value="#3A3A3A"/>
-        <Setter Property="Padding" Value="16,8"/>
+        <Setter Property="Padding" Value="16,12"/>
         <Setter Property="FontSize" Value="14"/>
         <Setter Property="VerticalContentAlignment" Value="Center"/>
         <Setter Property="CalendarStyle">
@@ -901,16 +920,18 @@
                 <ControlTemplate TargetType="DatePicker">
                     <ControlTemplate.Resources>
                         <Style TargetType="DatePickerTextBox">
+                            <Setter Property="CaretBrush" Value="{StaticResource PrimaryPurpleBrush}"/>
                             <Setter Property="Control.Template">
                                 <Setter.Value>
                                     <ControlTemplate TargetType="DatePickerTextBox">
                                         <Grid>
                                             <Border x:Name="WatermarkBorder" 
-                                    Background="Transparent" 
-                                    BorderBrush="Transparent" 
-                                    BorderThickness="0">
+                                                    Background="Transparent" 
+                                                    BorderBrush="Transparent" 
+                                                    BorderThickness="0"
+                                                    Padding="16,12">
                                                 <ScrollViewer x:Name="PART_ContentHost"
-                                              Margin="14,0,0,0" 
+                                              Margin="0,0,0,0"
                                               HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}" 
                                               VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"/>
                                             </Border>
@@ -999,6 +1020,14 @@
                         <Trigger Property="IsEnabled" Value="False">
                             <Setter TargetName="border" Property="Opacity" Value="0.5"/>
                         </Trigger>
+                        
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="border" Property="BorderBrush" Value="{StaticResource PrimaryPurpleBrush}"/>
+                        </Trigger>
+                        <Trigger Property="IsFocused" Value="True">
+                            <Setter TargetName="border" Property="BorderBrush" Value="{StaticResource PrimaryPurpleLightBrush}"/>
+                            <Setter TargetName="border" Property="BorderThickness" Value="2"/>
+                        </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
@@ -1015,7 +1044,8 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="ToolTip">
-                    <Border Style="{StaticResource ModernPopupBorder}">
+                    <Border Style="{StaticResource ModernPopupBorder}"
+                            Padding="{TemplateBinding Padding}">
                         <ContentPresenter />
                     </Border>
                 </ControlTemplate>

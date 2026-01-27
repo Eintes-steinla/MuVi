@@ -1,68 +1,105 @@
-﻿using MuVi.DTO.DTOs;
-using MuVi.BLL;
+﻿using MuVi.BLL;
+using MuVi.DTO.DTOs;
+using MuVi.ViewModels;
+using MuVi.ViewModels.UCViewModel;
 using System;
 using System.Windows;
 
 namespace MuVi.Views.AddView
 {
-    public partial class UserAddView: Window
+    /// <summary>
+    /// Interaction logic for UserAddView.xaml
+    /// </summary>
+    public partial class UserAddView : Window
     {
-        private UserDTO _user;
-        private bool _isAddMode;
-        private UserBLL _userBLL = new UserBLL();
+        private UserAddViewModel _viewModel;
 
-        public string WindowTitle => _isAddMode ? "Thêm người dùng mới" : "Chỉnh sửa người dùng";
-        public bool IsAddMode => _isAddMode;
-
-        // Constructor for Add mode
+        /// <summary>
+        /// Constructor cho chế độ Add (thêm mới)
+        /// </summary>
         public UserAddView()
         {
             InitializeComponent();
-            _isAddMode = true;
-            _user = new UserDTO { IsActive = true, Role = "User" };
-            DataContext = _user;
+
+            _viewModel = new UserAddViewModel();
+            DataContext = _viewModel;
+
+            Title = "Thêm người dùng";
         }
 
-        // Constructor for Edit mode
-        public UserAddView(UserDTO user)
+        /// <summary>
+        /// Constructor cho chế độ Edit (chỉnh sửa)
+        /// </summary>
+        public UserAddView(UserDTO existingUser)
         {
             InitializeComponent();
-            _isAddMode = false;
-            _user = user;
-            DataContext = _user;
+
+            _viewModel = new UserAddViewModel(existingUser);
+            DataContext = _viewModel;
+
+            Title = "Chỉnh sửa người dùng";
+
+            // Ẩn password khi edit
+            txtPassword.Visibility = Visibility.Collapsed;
         }
 
+        /// <summary>
+        /// Lưu thông tin user
+        /// </summary>
         private void btnSave_Click(object sender, RoutedEventArgs e)
         {
-            // Validation
-            if (string.IsNullOrWhiteSpace(txtUsername.Text))
+            try
             {
-                MessageBox.Show("Vui lòng nhập tên đăng nhập", "Lỗi",
-                    MessageBoxButton.OK, MessageBoxImage.Warning);
-                return;
-            }
-
-            if (string.IsNullOrWhiteSpace(txtEmail.Text))
-            {
-                MessageBox.Show("Vui lòng nhập email", "Lỗi",
-                    MessageBoxButton.OK, MessageBoxImage.Warning);
-                return;
-            }
-
-            if (_isAddMode)
-            {
-                if (string.IsNullOrWhiteSpace(txtPassword.Password))
+                // Lấy password từ PasswordBox nếu là Add mode
+                if (_viewModel.IsAddMode)
                 {
-                    MessageBox.Show("Vui lòng nhập mật khẩu", "Lỗi",
-                        MessageBoxButton.OK, MessageBoxImage.Warning);
+                    _viewModel.Password = txtPassword.Password;
+                }
+
+                // Validate
+                if (!_viewModel.Validate())
+                {
                     return;
                 }
 
-                _user.Password = txtPassword.Password;
-                bool success = _userBLL.AddUser(_user, out string message);
+                // Lưu ảnh và lấy đường dẫn
+                var avatarPath = _viewModel.SaveAvatar();
+                if (!string.IsNullOrEmpty(avatarPath))
+                {
+                    _viewModel.Avatar = avatarPath;
+                }
 
-                MessageBox.Show(message, success ? "Thành công" : "Lỗi",
-                    MessageBoxButton.OK, success ? MessageBoxImage.Information : MessageBoxImage.Error);
+                var userBLL = new UserBLL();
+                bool success;
+                string message;
+
+                if (_viewModel.IsAddMode)
+                {
+                    // Thêm user mới
+                    var newUser = new UserDTO
+                    {
+                        Username = _viewModel.Username.Trim(),
+                        Password = _viewModel.Password,
+                        Email = _viewModel.Email?.Trim(),
+                        DateOfBirth = _viewModel.DateOfBirth,
+                        Avatar = avatarPath,
+                        Role = _viewModel.Role,
+                        IsActive = _viewModel.IsActive
+                    };
+
+                    success = userBLL.AddUser(newUser, out message);
+                }
+                else
+                {
+                    // Cập nhật user
+                    _viewModel.User.Avatar = avatarPath;
+                    success = userBLL.UpdateUser(_viewModel.User, out message);
+                }
+
+                MessageBox.Show(message,
+                    success ? "Thành công" : "Lỗi",
+                    MessageBoxButton.OK,
+                    success ? MessageBoxImage.Information : MessageBoxImage.Error);
 
                 if (success)
                 {
@@ -70,22 +107,16 @@ namespace MuVi.Views.AddView
                     Close();
                 }
             }
-            else
+            catch (Exception ex)
             {
-                // Update mode
-                bool success = _userBLL.UpdateUser(_user, out string message);
-
-                MessageBox.Show(message, success ? "Thành công" : "Lỗi",
-                    MessageBoxButton.OK, success ? MessageBoxImage.Information : MessageBoxImage.Error);
-
-                if (success)
-                {
-                    DialogResult = true;
-                    Close();
-                }
+                MessageBox.Show($"Lỗi: {ex.Message}",
+                    "Lỗi", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
+        /// <summary>
+        /// Hủy bỏ
+        /// </summary>
         private void btnCancel_Click(object sender, RoutedEventArgs e)
         {
             DialogResult = false;
