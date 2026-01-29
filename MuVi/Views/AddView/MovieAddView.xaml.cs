@@ -4,6 +4,7 @@ using MuVi.ViewModels;
 using MuVi.ViewModels.UCViewModel;
 using System;
 using System.Windows;
+using System.Windows.Input;
 
 namespace MuVi.Views.AddView
 {
@@ -53,11 +54,21 @@ namespace MuVi.Views.AddView
                     return;
                 }
 
-                // Lưu ảnh và lấy đường dẫn
+                // Hiển thị loading nếu có upload video (file lớn)
+                Mouse.OverrideCursor = System.Windows.Input.Cursors.Wait;
+
+                // Lưu ảnh poster và lấy đường dẫn
                 var posterPath = _viewModel.SavePoster();
                 if (!string.IsNullOrEmpty(posterPath))
                 {
                     _viewModel.PosterPath = posterPath;
+                }
+
+                // Lưu video và lấy đường dẫn
+                var videoPath = _viewModel.SaveVideo();
+                if (!string.IsNullOrEmpty(videoPath))
+                {
+                    _viewModel.VideoPath = videoPath;
                 }
 
                 var movieBLL = new MovieBLL();
@@ -73,6 +84,7 @@ namespace MuVi.Views.AddView
                         Description = _viewModel.Description?.Trim(),
                         PosterPath = posterPath,
                         TrailerURL = _viewModel.TrailerURL?.Trim(),
+                        VideoPath = videoPath,
                         ReleaseYear = _viewModel.ReleaseYear,
                         TotalEpisodes = _viewModel.TotalEpisodes,
                         Duration = _viewModel.Duration,
@@ -90,8 +102,11 @@ namespace MuVi.Views.AddView
                 {
                     // Cập nhật phim
                     _viewModel.Movie.PosterPath = posterPath;
+                    _viewModel.Movie.VideoPath = videoPath;
                     success = movieBLL.UpdateMovie(_viewModel.Movie, out message);
                 }
+
+                Mouse.OverrideCursor = null;
 
                 MessageBox.Show(message,
                     success ? "Thành công" : "Lỗi",
@@ -106,6 +121,7 @@ namespace MuVi.Views.AddView
             }
             catch (Exception ex)
             {
+                Mouse.OverrideCursor = null;
                 MessageBox.Show($"Lỗi: {ex.Message}",
                     "Lỗi", MessageBoxButton.OK, MessageBoxImage.Error);
             }

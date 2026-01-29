@@ -110,3 +110,8 @@ E:\vstimPJ\MuVi\MuVi\obj\Debug\net8.0-windows\Views\AddView\UserAddView.baml
 E:\vstimPJ\MuVi\MuVi\obj\Debug\net8.0-windows\Views\AddView\UserAddView.g.cs
 E:\vstimPJ\MuVi\MuVi\obj\Debug\net8.0-windows\Views\AddView\MovieAddView.baml
 E:\vstimPJ\MuVi\MuVi\obj\Debug\net8.0-windows\Views\AddView\MovieAddView.g.cs
+E:\vstimPJ\MuVi\MuVi\obj\Debug\net8.0-windows\Views\AddView\VideoUrlInputWindow.baml
+E:\vstimPJ\MuVi\MuVi\obj\Debug\net8.0-windows\Views\AddView\VideoUrlInputWindow.g.cs
+E:\vstimPJ\MuVi\MuVi\obj\Debug\net8.0-windows\GeneratedInternalTypeHelper.g.cs
+E:\vstimPJ\MuVi\MuVi\obj\Debug\net8.0-windows\Views\AddView\GenreAddView.baml
+E:\vstimPJ\MuVi\MuVi\obj\Debug\net8.0-windows\Views\AddView\GenreAddView.g.cs

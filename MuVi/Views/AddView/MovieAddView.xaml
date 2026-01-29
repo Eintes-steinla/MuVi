@@ -2,10 +2,10 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="Thêm phim" 
-        Height="700" Width="600"
+        Height="750" Width="600"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        d:DesignHeight="700" d:DesignWidth="600"
+        d:DesignHeight="750" d:DesignWidth="600"
         mc:Ignorable="d"
         WindowStyle="None"
         WindowStartupLocation="CenterScreen"
@@ -68,7 +68,7 @@
                                 <Image Source="{Binding PreviewPoster}" 
                                        HorizontalAlignment="Center" 
                                        VerticalAlignment="Stretch"
-                                       Stretch="Uniform"></Image>
+                                       Stretch="Uniform"/>
                             </Border>
 
                             <Button Command="{Binding UploadPosterCommand}"
@@ -103,6 +103,57 @@
                              Text="{Binding TrailerURL, UpdateSourceTrigger=PropertyChanged}"
                              Style="{StaticResource ModernTextBox}"
                              Margin="0,0,0,15"/>
+
+                    <!-- Video Upload Section (CHỈ CHO PHIM LẺ) -->
+                    <StackPanel Margin="0,0,0,15">
+                        <TextBlock Text="Video phim (chỉ dành cho phim lẻ)" 
+                                   Style="{StaticResource FormLabel}"/>
+
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+
+                            <!-- Hiển thị tên file/URL -->
+                            <TextBox Grid.Column="0"
+                                     Text="{Binding VideoFileName, Mode=OneWay}"
+                                     IsReadOnly="True"
+                                     Style="{StaticResource ModernTextBox}"
+                                     Margin="0,0,10,0"/>
+
+                            <!-- Nút Upload -->
+                            <Button Grid.Column="1"
+                                    Command="{Binding UploadVideoCommand}"
+                                    Style="{StaticResource PrimaryButton}"
+                                    Margin="0,0,10,0">
+                                <StackPanel Orientation="Horizontal" Margin="5">
+                                    <Image Source="/Assets/Icons/icons8-plus-60.png"
+                                           Height="20" Width="20"
+                                           Margin="8,0"/>
+                                </StackPanel>
+                            </Button>
+
+                            <!-- Nút Clear -->
+                            <Button Grid.Column="2"
+                                    Command="{Binding ClearVideoCommand}"
+                                    Style="{StaticResource SecondaryButton}">
+                                <StackPanel Orientation="Horizontal" Margin="5">
+                                    <Image Source="/Assets/Icons/icons8-remove-48.png"
+                                           Height="20" Width="20"
+                                           Margin="8,0"/>
+                                </StackPanel>
+                            </Button>
+                        </Grid>
+
+                        <TextBlock Text="Lưu ý: Phim lẻ có thể upload video hoặc nhập URL. Phim bộ quản lý video theo từng tập." 
+                                   Foreground="{StaticResource TextSecondaryBrush}"
+                                   FontSize="11"
+                                   FontStyle="Italic"
+                                   Margin="0,5,0,0"
+                                   TextWrapping="Wrap"/>
+                    </StackPanel>
 
                     <!-- Release Year & Duration (2 columns) -->
                     <Grid Margin="0,0,0,15">
@@ -182,14 +233,13 @@
                         </StackPanel>
 
                         <StackPanel Grid.Column="2">
-                            <!-- Country (thay TextBox bằng ComboBox) -->
+                            <!-- Country (ComboBox) -->
                             <TextBlock Text="Quốc gia" Style="{StaticResource FormLabel}"/>
                             <ComboBox x:Name="cmbCountry"
                                       ItemsSource="{Binding CountryList}"
                                       SelectedItem="{Binding SelectedCountry}"
                                       DisplayMemberPath="CountryName"
-                                      Style="{StaticResource ModernComboBox}"
-                                      Margin="0,0,0,15"/>
+                                      Style="{StaticResource ModernComboBox}"/>
                         </StackPanel>
                     </Grid>
 

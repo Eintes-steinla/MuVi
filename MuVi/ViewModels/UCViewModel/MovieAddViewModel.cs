@@ -9,6 +9,7 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media.Imaging;
+using MuVi.Views.AddView;
 
 namespace MuVi.ViewModels.UCViewModel
 {
@@ -20,6 +21,7 @@ namespace MuVi.ViewModels.UCViewModel
         private bool _isAddMode = true;
         private BitmapImage _previewPoster;
         private string _tempPosterPath; // Đường dẫn tạm của ảnh đã chọn
+        private string _tempVideoPath; // Đường dẫn tạm của video đã chọn
         #endregion
 
         #region Properties
@@ -93,7 +95,28 @@ namespace MuVi.ViewModels.UCViewModel
                 {
                     _movie.VideoPath = value;
                     OnPropertyChanged(nameof(VideoPath));
+                    OnPropertyChanged(nameof(VideoFileName));
                 }
+            }
+        }
+
+        // Hiển thị tên file video (không hiển thị đường dẫn dài)
+        public string VideoFileName
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(VideoPath))
+                    return "Chưa chọn video";
+
+                // Nếu là URL (http/https)
+                if (VideoPath.StartsWith("http://", StringComparison.OrdinalIgnoreCase) ||
+                    VideoPath.StartsWith("https://", StringComparison.OrdinalIgnoreCase))
+                {
+                    return "Video từ cloud";
+                }
+
+                // Nếu là file local
+                return Path.GetFileName(VideoPath);
             }
         }
 
@@ -233,6 +256,8 @@ namespace MuVi.ViewModels.UCViewModel
         #region Commands
 
         public ICommand UploadPosterCommand { get; }
+        public ICommand UploadVideoCommand { get; }
+        public ICommand ClearVideoCommand { get; }
 
         #endregion
 
@@ -299,6 +324,16 @@ namespace MuVi.ViewModels.UCViewModel
             UploadPosterCommand = new RelayCommand(
                 execute: _ => ExecuteUploadPoster(),
                 canExecute: _ => true
+            );
+
+            UploadVideoCommand = new RelayCommand(
+                execute: _ => ExecuteUploadVideo(),
+                canExecute: _ => true
+            );
+
+            ClearVideoCommand = new RelayCommand(
+                execute: _ => ExecuteClearVideo(),
+                canExecute: _ => !string.IsNullOrEmpty(VideoPath)
             );
         }
 
@@ -398,6 +433,62 @@ namespace MuVi.ViewModels.UCViewModel
         }
 
         /// <summary>
+        /// Upload video hoặc nhập URL
+        /// </summary>
+        private void ExecuteUploadVideo()
+        {
+            try
+            {
+                // Hiển thị dialog cho user chọn: Upload file hoặc nhập URL
+                var choice = MessageBox.Show(
+                    "Chọn 'Yes' để tải video từ máy tính\nChọn 'No' để nhập đường dẫn video từ cloud",
+                    "Chọn nguồn video",
+                    MessageBoxButton.YesNoCancel,
+                    MessageBoxImage.Question);
+
+                if (choice == MessageBoxResult.Yes)
+                {
+                    // Upload file video từ máy
+                    var openFileDialog = new OpenFileDialog
+                    {
+                        Filter = "Video files (*.mp4, *.avi, *.mkv, *.mov, *.wmv)|*.mp4;*.avi;*.mkv;*.mov;*.wmv|All files (*.*)|*.*",
+                        Title = "Chọn file video"
+                    };
+
+                    if (openFileDialog.ShowDialog() == true)
+                    {
+                        _tempVideoPath = openFileDialog.FileName;
+                        VideoPath = _tempVideoPath; // Tạm thời hiển thị đường dẫn
+                    }
+                }
+                else if (choice == MessageBoxResult.No)
+                {
+                    // Nhập URL từ cloud
+                    var inputWindow = new VideoUrlInputWindow();
+                    if (inputWindow.ShowDialog() == true)
+                    {
+                        VideoPath = inputWindow.VideoUrl;
+                        _tempVideoPath = null; // Không cần lưu file
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Lỗi khi chọn video: {ex.Message}",
+                    "Lỗi", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
+        /// <summary>
+        /// Xóa video đã chọn
+        /// </summary>
+        private void ExecuteClearVideo()
+        {
+            VideoPath = null;
+            _tempVideoPath = null;
+        }
+
+        /// <summary>
         /// Lưu ảnh vào thư mục Assets/Posters và trả về đường dẫn
         /// </summary>
         public string SavePoster()
@@ -455,6 +546,78 @@ namespace MuVi.ViewModels.UCViewModel
                 MessageBox.Show($"Lỗi khi lưu ảnh: {ex.Message}",
                     "Lỗi", MessageBoxButton.OK, MessageBoxImage.Error);
                 return _movie?.PosterPath;
+            }
+        }
+
+        /// <summary>
+        /// Lưu video vào thư mục Assets/Videos và trả về đường dẫn
+        /// </summary>
+        public string SaveVideo()
+        {
+            try
+            {
+                // Nếu không có video
+                if (string.IsNullOrEmpty(VideoPath))
+                {
+                    return null;
+                }
+
+                // Nếu là URL (cloud), trả về luôn
+                if (VideoPath.StartsWith("http://", StringComparison.OrdinalIgnoreCase) ||
+                    VideoPath.StartsWith("https://", StringComparison.OrdinalIgnoreCase))
+                {
+                    return VideoPath;
+                }
+
+                // Nếu không chọn video mới (edit mode và giữ nguyên video cũ)
+                if (string.IsNullOrEmpty(_tempVideoPath))
+                {
+                    return _movie?.VideoPath;
+                }
+
+                // Tạo thư mục Videos nếu chưa có
+                var videoDirectory = Path.Combine(AppDomain.CurrentDomain.BaseDirectory,
+                    "Assets", "Videos");
+
+                if (!Directory.Exists(videoDirectory))
+                {
+                    Directory.CreateDirectory(videoDirectory);
+                }
+
+                // Tạo tên file unique
+                var fileExtension = Path.GetExtension(_tempVideoPath);
+                var safeTitle = _movie?.Title?.ToLower().Replace(" ", "_") ?? "movie";
+                if (safeTitle.Length > 50)
+                {
+                    safeTitle = safeTitle.Substring(0, 50);
+                }
+                var fileName = $"{safeTitle}_{DateTime.Now:yyyyMMddHHmmss}{fileExtension}";
+                var destinationPath = Path.Combine(videoDirectory, fileName);
+
+                // Copy file (có thể mất thời gian nếu file lớn)
+                File.Copy(_tempVideoPath, destinationPath, true);
+
+                // Xóa video cũ nếu có
+                if (!IsAddMode && !string.IsNullOrEmpty(_movie?.VideoPath) &&
+                    File.Exists(_movie.VideoPath))
+                {
+                    try
+                    {
+                        File.Delete(_movie.VideoPath);
+                    }
+                    catch
+                    {
+                        // Ignore
+                    }
+                }
+
+                return destinationPath;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Lỗi khi lưu video: {ex.Message}",
+                    "Lỗi", MessageBoxButton.OK, MessageBoxImage.Error);
+                return _movie?.VideoPath;
             }
         }
 

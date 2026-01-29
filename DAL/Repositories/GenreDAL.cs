@@ -2,59 +2,151 @@
 using Microsoft.Data.SqlClient;
 using MuVi.DAL;
 using MuVi.DTO.DTOs;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace Muvi.DAL
 {
     public class GenreDAL
     {
-        public List<GenreDTO> GetAll()
-        {
-            string sql = "SELECT GenreID, GenreName, Description FROM Genres ORDER BY GenreName";
-
-            using SqlConnection conn = DapperProvider.GetConnection();
-            return conn.Query<GenreDTO>(sql).ToList();
-        }
-
-        public GenreDTO? GetById(int id)
-        {
-            string sql = "SELECT GenreID, GenreName, Description FROM Genres WHERE GenreID = @Id";
-
-            using SqlConnection conn = DapperProvider.GetConnection();
-            return conn.QueryFirstOrDefault<GenreDTO>(sql, new { Id = id });
-        }
-
-        public bool IsGenreNameExists(string name)
+        /// <summary>
+        /// Kiểm tra tên thể loại đã tồn tại chưa
+        /// </summary>
+        public bool IsGenreNameExists(string genreName)
         {
             string sql = "SELECT COUNT(*) FROM Genres WHERE GenreName = @GenreName";
-
             using SqlConnection conn = DapperProvider.GetConnection();
-            return conn.ExecuteScalar<int>(sql, new { Name = name }) > 0;
+            int count = conn.ExecuteScalar<int>(sql, new { GenreName = genreName });
+            return count > 0;
         }
 
-        public bool Insert(GenreDTO genre)
+        /// <summary>
+        /// Kiểm tra tên thể loại đã tồn tại chưa (trừ genre hiện tại)
+        /// </summary>
+        public bool IsGenreNameExists(string genreName, int genreId)
         {
-            string sql = "INSERT INTO Genres (GenreName, Description) VALUES (@GenreName, @Description)";
-
+            string sql = "SELECT COUNT(*) FROM Genres WHERE GenreName = @GenreName AND GenreID != @GenreID";
             using SqlConnection conn = DapperProvider.GetConnection();
-            return conn.Execute(sql, genre) > 0;
+            int count = conn.ExecuteScalar<int>(sql, new { GenreName = genreName, GenreID = genreId });
+            return count > 0;
         }
 
-        public bool Update(GenreDTO genre)
+        /// <summary>
+        /// Thêm thể loại mới
+        /// </summary>
+        public bool AddGenre(GenreDTO genre)
         {
-            string sql = "UPDATE Genres SET GenreName = @GenreName, Description = @Description WHERE GenreID = @GenreID";
+            string sql = @"
+            INSERT INTO Genres
+            (
+                GenreName,
+                [Description]
+            )
+            VALUES
+            (
+                @GenreName,
+                @Description
+            )";
 
             using SqlConnection conn = DapperProvider.GetConnection();
-            return conn.Execute(sql, genre) > 0;
+            int rows = conn.Execute(sql, new
+            {
+                genre.GenreName,
+                genre.Description
+            });
+
+            return rows > 0;
         }
 
-        public bool Delete(int id)
+        /// <summary>
+        /// Cập nhật thông tin thể loại
+        /// </summary>
+        public bool UpdateGenre(GenreDTO genre)
+        {
+            string sql = @"
+            UPDATE Genres 
+            SET 
+                GenreName = @GenreName,
+                [Description] = @Description
+            WHERE GenreID = @GenreID";
+
+            using SqlConnection conn = DapperProvider.GetConnection();
+            int rows = conn.Execute(sql, new
+            {
+                genre.GenreID,
+                genre.GenreName,
+                genre.Description
+            });
+
+            return rows > 0;
+        }
+
+        /// <summary>
+        /// Lấy thể loại theo ID
+        /// </summary>
+        public GenreDTO? GetById(int genreId)
+        {
+            string sql = @"
+            SELECT * FROM Genres
+            WHERE GenreID = @GenreId";
+
+            using SqlConnection conn = DapperProvider.GetConnection();
+            return conn.QueryFirstOrDefault<GenreDTO>(sql, new { GenreId = genreId });
+        }
+
+        /// <summary>
+        /// Lấy toàn bộ danh sách thể loại
+        /// </summary>
+        public IEnumerable<GenreDTO> GetAll()
+        {
+            string sql = @"
+            SELECT * FROM Genres
+            ORDER BY GenreName ASC";
+
+            using SqlConnection conn = DapperProvider.GetConnection();
+            return conn.Query<GenreDTO>(sql);
+        }
+
+        /// <summary>
+        /// Lấy thể loại phân trang
+        /// </summary>
+        public IEnumerable<GenreDTO> GetGenresPaged(int pageNumber, int pageSize)
+        {
+            string sql = @"
+            SELECT * FROM Genres
+            ORDER BY GenreID ASC
+            OFFSET @Offset ROWS 
+            FETCH NEXT @PageSize ROWS ONLY";
+
+            using SqlConnection conn = DapperProvider.GetConnection();
+            return conn.Query<GenreDTO>(sql, new
+            {
+                Offset = (pageNumber - 1) * pageSize,
+                PageSize = pageSize
+            });
+        }
+
+        /// <summary>
+        /// Tìm kiếm thể loại
+        /// </summary>
+        public IEnumerable<GenreDTO> SearchGenres(string keyword)
+        {
+            string sql = @"
+            SELECT * FROM Genres
+            WHERE GenreName LIKE @Key OR [Description] LIKE @Key
+            ORDER BY GenreName ASC";
+
+            using SqlConnection conn = DapperProvider.GetConnection();
+            return conn.Query<GenreDTO>(sql, new { Key = $"%{keyword}%" });
+        }
+
+        /// <summary>
+        /// Xóa thể loại
+        /// </summary>
+        public bool Delete(int genreId)
         {
             string sql = "DELETE FROM Genres WHERE GenreID = @Id";
-
             using SqlConnection conn = DapperProvider.GetConnection();
-            return conn.Execute(sql, new { Id = id }) > 0;
+            int rows = conn.Execute(sql, new { Id = genreId });
+            return rows > 0;
         }
     }
 }

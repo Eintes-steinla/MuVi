@@ -217,7 +217,7 @@ namespace MuVi.ViewModels
                     //var newMovies = movieBLL.GetNewReleases(10);
 
                     // Load thể loại
-                    var genres = genreBLL.GetAllGenres();
+                    //var genres = genreBLL.GetAllGenres();
 
                     // Cập nhật UI trên UI thread
                     //App.Current.Dispatcher.Invoke(() =>

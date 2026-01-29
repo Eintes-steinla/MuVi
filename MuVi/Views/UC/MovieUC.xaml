@@ -4,9 +4,14 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:MuVi.Views.UC"
+             xmlns:helpers="clr-namespace:MuVi.Helpers"
              xmlns:vm="clr-namespace:MuVi.ViewModels"
              mc:Ignorable="d" 
              d:DesignHeight="650" d:DesignWidth="2200">
+
+    <UserControl.Resources>
+        <helpers:NullToBoolConverter x:Key="NullToBoolConverter"/>
+    </UserControl.Resources>
 
     <Grid>
         <Grid.ColumnDefinitions>
@@ -277,6 +282,28 @@
                                 </Style>
                             </DataGridTextColumn.ElementStyle>
                         </DataGridTextColumn>
+
+                        <!-- Video Path Column (MỚI) -->
+                        <DataGridTemplateColumn Header="Đường dẫn video" Width="100">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock VerticalAlignment="Center">
+                                        <TextBlock.Style>
+                                            <Style TargetType="TextBlock">
+                                                <Setter Property="Text" Value="Chưa có"/>
+                                                <Setter Property="Foreground" Value="{StaticResource TextSecondaryBrush}"/>
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding VideoPath, Converter={StaticResource NullToBoolConverter}}" Value="True">
+                                                        <Setter Property="Text" Value="✓ Có video"/>
+                                                        <Setter Property="Foreground" Value="#4CAF50"/>
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </TextBlock.Style>
+                                    </TextBlock>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
 
                         <!-- Director Column -->
                         <DataGridTextColumn Header="Đạo diễn" 

@@ -266,7 +266,7 @@
     <!-- ========== COMBOBOX STYLES ========== -->
 
     <Style x:Key="ModernComboBox" TargetType="ComboBox">
-        <Setter Property="Background" Value="{StaticResource BackgroundBlurBrush}"/>
+        <Setter Property="Background" Value="{StaticResource MaterialDesignDarkSeparatorBackground}"/>
         <Setter Property="Foreground" Value="{StaticResource TextPrimaryBrush}"/>
         <Setter Property="BorderBrush" Value="#3A3A3A"/>
         <Setter Property="BorderThickness" Value="2"/>
@@ -898,7 +898,7 @@
 
     <!-- DATE TIME PICKER -->
     <Style x:Key="ModernDatePicker" TargetType="DatePicker">
-        <Setter Property="Background" Value="{StaticResource BackgroundBlurBrush}"/>
+        <Setter Property="Background" Value="{StaticResource MaterialDesignDarkSeparatorBackground}"/>
         <Setter Property="Foreground" Value="{StaticResource TextPrimaryBrush}"/>
         <Setter Property="BorderThickness" Value="2"/>
         <Setter Property="BorderBrush" Value="#3A3A3A"/>
