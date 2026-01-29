@@ -6,7 +6,6 @@
         public string CountryName { get; set; } = "";
         public string? CountryCode { get; set; }
 
-        // Thêm method này
         public override string ToString()
         {
             return CountryName;

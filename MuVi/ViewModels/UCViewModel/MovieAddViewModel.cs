@@ -6,6 +6,8 @@ using System;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
+using System.Text;
+using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media.Imaging;
@@ -377,6 +379,7 @@ namespace MuVi.ViewModels.UCViewModel
         {
             return SelectedGenres.Select(g => g.GenreID).ToList();
         }
+
         private void LoadCountries()
         {
             var countries = _movieBLL.GetAllCountries();
@@ -395,7 +398,7 @@ namespace MuVi.ViewModels.UCViewModel
             try
             {
                 var defaultPosterPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory,
-                    "Assets", "Posters", "default-poster.png");
+                    "Assets", "Images", "Posters", "default-poster.png");
 
                 if (File.Exists(defaultPosterPath))
                 {
@@ -434,6 +437,89 @@ namespace MuVi.ViewModels.UCViewModel
         }
 
         /// <summary>
+        /// Chuyển đổi chuỗi có dấu thành không dấu và loại bỏ ký tự đặc biệt
+        /// </summary>
+        private string ConvertToSafeFileName(string input)
+        {
+            if (string.IsNullOrWhiteSpace(input))
+                return "file";
+
+            // Loại bỏ dấu tiếng Việt
+            string normalized = input.Normalize(NormalizationForm.FormD);
+            StringBuilder sb = new StringBuilder();
+
+            foreach (char c in normalized)
+            {
+                if (System.Globalization.CharUnicodeInfo.GetUnicodeCategory(c)
+                    != System.Globalization.UnicodeCategory.NonSpacingMark)
+                {
+                    sb.Append(c);
+                }
+            }
+
+            string withoutDiacritics = sb.ToString().Normalize(NormalizationForm.FormC);
+
+            // Thay thế các ký tự đặc biệt và khoảng trắng
+            withoutDiacritics = withoutDiacritics.ToLower();
+            withoutDiacritics = Regex.Replace(withoutDiacritics, @"[đ]", "d");
+            withoutDiacritics = Regex.Replace(withoutDiacritics, @"[Đ]", "D");
+
+            // Chỉ giữ lại chữ cái, số và dấu gạch dưới
+            withoutDiacritics = Regex.Replace(withoutDiacritics, @"[^a-z0-9_]", "_");
+
+            // Loại bỏ các dấu gạch dưới liên tiếp
+            withoutDiacritics = Regex.Replace(withoutDiacritics, @"_{2,}", "_");
+
+            // Loại bỏ dấu gạch dưới ở đầu và cuối
+            withoutDiacritics = withoutDiacritics.Trim('_');
+
+            // Giới hạn độ dài
+            if (withoutDiacritics.Length > 50)
+            {
+                withoutDiacritics = withoutDiacritics.Substring(0, 50).TrimEnd('_');
+            }
+
+            return string.IsNullOrWhiteSpace(withoutDiacritics) ? "file" : withoutDiacritics;
+        }
+
+        /// <summary>
+        /// Validate đường dẫn file không chứa tiếng Việt hoặc ký tự đặc biệt
+        /// </summary>
+        private bool ValidateFilePath(string filePath)
+        {
+            if (string.IsNullOrWhiteSpace(filePath))
+                return false;
+
+            try
+            {
+                string fileName = Path.GetFileName(filePath);
+                string directory = Path.GetDirectoryName(filePath);
+
+                // Kiểm tra tên file
+                if (Regex.IsMatch(fileName, @"[àáạảãâầấậẩẫăằắặẳẵèéẹẻẽêềếệểễìíịỉĩòóọỏõôồốộổỗơờớợởỡùúụủũưừứựửữỳýỵỷỹđ]", RegexOptions.IgnoreCase))
+                {
+                    MessageBox.Show("Tên file chứa ký tự tiếng Việt có dấu. Vui lòng chọn file khác hoặc đổi tên file.",
+                        "Cảnh báo", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    return false;
+                }
+
+                // Kiểm tra đường dẫn
+                if (Regex.IsMatch(directory, @"[àáạảãâầấậẩẫăằắặẳẵèéẹẻẽêềếệểễìíịỉĩòóọỏõôồốộổỗơờớợởỡùúụủũưừứựửữỳýỵỷỹđ]", RegexOptions.IgnoreCase))
+                {
+                    MessageBox.Show("Đường dẫn file chứa ký tự tiếng Việt có dấu. Vui lòng di chuyển file đến thư mục khác.",
+                        "Cảnh báo", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    return false;
+                }
+
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        /// <summary>
         /// Upload poster
         /// </summary>
         private void ExecuteUploadPoster()
@@ -448,6 +534,12 @@ namespace MuVi.ViewModels.UCViewModel
 
                 if (openFileDialog.ShowDialog() == true)
                 {
+                    // Validate đường dẫn
+                    if (!ValidateFilePath(openFileDialog.FileName))
+                    {
+                        return;
+                    }
+
                     // Lưu đường dẫn tạm
                     _tempPosterPath = openFileDialog.FileName;
 
@@ -493,6 +585,12 @@ namespace MuVi.ViewModels.UCViewModel
 
                     if (openFileDialog.ShowDialog() == true)
                     {
+                        // Validate đường dẫn
+                        if (!ValidateFilePath(openFileDialog.FileName))
+                        {
+                            return;
+                        }
+
                         _tempVideoPath = openFileDialog.FileName;
                         VideoPath = _tempVideoPath; // Tạm thời hiển thị đường dẫn
                     }
@@ -525,7 +623,7 @@ namespace MuVi.ViewModels.UCViewModel
         }
 
         /// <summary>
-        /// Lưu ảnh vào thư mục Assets/Posters và trả về đường dẫn
+        /// Lưu ảnh vào thư mục Assets/Images/Posters và trả về đường dẫn
         /// </summary>
         public string SavePoster()
         {
@@ -539,22 +637,18 @@ namespace MuVi.ViewModels.UCViewModel
 
                 // Tạo thư mục Posters nếu chưa có
                 var posterDirectory = Path.Combine(AppDomain.CurrentDomain.BaseDirectory,
-                    "Assets", "Posters");
+                    "Assets", "Images", "Posters");
 
                 if (!Directory.Exists(posterDirectory))
                 {
                     Directory.CreateDirectory(posterDirectory);
                 }
 
-                // Tạo tên file unique (title_timestamp.extension)
+                // Tạo tên file unique và an toàn
                 var fileExtension = Path.GetExtension(_tempPosterPath);
-                var safeTitle = _movie?.Title?.ToLower().Replace(" ", "_") ?? "movie";
-                // Giới hạn độ dài tên file
-                if (safeTitle.Length > 50)
-                {
-                    safeTitle = safeTitle.Substring(0, 50);
-                }
-                var fileName = $"{safeTitle}_{DateTime.Now:yyyyMMddHHmmss}{fileExtension}";
+                var safeTitle = ConvertToSafeFileName(_movie?.Title ?? "movie");
+                var timestamp = DateTime.Now.ToString("yyyyMMddHHmmss");
+                var fileName = $"poster_{safeTitle}_{timestamp}{fileExtension}";
                 var destinationPath = Path.Combine(posterDirectory, fileName);
 
                 // Copy file
@@ -620,14 +714,11 @@ namespace MuVi.ViewModels.UCViewModel
                     Directory.CreateDirectory(videoDirectory);
                 }
 
-                // Tạo tên file unique
+                // Tạo tên file unique và an toàn
                 var fileExtension = Path.GetExtension(_tempVideoPath);
-                var safeTitle = _movie?.Title?.ToLower().Replace(" ", "_") ?? "movie";
-                if (safeTitle.Length > 50)
-                {
-                    safeTitle = safeTitle.Substring(0, 50);
-                }
-                var fileName = $"{safeTitle}_{DateTime.Now:yyyyMMddHHmmss}{fileExtension}";
+                var safeTitle = ConvertToSafeFileName(_movie?.Title ?? "movie");
+                var timestamp = DateTime.Now.ToString("yyyyMMddHHmmss");
+                var fileName = $"video_{safeTitle}_{timestamp}{fileExtension}";
                 var destinationPath = Path.Combine(videoDirectory, fileName);
 
                 // Copy file (có thể mất thời gian nếu file lớn)

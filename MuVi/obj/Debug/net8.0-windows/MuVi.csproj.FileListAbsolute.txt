@@ -115,3 +115,5 @@ E:\vstimPJ\MuVi\MuVi\obj\Debug\net8.0-windows\Views\AddView\VideoUrlInputWindow.
 E:\vstimPJ\MuVi\MuVi\obj\Debug\net8.0-windows\GeneratedInternalTypeHelper.g.cs
 E:\vstimPJ\MuVi\MuVi\obj\Debug\net8.0-windows\Views\AddView\GenreAddView.baml
 E:\vstimPJ\MuVi\MuVi\obj\Debug\net8.0-windows\Views\AddView\GenreAddView.g.cs
+E:\vstimPJ\MuVi\MuVi\obj\Debug\net8.0-windows\Views\AddView\EpisodeAddView.baml
+E:\vstimPJ\MuVi\MuVi\obj\Debug\net8.0-windows\Views\AddView\EpisodeAddView.g.cs
