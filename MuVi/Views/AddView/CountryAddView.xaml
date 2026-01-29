@@ -1,0 +1,82 @@
+﻿<Window x:Class="MuVi.Views.AddView.CountryAddView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Thêm quốc gia" 
+        Height="400" Width="500"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        d:DesignHeight="400" d:DesignWidth="500"
+        mc:Ignorable="d"
+        WindowStyle="None"
+        WindowStartupLocation="CenterScreen"
+        ResizeMode="NoResize">
+
+    <Border Background="{StaticResource BackgroundGradientBrush}"
+            BorderThickness="1" BorderBrush="{StaticResource PrimaryPurpleDarkBrush}">
+        <Grid Margin="40,20,20,20">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <!-- Header -->
+            <TextBlock Grid.Row="0" 
+                       Text="Thêm quốc gia"
+                       Foreground="{StaticResource TextPrimaryBrush}"
+                       FontSize="24"
+                       TextAlignment="Center"
+                       FontWeight="Bold"
+                       Margin="0,0,0,20"/>
+
+            <!-- Form -->
+            <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+                <StackPanel>
+                    <!-- Country Name -->
+                    <TextBlock Text="Tên quốc gia (*)" Style="{StaticResource FormLabel}"/>
+                    <TextBox x:Name="txtCountryName"
+                             Text="{Binding CountryName, UpdateSourceTrigger=PropertyChanged}"
+                             Style="{StaticResource ModernTextBox}"
+                             Margin="0,0,0,15"/>
+
+                    <!-- Country Code -->
+                    <TextBlock Text="Mã quốc gia (ISO Code)" Style="{StaticResource FormLabel}"/>
+                    <TextBox x:Name="txtCountryCode"
+                             Text="{Binding CountryCode, UpdateSourceTrigger=PropertyChanged}"
+                             Style="{StaticResource ModernTextBox}"
+                             MaxLength="10"
+                             Margin="0,0,0,15"/>
+
+                    <TextBlock Text="Ví dụ: VN (Việt Nam), US (Mỹ), KR (Hàn Quốc), JP (Nhật Bản)" 
+                               Foreground="{StaticResource TextSecondaryBrush}"
+                               FontSize="11"
+                               FontStyle="Italic"
+                               Margin="0,-10,0,15"
+                               TextWrapping="Wrap"/>
+                </StackPanel>
+            </ScrollViewer>
+
+            <!-- Buttons -->
+            <Grid Grid.Row="2" Margin="0,20,0,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <Button Grid.Column="0"
+                        Click="btnSave_Click"
+                        Style="{StaticResource PrimaryButton}"
+                        Margin="0,0,10,0">
+                    <TextBlock Text="Lưu" Margin="5"/>
+                </Button>
+
+                <Button Grid.Column="1"
+                        Click="btnCancel_Click"
+                        Style="{StaticResource SecondaryButton}"
+                        Margin="10,0,0,0">
+                    <TextBlock Text="Hủy" Margin="5"/>
+                </Button>
+            </Grid>
+        </Grid>
+    </Border>
+</Window>

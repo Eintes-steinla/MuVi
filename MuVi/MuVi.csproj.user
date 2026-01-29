@@ -8,6 +8,9 @@
     <Compile Update="Views\AddView\ActorAddView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="Views\AddView\CountryAddView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Views\AddView\EpisodeAddView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
