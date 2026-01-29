@@ -14,6 +14,9 @@
     <Compile Update="Views\AddView\EpisodeAddView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="Views\AddView\FavoriteAddView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Views\AddView\GenreAddView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>

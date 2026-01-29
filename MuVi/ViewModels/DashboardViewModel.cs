@@ -337,26 +337,26 @@ namespace MuVi.ViewModels
                 }
 
                 var favoriteBLL = new FavoriteBLL();
-                var result = favoriteBLL.AddToFavorites(currentUser.UserID, movieId);
+                //var result = favoriteBLL.AddToFavorites(currentUser.UserID, movieId);
 
-                if (result)
-                {
-                    System.Windows.MessageBox.Show(
-                        "Đã thêm vào danh sách yêu thích!",
-                        "Thành công",
-                        System.Windows.MessageBoxButton.OK,
-                        System.Windows.MessageBoxImage.Information
-                    );
-                }
-                else
-                {
-                    System.Windows.MessageBox.Show(
-                        "Phim đã có trong danh sách yêu thích!",
-                        "Thông báo",
-                        System.Windows.MessageBoxButton.OK,
-                        System.Windows.MessageBoxImage.Information
-                    );
-                }
+                //if (result)
+                //{
+                //    System.Windows.MessageBox.Show(
+                //        "Đã thêm vào danh sách yêu thích!",
+                //        "Thành công",
+                //        System.Windows.MessageBoxButton.OK,
+                //        System.Windows.MessageBoxImage.Information
+                //    );
+                //}
+                //else
+                //{
+                //    System.Windows.MessageBox.Show(
+                //        "Phim đã có trong danh sách yêu thích!",
+                //        "Thông báo",
+                //        System.Windows.MessageBoxButton.OK,
+                //        System.Windows.MessageBoxImage.Information
+                //    );
+                //}
             }
             catch (Exception ex)
             {
@@ -525,15 +525,15 @@ namespace MuVi.ViewModels
                 await Task.Run(() =>
                 {
                     var favoriteBLL = new FavoriteBLL();
-                    var favorites = favoriteBLL.GetFavoritesByUser(currentUser.UserID);
+                    //var favorites = favoriteBLL.GetFavoritesByUser(currentUser.UserID);
 
                     App.Current.Dispatcher.Invoke(() =>
                     {
                         TrendingMovies.Clear();
-                        foreach (var movie in favorites)
-                        {
-                            TrendingMovies.Add(movie);
-                        }
+                        //foreach (var movie in favorites)
+                        //{
+                        //    TrendingMovies.Add(movie);
+                        //}
 
                         NewReleases.Clear();
                     });
