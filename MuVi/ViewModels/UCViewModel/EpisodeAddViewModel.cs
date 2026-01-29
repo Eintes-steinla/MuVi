@@ -362,43 +362,6 @@ namespace MuVi.ViewModels.UCViewModel
             return string.IsNullOrWhiteSpace(withoutDiacritics) ? "file" : withoutDiacritics;
         }
 
-        /// <summary>
-        /// Validate đường dẫn file không chứa tiếng Việt hoặc ký tự đặc biệt
-        /// </summary>
-        private bool ValidateFilePath(string filePath)
-        {
-            if (string.IsNullOrWhiteSpace(filePath))
-                return false;
-
-            try
-            {
-                string fileName = Path.GetFileName(filePath);
-                string directory = Path.GetDirectoryName(filePath);
-
-                // Kiểm tra tên file
-                if (Regex.IsMatch(fileName, @"[àáạảãâầấậẩẫăằắặẳẵèéẹẻẽêềếệểễìíịỉĩòóọỏõôồốộổỗơờớợởỡùúụủũưừứựửữỳýỵỷỹđ]", RegexOptions.IgnoreCase))
-                {
-                    MessageBox.Show("Tên file chứa ký tự tiếng Việt có dấu. Vui lòng chọn file khác hoặc đổi tên file.",
-                        "Cảnh báo", MessageBoxButton.OK, MessageBoxImage.Warning);
-                    return false;
-                }
-
-                // Kiểm tra đường dẫn
-                if (Regex.IsMatch(directory, @"[àáạảãâầấậẩẫăằắặẳẵèéẹẻẽêềếệểễìíịỉĩòóọỏõôồốộổỗơờớợởỡùúụủũưừứựửữỳýỵỷỹđ]", RegexOptions.IgnoreCase))
-                {
-                    MessageBox.Show("Đường dẫn file chứa ký tự tiếng Việt có dấu. Vui lòng di chuyển file đến thư mục khác.",
-                        "Cảnh báo", MessageBoxButton.OK, MessageBoxImage.Warning);
-                    return false;
-                }
-
-                return true;
-            }
-            catch
-            {
-                return false;
-            }
-        }
-
         private void ExecuteUploadPoster()
         {
             try
@@ -411,12 +374,6 @@ namespace MuVi.ViewModels.UCViewModel
 
                 if (openFileDialog.ShowDialog() == true)
                 {
-                    // Validate đường dẫn
-                    if (!ValidateFilePath(openFileDialog.FileName))
-                    {
-                        return;
-                    }
-
                     _tempPosterPath = openFileDialog.FileName;
 
                     var bitmap = new BitmapImage();
@@ -455,12 +412,6 @@ namespace MuVi.ViewModels.UCViewModel
 
                     if (openFileDialog.ShowDialog() == true)
                     {
-                        // Validate đường dẫn
-                        if (!ValidateFilePath(openFileDialog.FileName))
-                        {
-                            return;
-                        }
-
                         _tempVideoPath = openFileDialog.FileName;
                         VideoPath = _tempVideoPath;
                     }

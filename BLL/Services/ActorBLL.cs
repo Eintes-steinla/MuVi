@@ -2,62 +2,195 @@
 using MuVi.DTO.DTOs;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace MuVi.BLL
 {
     public class ActorBLL
     {
-        private readonly ActorDAL _actorDAL = new ActorDAL();
+        private ActorDAL actorDAL = new ActorDAL();
 
-        public List<ActorDTO> GetListActors() => _actorDAL.GetAll();
+        private int currentPage = 1;
+        private int pageSize = 10;
 
-        public ActorDTO? GetDetailActor(int id) => _actorDAL.GetById(id);
+        // Search and filter parameters
+        private string _searchKeyword = "";
+        private string? _nationalityFilter = null;
 
-        public bool SaveActor(ActorDTO actor, out string message)
+        /// <summary>
+        /// Lấy danh sách diễn viên với filter
+        /// </summary>
+        public IEnumerable<ActorDTO> GetActors()
         {
-            // Validation cơ bản
-            if (string.IsNullOrWhiteSpace(actor.ActorName))
+            var allActors = actorDAL.GetAll();
+
+            // Apply search filter
+            if (!string.IsNullOrWhiteSpace(_searchKeyword))
             {
-                message = "Tên diễn viên là bắt buộc.";
+                allActors = allActors.Where(a =>
+                    (a.ActorName?.Contains(_searchKeyword, StringComparison.OrdinalIgnoreCase) ?? false) ||
+                    (a.Nationality?.Contains(_searchKeyword, StringComparison.OrdinalIgnoreCase) ?? false) ||
+                    (a.Bio?.Contains(_searchKeyword, StringComparison.OrdinalIgnoreCase) ?? false)
+                );
+            }
+
+            // Apply nationality filter
+            if (!string.IsNullOrEmpty(_nationalityFilter) && _nationalityFilter != "Tất cả")
+            {
+                allActors = allActors.Where(a => a.Nationality == _nationalityFilter);
+            }
+
+            // Apply pagination
+            return allActors
+                .Skip((currentPage - 1) * pageSize)
+                .Take(pageSize);
+        }
+
+        /// <summary>
+        /// Lấy tổng số trang
+        /// </summary>
+        public int GetTotalPages()
+        {
+            var allActors = actorDAL.GetAll();
+
+            // Apply same filters
+            if (!string.IsNullOrWhiteSpace(_searchKeyword))
+            {
+                allActors = allActors.Where(a =>
+                    (a.ActorName?.Contains(_searchKeyword, StringComparison.OrdinalIgnoreCase) ?? false) ||
+                    (a.Nationality?.Contains(_searchKeyword, StringComparison.OrdinalIgnoreCase) ?? false) ||
+                    (a.Bio?.Contains(_searchKeyword, StringComparison.OrdinalIgnoreCase) ?? false)
+                );
+            }
+
+            if (!string.IsNullOrEmpty(_nationalityFilter) && _nationalityFilter != "Tất cả")
+            {
+                allActors = allActors.Where(a => a.Nationality == _nationalityFilter);
+            }
+
+            int totalRecords = allActors.Count();
+            return (int)Math.Ceiling(totalRecords / (double)pageSize);
+        }
+
+        public void SetSearchKeyword(string keyword)
+        {
+            _searchKeyword = keyword;
+            currentPage = 1;
+        }
+
+        public void SetNationalityFilter(string? nationality)
+        {
+            _nationalityFilter = nationality;
+            currentPage = 1;
+        }
+
+        public void ClearFilters()
+        {
+            _searchKeyword = "";
+            _nationalityFilter = null;
+            currentPage = 1;
+        }
+
+        public void NextPage()
+        {
+            int totalPages = GetTotalPages();
+            if (currentPage < totalPages)
+            {
+                currentPage++;
+            }
+        }
+
+        public void PreviousPage()
+        {
+            if (currentPage > 1)
+            {
+                currentPage--;
+            }
+        }
+
+        public void FirstPage()
+        {
+            currentPage = 1;
+        }
+
+        public void LastPage()
+        {
+            currentPage = GetTotalPages();
+        }
+
+        public int GetCurrentPage() => currentPage;
+
+        /// <summary>
+        /// Thêm diễn viên mới
+        /// </summary>
+        public bool AddActor(ActorDTO actor, out string message)
+        {
+            if (actorDAL.IsActorNameExists(actor.ActorName))
+            {
+                message = "Tên diễn viên đã tồn tại";
                 return false;
             }
 
-            bool result;
-            if (actor.ActorID == 0) // Thêm mới
-            {
-                result = _actorDAL.Insert(actor);
-                message = result ? "Thêm diễn viên thành công." : "Không thể thêm diễn viên.";
-            }
-            else // Cập nhật
-            {
-                result = _actorDAL.Update(actor);
-                message = result ? "Cập nhật thông tin diễn viên thành công." : "Cập nhật thất bại.";
-            }
-
+            bool result = actorDAL.AddActor(actor);
+            message = result ? "Thêm diễn viên thành công" : "Thêm diễn viên thất bại";
             return result;
         }
 
-        public bool RemoveActor(int id, out string message)
+        /// <summary>
+        /// Cập nhật diễn viên
+        /// </summary>
+        public bool UpdateActor(ActorDTO actor, out string message)
         {
-            // Lưu ý: Trong DB của bạn, bảng MovieCast có khóa ngoại tham chiếu tới ActorID
-            // Nếu diễn viên đã đóng phim, việc xóa sẽ bị lỗi do ràng buộc CASCADE (hoặc NO ACTION)
-            try
+            if (actorDAL.IsActorNameExists(actor.ActorName, actor.ActorID))
             {
-                bool result = _actorDAL.Delete(id);
-                message = result ? "Đã xóa diễn viên khỏi hệ thống." : "Diễn viên không tồn tại.";
-                return result;
-            }
-            catch (Exception ex)
-            {
-                message = "Không thể xóa vì diễn viên này đã có trong danh sách phim!";
+                message = "Tên diễn viên đã tồn tại";
                 return false;
             }
+
+            bool result = actorDAL.UpdateActor(actor);
+            message = result ? "Cập nhật diễn viên thành công" : "Cập nhật diễn viên thất bại";
+            return result;
         }
 
-        public List<ActorDTO> FindActors(string keyword)
+        /// <summary>
+        /// Xóa diễn viên
+        /// </summary>
+        public bool DeleteActor(int actorId, out string message)
         {
-            if (string.IsNullOrWhiteSpace(keyword)) return new List<ActorDTO>();
-            return _actorDAL.SearchByName(keyword);
+            bool result = actorDAL.Delete(actorId);
+            message = result ? "Xóa diễn viên thành công" : "Xóa diễn viên thất bại";
+            return result;
+        }
+
+        /// <summary>
+        /// Xóa nhiều diễn viên
+        /// </summary>
+        public bool DeleteMultipleActors(List<int> actorIds, out string message)
+        {
+            int successCount = 0;
+            foreach (int actorId in actorIds)
+            {
+                if (actorDAL.Delete(actorId))
+                {
+                    successCount++;
+                }
+            }
+
+            message = $"Đã xóa {successCount}/{actorIds.Count} diễn viên";
+            return successCount > 0;
+        }
+
+        /// <summary>
+        /// Lấy danh sách quốc tịch duy nhất
+        /// </summary>
+        public IEnumerable<string> GetDistinctNationalities()
+        {
+            var allActors = actorDAL.GetAll();
+            return allActors
+                .Where(a => !string.IsNullOrEmpty(a.Nationality))
+                .Select(a => a.Nationality!)
+                .Distinct()
+                .OrderBy(n => n);
         }
     }
 }

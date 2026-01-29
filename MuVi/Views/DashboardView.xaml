@@ -371,8 +371,7 @@
                                 <!-- Featured Movie Background -->
                                 <Image
                                      Stretch="UniformToFill"
-                                     Opacity="1"
-                                     Source="/Assets/Images/BackgroundFilms/bg.png"/>
+                                     Opacity="1"/>
 
                                 <!-- Gradient Overlay -->
                                 <Border>

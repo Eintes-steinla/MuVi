@@ -35,8 +35,6 @@
     <None Remove="Assets\Icons\icons8-series-48.png" />
     <None Remove="Assets\Icons\icons8-start-50.png" />
     <None Remove="Assets\Icons\icons8-user-60.png" />
-    <None Remove="Assets\Images\Avatars\dkeuai.jpg" />
-    <None Remove="Assets\Images\BackgroundFilms\bg.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -126,12 +124,6 @@
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Assets\Icons\icons8-user-60.png">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Assets\Images\Avatars\dkeuai.jpg">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Assets\Images\BackgroundFilms\bg.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
   </ItemGroup>
