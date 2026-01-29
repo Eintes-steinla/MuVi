@@ -123,3 +123,5 @@ E:\vstimPJ\MuVi\MuVi\obj\Debug\net8.0-windows\refint\MuVi.dll
 E:\vstimPJ\MuVi\MuVi\obj\Debug\net8.0-windows\MuVi.pdb
 E:\vstimPJ\MuVi\MuVi\obj\Debug\net8.0-windows\MuVi.genruntimeconfig.cache
 E:\vstimPJ\MuVi\MuVi\obj\Debug\net8.0-windows\ref\MuVi.dll
+E:\vstimPJ\MuVi\MuVi\obj\Debug\net8.0-windows\Views\AddView\ReviewAddView.baml
+E:\vstimPJ\MuVi\MuVi\obj\Debug\net8.0-windows\Views\AddView\ReviewAddView.g.cs
