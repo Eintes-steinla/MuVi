@@ -578,15 +578,15 @@ namespace MuVi.ViewModels
                 await Task.Run(() =>
                 {
                     var historyBLL = new ViewHistoryBLL();
-                    var history = historyBLL.GetHistoryByUser(currentUser.UserID);
+                    //var history = historyBLL.GetHistoryByUser(currentUser.UserID);
 
                     App.Current.Dispatcher.Invoke(() =>
                     {
                         TrendingMovies.Clear();
-                        foreach (var movie in history)
-                        {
-                            TrendingMovies.Add(movie);
-                        }
+                        //foreach (var movie in history)
+                        //{
+                        //    TrendingMovies.Add(movie);
+                        //}
 
                         NewReleases.Clear();
                     });
