@@ -10,6 +10,7 @@ namespace MuVi.BLL
     {
         private MovieDAL movieDAL = new MovieDAL();
         private CountryDAL countryDAL = new CountryDAL();
+        private GenreDAL genreDAL = new GenreDAL();
 
         private int currentPage = 1;
         private int pageSize = 10;
@@ -179,9 +180,9 @@ namespace MuVi.BLL
         public int GetCurrentPage() => currentPage;
 
         /// <summary>
-        /// Thêm phim mới
+        /// Thêm phim mới (bao gồm thể loại)
         /// </summary>
-        public bool AddMovie(MovieDTO movie, out string message)
+        public bool AddMovie(MovieDTO movie, List<int> genreIds, out string message)
         {
             if (movieDAL.IsTitleExists(movie.Title))
             {
@@ -189,15 +190,32 @@ namespace MuVi.BLL
                 return false;
             }
 
-            bool result = movieDAL.AddMovie(movie);
-            message = result ? "Thêm phim thành công" : "Thêm phim thất bại";
-            return result;
+            // Thêm phim và lấy MovieID
+            int movieId = movieDAL.AddMovie(movie);
+
+            if (movieId > 0)
+            {
+                // Thêm thể loại cho phim
+                if (genreIds != null && genreIds.Any())
+                {
+                    foreach (int genreId in genreIds)
+                    {
+                        genreDAL.AddMovieGenre(movieId, genreId);
+                    }
+                }
+
+                message = "Thêm phim thành công";
+                return true;
+            }
+
+            message = "Thêm phim thất bại";
+            return false;
         }
 
         /// <summary>
-        /// Cập nhật phim
+        /// Cập nhật phim (bao gồm thể loại)
         /// </summary>
-        public bool UpdateMovie(MovieDTO movie, out string message)
+        public bool UpdateMovie(MovieDTO movie, List<int> genreIds, out string message)
         {
             if (movieDAL.IsTitleExists(movie.Title, movie.MovieID))
             {
@@ -206,8 +224,27 @@ namespace MuVi.BLL
             }
 
             bool result = movieDAL.UpdateMovie(movie);
-            message = result ? "Cập nhật phim thành công" : "Cập nhật phim thất bại";
-            return result;
+
+            if (result)
+            {
+                // Xóa tất cả thể loại cũ
+                genreDAL.DeleteMovieGenres(movie.MovieID);
+
+                // Thêm thể loại mới
+                if (genreIds != null && genreIds.Any())
+                {
+                    foreach (int genreId in genreIds)
+                    {
+                        genreDAL.AddMovieGenre(movie.MovieID, genreId);
+                    }
+                }
+
+                message = "Cập nhật phim thành công";
+                return true;
+            }
+
+            message = "Cập nhật phim thất bại";
+            return false;
         }
 
         /// <summary>
@@ -244,6 +281,22 @@ namespace MuVi.BLL
         public IEnumerable<CountryDTO> GetAllCountries()
         {
             return countryDAL.GetAll();
+        }
+
+        /// <summary>
+        /// Lấy danh sách thể loại
+        /// </summary>
+        public IEnumerable<GenreDTO> GetAllGenres()
+        {
+            return genreDAL.GetAll();
+        }
+
+        /// <summary>
+        /// Lấy thông tin phim theo ID (kèm thể loại)
+        /// </summary>
+        public MovieDTO? GetMovieById(int movieId)
+        {
+            return movieDAL.GetById(movieId);
         }
     }
 }

@@ -42,6 +42,31 @@ namespace MuVi.Views.AddView
         }
 
         /// <summary>
+        /// Double click để thêm thể loại
+        /// </summary>
+        private void lstAvailableGenres_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            if (lstAvailableGenres.SelectedItem is GenreDTO genre)
+            {
+                if (!_viewModel.SelectedGenres.Contains(genre))
+                {
+                    _viewModel.SelectedGenres.Add(genre);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Double click để xóa thể loại
+        /// </summary>
+        private void lstSelectedGenres_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            if (lstSelectedGenres.SelectedItem is GenreDTO genre)
+            {
+                _viewModel.SelectedGenres.Remove(genre);
+            }
+        }
+
+        /// <summary>
         /// Lưu thông tin phim
         /// </summary>
         private void btnSave_Click(object sender, RoutedEventArgs e)
@@ -54,8 +79,16 @@ namespace MuVi.Views.AddView
                     return;
                 }
 
+                // Kiểm tra thể loại
+                if (_viewModel.SelectedGenres.Count == 0)
+                {
+                    MessageBox.Show("Vui lòng chọn ít nhất một thể loại cho phim!",
+                        "Thông báo", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    return;
+                }
+
                 // Hiển thị loading nếu có upload video (file lớn)
-                Mouse.OverrideCursor = System.Windows.Input.Cursors.Wait;
+                Mouse.OverrideCursor = Cursors.Wait;
 
                 // Lưu ảnh poster và lấy đường dẫn
                 var posterPath = _viewModel.SavePoster();
@@ -70,6 +103,9 @@ namespace MuVi.Views.AddView
                 {
                     _viewModel.VideoPath = videoPath;
                 }
+
+                // Lấy danh sách GenreIDs
+                var genreIds = _viewModel.GetSelectedGenreIds();
 
                 var movieBLL = new MovieBLL();
                 bool success;
@@ -96,14 +132,14 @@ namespace MuVi.Views.AddView
                         MovieType = _viewModel.MovieType
                     };
 
-                    success = movieBLL.AddMovie(newMovie, out message);
+                    success = movieBLL.AddMovie(newMovie, genreIds, out message);
                 }
                 else
                 {
                     // Cập nhật phim
                     _viewModel.Movie.PosterPath = posterPath;
                     _viewModel.Movie.VideoPath = videoPath;
-                    success = movieBLL.UpdateMovie(_viewModel.Movie, out message);
+                    success = movieBLL.UpdateMovie(_viewModel.Movie, genreIds, out message);
                 }
 
                 Mouse.OverrideCursor = null;

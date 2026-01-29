@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel;
+using System.Collections.Generic;
 
 namespace MuVi.DTO.DTOs
 {
@@ -23,8 +24,12 @@ namespace MuVi.DTO.DTOs
         public DateTime? CreatedAt { get; set; }
         public DateTime? UpdatedAt { get; set; }
 
-        // Display property (not in database)
+        // Display properties (not in database)
         public string? CountryName { get; set; }
+        public string? GenreNames { get; set; } // Chuỗi tên thể loại cách nhau bởi dấu phẩy (VD: "Hành động, Tâm lý")
+
+        // List of genres for this movie
+        public List<GenreDTO>? Genres { get; set; }
 
         // Property for checkbox selection
         private bool _isSelected;

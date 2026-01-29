@@ -283,7 +283,7 @@
                             </DataGridTextColumn.ElementStyle>
                         </DataGridTextColumn>
 
-                        <!-- Video Path Column (MỚI) -->
+                        <!-- Video Path Column -->
                         <DataGridTemplateColumn Header="Đường dẫn video" Width="100">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
@@ -349,6 +349,19 @@
                             <DataGridTextColumn.ElementStyle>
                                 <Style TargetType="TextBlock">
                                     <Setter Property="VerticalAlignment" Value="Center"/>
+                                </Style>
+                            </DataGridTextColumn.ElementStyle>
+                        </DataGridTextColumn>
+
+                        <!-- Genres Column (MỚI) -->
+                        <DataGridTextColumn Header="Thể loại" 
+                                            Binding="{Binding GenreNames}"
+                                            Width="150"
+                                            IsReadOnly="True">
+                            <DataGridTextColumn.ElementStyle>
+                                <Style TargetType="TextBlock">
+                                    <Setter Property="VerticalAlignment" Value="Center"/>
+                                    <Setter Property="TextWrapping" Value="Wrap"/>
                                 </Style>
                             </DataGridTextColumn.ElementStyle>
                         </DataGridTextColumn>

@@ -33,6 +33,8 @@ namespace MuVi.ViewModels.UCViewModel
         }
 
         public ObservableCollection<CountryDTO> CountryList { get; set; }
+        public ObservableCollection<GenreDTO> GenreList { get; set; }
+        public ObservableCollection<GenreDTO> SelectedGenres { get; set; }
 
         public string Title
         {
@@ -266,7 +268,11 @@ namespace MuVi.ViewModels.UCViewModel
         public MovieAddViewModel(MovieDTO existingMovie = null)
         {
             CountryList = new ObservableCollection<CountryDTO>();
+            GenreList = new ObservableCollection<GenreDTO>();
+            SelectedGenres = new ObservableCollection<GenreDTO>();
+
             LoadCountries();
+            LoadGenres();
 
             if (existingMovie != null)
             {
@@ -296,6 +302,9 @@ namespace MuVi.ViewModels.UCViewModel
                 {
                     SelectedCountry = CountryList.FirstOrDefault(c => c.CountryID == _movie.CountryID.Value);
                 }
+
+                // Load genres của phim (nếu đang edit)
+                LoadMovieGenres(existingMovie.MovieID);
 
                 // Load poster nếu có
                 if (!string.IsNullOrEmpty(_movie.PosterPath) && File.Exists(_movie.PosterPath))
@@ -341,6 +350,33 @@ namespace MuVi.ViewModels.UCViewModel
 
         #region Methods
 
+        private void LoadGenres()
+        {
+            var genres = _movieBLL.GetAllGenres();
+            GenreList.Clear();
+            foreach (var g in genres)
+            {
+                GenreList.Add(g);
+            }
+        }
+
+        private void LoadMovieGenres(int movieId)
+        {
+            var movie = _movieBLL.GetMovieById(movieId);
+            if (movie?.Genres != null)
+            {
+                SelectedGenres.Clear();
+                foreach (var genre in movie.Genres)
+                {
+                    SelectedGenres.Add(genre);
+                }
+            }
+        }
+
+        public List<int> GetSelectedGenreIds()
+        {
+            return SelectedGenres.Select(g => g.GenreID).ToList();
+        }
         private void LoadCountries()
         {
             var countries = _movieBLL.GetAllCountries();

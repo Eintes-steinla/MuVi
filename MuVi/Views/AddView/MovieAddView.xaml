@@ -243,6 +243,69 @@
                         </StackPanel>
                     </Grid>
 
+                    <!-- Genres Selection -->
+                    <TextBlock Text="Thể loại phim" Style="{StaticResource FormLabel}"/>
+                    <Grid Margin="0,0,0,15">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="10"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <!-- Available Genres -->
+                        <StackPanel Grid.Column="0">
+                            <TextBlock Text="Danh sách thể loại" 
+                   FontSize="12"
+                   Foreground="{StaticResource TextSecondaryBrush}"
+                   Margin="0,0,0,5"/>
+                            <ListBox ItemsSource="{Binding GenreList}"
+                 DisplayMemberPath="GenreName"
+                 Height="150"
+                 SelectionMode="Multiple"
+                 x:Name="lstAvailableGenres"
+                 Background="#2D2D2D"
+                 Foreground="{StaticResource TextPrimaryBrush}"
+                 BorderBrush="#3A3A3A"
+                 BorderThickness="1">
+                                <ListBox.ItemContainerStyle>
+                                    <Style TargetType="ListBoxItem">
+                                        <Setter Property="Padding" Value="8,5"/>
+                                        <EventSetter Event="MouseDoubleClick" Handler="lstAvailableGenres_MouseDoubleClick"/>
+                                    </Style>
+                                </ListBox.ItemContainerStyle>
+                            </ListBox>
+                        </StackPanel>
+
+                        <!-- Selected Genres -->
+                        <StackPanel Grid.Column="2">
+                            <TextBlock Text="Đã chọn" 
+                   FontSize="12"
+                   Foreground="{StaticResource TextSecondaryBrush}"
+                   Margin="0,0,0,5"/>
+                            <ListBox ItemsSource="{Binding SelectedGenres}"
+                 DisplayMemberPath="GenreName"
+                 Height="150"
+                 x:Name="lstSelectedGenres"
+                 Background="#2D2D2D"
+                 Foreground="{StaticResource TextPrimaryBrush}"
+                 BorderBrush="#3A3A3A"
+                 BorderThickness="1">
+                                <ListBox.ItemContainerStyle>
+                                    <Style TargetType="ListBoxItem">
+                                        <Setter Property="Padding" Value="8,5"/>
+                                        <EventSetter Event="MouseDoubleClick" Handler="lstSelectedGenres_MouseDoubleClick"/>
+                                    </Style>
+                                </ListBox.ItemContainerStyle>
+                            </ListBox>
+                        </StackPanel>
+                    </Grid>
+                    <TextBlock Text="Nhấp đúp để thêm/xóa thể loại" 
+           Foreground="{StaticResource TextSecondaryBrush}"
+           FontSize="11"
+           FontStyle="Italic"
+           Margin="0,-10,0,15"
+           TextWrapping="Wrap"/>
+
                     <!-- Rating & View Count (2 columns) -->
                     <Grid Margin="0,0,0,15">
                         <Grid.ColumnDefinitions>

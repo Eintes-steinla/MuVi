@@ -2,11 +2,14 @@
 using Microsoft.Data.SqlClient;
 using MuVi.DAL;
 using MuVi.DTO.DTOs;
+using System.Linq;
 
 namespace Muvi.DAL
 {
     public class MovieDAL
     {
+        private GenreDAL genreDAL = new GenreDAL();
+
         /// <summary>
         /// Kiểm tra tiêu đề phim đã tồn tại chưa
         /// </summary>
@@ -32,7 +35,7 @@ namespace Muvi.DAL
         /// <summary>
         /// Thêm phim mới
         /// </summary>
-        public bool AddMovie(MovieDTO movie)
+        public int AddMovie(MovieDTO movie)
         {
             string sql = @"
             INSERT INTO Movies
@@ -72,10 +75,11 @@ namespace Muvi.DAL
                 @Status,
                 GETDATE(),
                 GETDATE()
-            )";
+            );
+            SELECT CAST(SCOPE_IDENTITY() AS INT);";
 
             using SqlConnection conn = DapperProvider.GetConnection();
-            int rows = conn.Execute(sql, new
+            int movieId = conn.ExecuteScalar<int>(sql, new
             {
                 movie.Title,
                 movie.MovieType,
@@ -93,7 +97,7 @@ namespace Muvi.DAL
                 movie.Status
             });
 
-            return rows > 0;
+            return movieId;
         }
 
         /// <summary>
@@ -145,7 +149,7 @@ namespace Muvi.DAL
         }
 
         /// <summary>
-        /// Lấy phim theo ID
+        /// Lấy phim theo ID (kèm thể loại)
         /// </summary>
         public MovieDTO? GetById(int movieId)
         {
@@ -156,16 +160,35 @@ namespace Muvi.DAL
             WHERE m.MovieID = @MovieId";
 
             using SqlConnection conn = DapperProvider.GetConnection();
-            return conn.QueryFirstOrDefault<MovieDTO>(sql, new { MovieId = movieId });
+            var movie = conn.QueryFirstOrDefault<MovieDTO>(sql, new { MovieId = movieId });
+
+            if (movie != null)
+            {
+                // Lấy danh sách thể loại
+                movie.Genres = genreDAL.GetGenresByMovieId(movieId).ToList();
+                movie.GenreNames = string.Join(", ", movie.Genres.Select(g => g.GenreName));
+            }
+
+            return movie;
         }
 
         /// <summary>
-        /// Lấy toàn bộ danh sách phim (kèm tên quốc gia)
+        /// Lấy toàn bộ danh sách phim (kèm tên quốc gia và thể loại)
         /// </summary>
         public IEnumerable<MovieDTO> GetAll()
         {
             string sql = @"
-            SELECT m.*, c.CountryName
+            SELECT 
+                m.*, 
+                c.CountryName,
+                STUFF((
+                    SELECT ', ' + g.GenreName
+                    FROM MovieCategory mc
+                    INNER JOIN Genres g ON mc.GenreID = g.GenreID
+                    WHERE mc.MovieID = m.MovieID
+                    ORDER BY g.GenreName
+                    FOR XML PATH('')
+                ), 1, 2, '') AS GenreNames
             FROM Movies m
             LEFT JOIN Countries c ON m.CountryID = c.CountryID
             ORDER BY m.CreatedAt DESC";
@@ -180,7 +203,17 @@ namespace Muvi.DAL
         public IEnumerable<MovieDTO> GetMoviesPaged(int pageNumber, int pageSize)
         {
             string sql = @"
-            SELECT m.*, c.CountryName
+            SELECT 
+                m.*, 
+                c.CountryName,
+                STUFF((
+                    SELECT ', ' + g.GenreName
+                    FROM MovieCategory mc
+                    INNER JOIN Genres g ON mc.GenreID = g.GenreID
+                    WHERE mc.MovieID = m.MovieID
+                    ORDER BY g.GenreName
+                    FOR XML PATH('')
+                ), 1, 2, '') AS GenreNames
             FROM Movies m
             LEFT JOIN Countries c ON m.CountryID = c.CountryID
             ORDER BY m.MovieID ASC
@@ -201,7 +234,17 @@ namespace Muvi.DAL
         public IEnumerable<MovieDTO> SearchMovies(string keyword)
         {
             string sql = @"
-            SELECT m.*, c.CountryName
+            SELECT 
+                m.*, 
+                c.CountryName,
+                STUFF((
+                    SELECT ', ' + g.GenreName
+                    FROM MovieCategory mc
+                    INNER JOIN Genres g ON mc.GenreID = g.GenreID
+                    WHERE mc.MovieID = m.MovieID
+                    ORDER BY g.GenreName
+                    FOR XML PATH('')
+                ), 1, 2, '') AS GenreNames
             FROM Movies m
             LEFT JOIN Countries c ON m.CountryID = c.CountryID
             WHERE m.Title LIKE @Key OR m.Director LIKE @Key OR c.CountryName LIKE @Key
