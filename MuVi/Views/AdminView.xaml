@@ -252,6 +252,21 @@
                             </StackPanel>
                         </TabItem.Header>
                     </TabItem>
+                    <TabItem Style="{StaticResource ModernTabItem}" Tag="MovieCast">
+                        <TabItem.Header>
+                            <StackPanel Orientation="Horizontal">
+                                <Image Source="/Assets/Icons/icons8-multicultural-people-50.png" 
+                                       Width="20" Height="20" 
+                                       Margin="0,0,10,0"
+                                       VerticalAlignment="Center"/>
+                                <TextBlock Text="Dàn diễn viên" 
+                                           VerticalAlignment="Center"
+                                           Foreground="{StaticResource TextSecondaryBrush}"
+                                           FontSize="15"
+                                           FontWeight="Medium"/>
+                            </StackPanel>
+                        </TabItem.Header>
+                    </TabItem>
                 </TabControl>
             </Border>
 

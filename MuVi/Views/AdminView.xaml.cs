@@ -68,6 +68,10 @@ namespace MuVi.Views
                         case "Review":
                             ContentArea.Content = new ReviewUC();
                             break;
+                        
+                        case "MovieCast":
+                            ContentArea.Content = new MovieCastUC();
+                            break;
 
                         default:
                             ContentArea.Content = new UserUC();

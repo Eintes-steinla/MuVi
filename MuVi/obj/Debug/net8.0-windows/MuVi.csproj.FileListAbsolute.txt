@@ -125,3 +125,7 @@ E:\vstimPJ\MuVi\MuVi\obj\Debug\net8.0-windows\MuVi.genruntimeconfig.cache
 E:\vstimPJ\MuVi\MuVi\obj\Debug\net8.0-windows\ref\MuVi.dll
 E:\vstimPJ\MuVi\MuVi\obj\Debug\net8.0-windows\Views\AddView\ReviewAddView.baml
 E:\vstimPJ\MuVi\MuVi\obj\Debug\net8.0-windows\Views\AddView\ReviewAddView.g.cs
+E:\vstimPJ\MuVi\MuVi\obj\Debug\net8.0-windows\Views\AddView\MovieCastAddView.baml
+E:\vstimPJ\MuVi\MuVi\obj\Debug\net8.0-windows\Views\AddView\MovieCastAddView.g.cs
+E:\vstimPJ\MuVi\MuVi\obj\Debug\net8.0-windows\Views\UC\MovieCastUC.g.cs
+E:\vstimPJ\MuVi\MuVi\obj\Debug\net8.0-windows\Views\UC\MovieCastUC.baml

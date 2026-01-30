@@ -23,6 +23,9 @@
     <Compile Update="Views\AddView\MovieAddView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="Views\AddView\MovieCastAddView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Views\AddView\ReviewAddView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -60,6 +63,9 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Views\UC\HistoryUC.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Views\UC\MovieCastUC.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Views\UC\MovieUC.xaml.cs">

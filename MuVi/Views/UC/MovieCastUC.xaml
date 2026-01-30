@@ -1,0 +1,345 @@
+﻿<UserControl x:Class="MuVi.Views.UC.MovieCastUC"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:MuVi.Views.UC"
+             mc:Ignorable="d" 
+             d:DesignHeight="650" d:DesignWidth="2200">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="300"/>
+            <ColumnDefinition Width="20"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <!-- Left Panel - Filter & Search -->
+        <Border Grid.Column="0" 
+                Style="{StaticResource GlassCard}"
+                Padding="20">
+            <StackPanel>
+                <!-- Search Box -->
+                <Grid Margin="0,0,0,20">
+                    <TextBox x:Name="txtSearch"
+                             Style="{StaticResource SearchBox}"
+                             Text="{Binding SearchKeyword, UpdateSourceTrigger=PropertyChanged}"
+                             ToolTip="Tìm kiếm theo phim, diễn viên, vai diễn"/>
+                </Grid>
+
+                <!-- Divider -->
+                <Border Height="1" 
+                        Background="#3A3A3A"
+                        Margin="0,0,0,20"/>
+
+                <!-- Filter by Order (Vai chính/phụ) -->
+                <TextBlock Text="Loại vai diễn" 
+                           Style="{StaticResource FormLabel}"/>
+                <ComboBox x:Name="cmbOrder"
+                          Style="{StaticResource ModernComboBox}"
+                          Margin="0,0,0,15"
+                          SelectedValue="{Binding SelectedOrder}"
+                          SelectedValuePath="Content">
+                    <ComboBoxItem Content="Tất cả" IsSelected="True"/>
+                    <ComboBoxItem Content="Vai chính"/>
+                    <ComboBoxItem Content="Vai phụ"/>
+                </ComboBox>
+
+                <!-- Filter by Actor -->
+                <TextBlock Text="Diễn viên" 
+                           Style="{StaticResource FormLabel}"/>
+                <ComboBox x:Name="cmbActor"
+                          Style="{StaticResource ModernComboBox}"
+                          Margin="0,0,0,15"
+                          ItemsSource="{Binding ActorList}"
+                          SelectedItem="{Binding SelectedActor}"
+                          DisplayMemberPath="ActorName"/>
+
+                <!-- Filter by Movie -->
+                <TextBlock Text="Phim" 
+                           Style="{StaticResource FormLabel}"/>
+                <ComboBox x:Name="cmbMovie"
+                          Style="{StaticResource ModernComboBox}"
+                          Margin="0,0,0,15"
+                          ItemsSource="{Binding MovieList}"
+                          SelectedItem="{Binding SelectedMovie}"
+                          DisplayMemberPath="Title"/>
+
+                <Separator Style="{StaticResource ModernSeparator}"/>
+
+                <!-- Clear Filter Button -->
+                <Button Style="{StaticResource PrimaryButton}"
+                        Command="{Binding ClearFilterCommand}">
+                    <StackPanel Orientation="Horizontal" Margin="10">
+                        <Image Source="/Assets/Icons/icons8-refresh-48.png"
+                               Height="19" Width="19"
+                               Margin="0,0,5,0"/>
+                        <TextBlock Text="Xóa bộ lọc"/>
+                    </StackPanel>
+                </Button>
+            </StackPanel>
+        </Border>
+
+        <!-- Right Panel - Data Grid -->
+        <Border Grid.Column="2" 
+                Style="{StaticResource GlassCard}"
+                Padding="20">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <!-- Toolbar -->
+                <Grid Grid.Row="0" Margin="0,0,0,20">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+
+                    <!-- Left buttons -->
+                    <StackPanel Grid.Column="0" Orientation="Horizontal">
+                        <Button x:Name="btnAdd"
+                                Click="btnAdd_Click"
+                                Style="{StaticResource PrimaryButton}"
+                                Margin="0,0,10,0">
+                            <StackPanel Orientation="Horizontal" Margin="7,5">
+                                <Image Source="/Assets/Icons/icons8-plus-60.png"
+                                       Height="20" Width="20"
+                                       Margin="0,0,5,0"/>
+                                <TextBlock Text="Thêm mới"/>
+                            </StackPanel>
+                        </Button>
+
+                        <Button x:Name="btnDelete"
+                                Command="{Binding DeleteSelectedCommand}"
+                                Style="{StaticResource PrimaryButton}"
+                                Margin="0,0,10,0">
+                            <StackPanel Orientation="Horizontal" Margin="7,5">
+                                <Image Source="/Assets/Icons/icons8-remove-48.png"
+                                       Height="19" Width="19"
+                                       Margin="0,0,5,0"/>
+                                <TextBlock Text="Xóa"/>
+                            </StackPanel>
+                        </Button>
+                    </StackPanel>
+
+                    <!-- Right buttons -->
+                    <StackPanel Grid.Column="1" Orientation="Horizontal">
+                        <Button x:Name="btnRefresh"
+                                Command="{Binding RefreshCommand}"
+                                Style="{StaticResource PrimaryButton}"
+                                Margin="0,0,10,0">
+                            <StackPanel Orientation="Horizontal" Margin="7,5">
+                                <Image Source="/Assets/Icons/icons8-refresh-48.png"
+                                       Height="19" Width="19"
+                                       Margin="0,0,5,0"/>
+                                <TextBlock Text="Làm mới"/>
+                            </StackPanel>
+                        </Button>
+
+                        <Button x:Name="btnExport"
+                                Click="btnExport_Click"
+                                Style="{StaticResource PrimaryButton}">
+                            <StackPanel Orientation="Horizontal" Margin="7,5">
+                                <Image Source="/Assets/Icons/icons8-export-60.png"
+                                       Height="19" Width="19"
+                                       Margin="0,0,5,0"/>
+                                <TextBlock Text="Xuất Excel"/>
+                            </StackPanel>
+                        </Button>
+                    </StackPanel>
+                </Grid>
+
+                <!-- DataGrid -->
+                <DataGrid x:Name="dgData"
+                          Grid.Row="1"
+                          Style="{StaticResource ModernDataGrid}"
+                          ItemsSource="{Binding CastList}"
+                          AutoGenerateColumns="False"
+                          CanUserAddRows="False"
+                          CanUserDeleteRows="False"
+                          SelectionMode="Extended"
+                          SelectionUnit="FullRow"
+                          ScrollViewer.HorizontalScrollBarVisibility="Auto"
+                          ScrollViewer.CanContentScroll="True">
+
+                    <DataGrid.Columns>
+                        <!-- Checkbox Column -->
+                        <DataGridCheckBoxColumn Width="60">
+                            <DataGridCheckBoxColumn.Header>
+                                <CheckBox x:Name="chkSelectAll"
+                                          IsChecked="{Binding DataContext.IsAllSelected, 
+                                                      RelativeSource={RelativeSource AncestorType=DataGrid}, 
+                                                      UpdateSourceTrigger=PropertyChanged}"
+                                          Style="{StaticResource ModernCheckBox}"/>
+                            </DataGridCheckBoxColumn.Header>
+
+                            <DataGridCheckBoxColumn.Binding>
+                                <Binding Path="IsSelected" UpdateSourceTrigger="PropertyChanged"/>
+                            </DataGridCheckBoxColumn.Binding>
+
+                            <DataGridCheckBoxColumn.ElementStyle>
+                                <Style TargetType="CheckBox" BasedOn="{StaticResource ModernCheckBox}"/>
+                            </DataGridCheckBoxColumn.ElementStyle>
+                        </DataGridCheckBoxColumn>
+
+                        <!-- Movie Title Column -->
+                        <DataGridTextColumn Header="Tên phim" 
+                                            Binding="{Binding MovieTitle}"
+                                            Width="250"
+                                            IsReadOnly="True">
+                            <DataGridTextColumn.ElementStyle>
+                                <Style TargetType="TextBlock">
+                                    <Setter Property="VerticalAlignment" Value="Center"/>
+                                </Style>
+                            </DataGridTextColumn.ElementStyle>
+                        </DataGridTextColumn>
+
+                        <!-- Actor Name Column -->
+                        <DataGridTextColumn Header="Diễn viên" 
+                                            Binding="{Binding ActorName}"
+                                            Width="200"
+                                            IsReadOnly="True">
+                            <DataGridTextColumn.ElementStyle>
+                                <Style TargetType="TextBlock">
+                                    <Setter Property="VerticalAlignment" Value="Center"/>
+                                </Style>
+                            </DataGridTextColumn.ElementStyle>
+                        </DataGridTextColumn>
+
+                        <!-- Role Name Column -->
+                        <DataGridTextColumn Header="Vai diễn" 
+                                            Binding="{Binding RoleName}"
+                                            Width="200"
+                                            IsReadOnly="True">
+                            <DataGridTextColumn.ElementStyle>
+                                <Style TargetType="TextBlock">
+                                    <Setter Property="VerticalAlignment" Value="Center"/>
+                                </Style>
+                            </DataGridTextColumn.ElementStyle>
+                        </DataGridTextColumn>
+
+                        <!-- Order Column -->
+                        <DataGridTextColumn Header="Loại vai" 
+                                            Binding="{Binding OrderText}"
+                                            Width="120"
+                                            IsReadOnly="True">
+                            <DataGridTextColumn.ElementStyle>
+                                <Style TargetType="TextBlock">
+                                    <Setter Property="VerticalAlignment" Value="Center"/>
+                                    <Setter Property="FontWeight" Value="Bold"/>
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding Order}" Value="1">
+                                            <Setter Property="Foreground" Value="#4CAF50"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </DataGridTextColumn.ElementStyle>
+                        </DataGridTextColumn>
+
+                        <!-- Order Number Column -->
+                        <DataGridTextColumn Header="Thứ tự" 
+                                            Binding="{Binding Order}"
+                                            Width="80"
+                                            IsReadOnly="True">
+                            <DataGridTextColumn.ElementStyle>
+                                <Style TargetType="TextBlock">
+                                    <Setter Property="VerticalAlignment" Value="Center"/>
+                                    <Setter Property="TextAlignment" Value="Center"/>
+                                </Style>
+                            </DataGridTextColumn.ElementStyle>
+                        </DataGridTextColumn>
+
+                        <!-- Actions Column -->
+                        <DataGridTemplateColumn Header="Thao tác" Width="100">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                                        <Button Style="{StaticResource SecondaryButton}"
+                                                Click="btnEdit_Click"
+                                                Tag="{Binding}"
+                                                Padding="8,4"
+                                                Margin="2">
+                                            <Image Source="/Assets/Icons/icons8-pencil-48.png"
+                                                   Height="15" Width="15"
+                                                   Margin="2"/>
+                                        </Button>
+                                        <Button Style="{StaticResource SecondaryButton}"
+                                                Click="btnDeleteRow_Click"
+                                                Tag="{Binding}"
+                                                Padding="8,4"
+                                                Margin="2">
+                                            <Image Source="/Assets/Icons/icons8-remove-48.png"
+                                                   Height="15" Width="15"
+                                                   Margin="2"/>
+                                        </Button>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                    </DataGrid.Columns>
+                </DataGrid>
+
+                <!-- Pagination -->
+                <Grid Grid.Row="2" Margin="0,20,0,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <!-- Pagination Buttons -->
+                    <StackPanel Grid.Column="1" Orientation="Horizontal">
+                        <Button x:Name="btnFirstPage"
+                                Click="btnFirstPage_Click"
+                                Style="{StaticResource SecondaryButton}"
+                                Margin="0,0,10,0">
+                            <StackPanel Orientation="Horizontal" Margin="5">
+                                <Image Source="/Assets/Icons/icons8-start-50.png"
+                                       Height="20" Width="20"/>
+                            </StackPanel>
+                        </Button>
+
+                        <Button x:Name="btnPrevPage"
+                                Click="btnPrevPage_Click"
+                                Style="{StaticResource SecondaryButton}"
+                                Margin="0,0,0,0">
+                            <StackPanel Orientation="Horizontal" Margin="10">
+                                <Image Source="/Assets/Icons/icons8-back-48.png"
+                                       Height="10" Width="10"/>
+                            </StackPanel>
+                        </Button>
+
+                        <Button Margin="10,0"
+                                Style="{StaticResource SecondaryButton}">
+                            <TextBlock Text="{Binding PageInfo}"
+                                       Foreground="{StaticResource TextSecondaryBrush}"
+                                       Margin="10,0"/>
+                        </Button>
+
+                        <Button x:Name="btnNextPage"
+                                Click="btnNextPage_Click"
+                                Style="{StaticResource SecondaryButton}"
+                                Margin="0,0,10,0">
+                            <StackPanel Orientation="Horizontal" Margin="10">
+                                <Image Source="/Assets/Icons/icons8-next-48.png"
+                                       Height="10" Width="10"/>
+                            </StackPanel>
+                        </Button>
+
+                        <Button x:Name="btnLastPage"
+                                Click="btnLastPage_Click"
+                                Style="{StaticResource SecondaryButton}"
+                                Margin="0">
+                            <StackPanel Orientation="Horizontal" Margin="5">
+                                <Image Source="/Assets/Icons/icons8-end-50.png"
+                                       Height="20" Width="20"/>
+                            </StackPanel>
+                        </Button>
+                    </StackPanel>
+                </Grid>
+            </Grid>
+        </Border>
+    </Grid>
+</UserControl>

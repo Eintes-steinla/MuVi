@@ -9,6 +9,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Assets\Avatars\**" />
+    <EmbeddedResource Remove="Assets\Avatars\**" />
+    <None Remove="Assets\Avatars\**" />
+    <Page Remove="Assets\Avatars\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Remove="Assets\Icons\icons8-actor-64.png" />
     <None Remove="Assets\Icons\icons8-back-48.png" />
     <None Remove="Assets\Icons\icons8-close-window-64.png" />
@@ -24,6 +31,7 @@
     <None Remove="Assets\Icons\icons8-list-view-60.png" />
     <None Remove="Assets\Icons\icons8-logout-64.png" />
     <None Remove="Assets\Icons\icons8-movies-60.png" />
+    <None Remove="Assets\Icons\icons8-multicultural-people-50.png" />
     <None Remove="Assets\Icons\icons8-next-48.png" />
     <None Remove="Assets\Icons\icons8-pencil-48.png" />
     <None Remove="Assets\Icons\icons8-play-48.png" />
@@ -93,6 +101,9 @@
     <Resource Include="Assets\Icons\icons8-movies-60.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
+    <Resource Include="Assets\Icons\icons8-multicultural-people-50.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="Assets\Icons\icons8-next-48.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
@@ -132,10 +143,6 @@
     <Page Update="Resources\Themes\DarkPurpleTheme.xaml">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Page>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Assets\Avatars\" />
   </ItemGroup>
 
 </Project>

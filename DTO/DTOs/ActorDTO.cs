@@ -33,5 +33,10 @@ namespace MuVi.DTO.DTOs
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
+
+        public override string ToString()
+        {
+            return ActorName ?? "";
+        }
     }
 }

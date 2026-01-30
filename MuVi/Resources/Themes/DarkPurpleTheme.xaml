@@ -421,7 +421,7 @@
                         Background="Transparent"
                         BorderThickness="0,0,0,3"
                         BorderBrush="Transparent"
-                        Padding="20,10"
+                        Padding="15,10"
                         Cursor="Hand">
 
                         <ContentPresenter x:Name="content"

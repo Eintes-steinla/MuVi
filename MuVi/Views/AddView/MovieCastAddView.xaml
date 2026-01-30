@@ -1,0 +1,135 @@
+﻿<Window x:Class="MuVi.Views.AddView.MovieCastAddView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Thêm diễn viên vào phim" 
+        Height="450" Width="600"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        d:DesignHeight="450" d:DesignWidth="600"
+        mc:Ignorable="d"
+        WindowStyle="None"
+        WindowStartupLocation="CenterScreen"
+        ResizeMode="NoResize">
+
+    <Border Background="{StaticResource BackgroundGradientBrush}"
+            BorderThickness="1" BorderBrush="{StaticResource PrimaryPurpleDarkBrush}">
+        <Grid Margin="40,20,20,20">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <!-- Header -->
+            <TextBlock Grid.Row="0" 
+                       Text="Thêm diễn viên vào phim"
+                       Foreground="{StaticResource TextPrimaryBrush}"
+                       FontSize="24"
+                       TextAlignment="Center"
+                       FontWeight="Bold"
+                       Margin="0,0,0,20"/>
+
+            <!-- Form -->
+            <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+                <StackPanel>
+                    <!-- Movie Selection -->
+                    <TextBlock Text="Phim" Style="{StaticResource FormLabel}"/>
+                    <ComboBox x:Name="cmbMovie"
+                              ItemsSource="{Binding MovieList}"
+                              SelectedItem="{Binding SelectedMovie}"
+                              DisplayMemberPath="Title"
+                              Style="{StaticResource ModernComboBox}"
+                              Margin="0,0,0,15"/>
+
+                    <!-- Actor Selection -->
+                    <TextBlock Text="Diễn viên" Style="{StaticResource FormLabel}"/>
+                    <ComboBox x:Name="cmbActor"
+                              ItemsSource="{Binding ActorList}"
+                              SelectedItem="{Binding SelectedActor}"
+                              DisplayMemberPath="ActorName"
+                              Style="{StaticResource ModernComboBox}"
+                              Margin="0,0,0,15"/>
+
+                    <!-- Role Name -->
+                    <TextBlock Text="Tên vai diễn" Style="{StaticResource FormLabel}"/>
+                    <TextBox x:Name="txtRoleName"
+                             Text="{Binding RoleName, UpdateSourceTrigger=PropertyChanged}"
+                             Style="{StaticResource ModernTextBox}"
+                             Margin="0,0,0,15"/>
+
+                    <!-- Order (Vai chính/phụ) -->
+                    <TextBlock Text="Thứ tự (1 = Vai chính, 2+ = Vai phụ)" Style="{StaticResource FormLabel}"/>
+                    <Grid Margin="0,0,0,15">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+
+                        <Slider x:Name="sldOrder"
+                                Grid.Column="0"
+                                Minimum="1"
+                                Maximum="10"
+                                TickFrequency="1"
+                                IsSnapToTickEnabled="True"
+                                Value="{Binding Order, Mode=TwoWay}"
+                                VerticalAlignment="Center"
+                                Margin="0,0,10,0"/>
+
+                        <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                            <TextBlock Text="{Binding Order}"
+                                       FontSize="20"
+                                       FontWeight="Bold"
+                                       Foreground="{StaticResource PrimaryPurpleBrush}"
+                                       TextAlignment="Center"/>
+                            <TextBlock FontSize="12"
+                                       Foreground="{StaticResource TextSecondaryBrush}"
+                                       TextAlignment="Center">
+                                <TextBlock.Style>
+                                    <Style TargetType="TextBlock">
+                                        <Setter Property="Text" Value="Vai phụ"/>
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding Order}" Value="1">
+                                                <Setter Property="Text" Value="Vai chính"/>
+                                                <Setter Property="Foreground" Value="#4CAF50"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBlock.Style>
+                            </TextBlock>
+                        </StackPanel>
+                    </Grid>
+
+                    <!-- Info note -->
+                    <TextBlock Text="Lưu ý: Thứ tự càng nhỏ càng quan trọng (1 = vai chính, 2 = vai phụ quan trọng...)"
+                               Foreground="{StaticResource TextSecondaryBrush}"
+                               FontSize="11"
+                               FontStyle="Italic"
+                               TextWrapping="Wrap"
+                               Margin="0,0,0,15"/>
+                </StackPanel>
+            </ScrollViewer>
+
+            <!-- Buttons -->
+            <Grid Grid.Row="2" Margin="0,20,0,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <Button Grid.Column="0"
+                        Click="btnSave_Click"
+                        Style="{StaticResource PrimaryButton}"
+                        Margin="0,0,10,0">
+                    <TextBlock Text="Lưu" Margin="5"/>
+                </Button>
+
+                <Button Grid.Column="1"
+                        Click="btnCancel_Click"
+                        Style="{StaticResource SecondaryButton}"
+                        Margin="10,0,0,0">
+                    <TextBlock Text="Hủy" Margin="5"/>
+                </Button>
+            </Grid>
+        </Grid>
+    </Border>
+</Window>
