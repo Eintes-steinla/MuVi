@@ -268,5 +268,24 @@ namespace MuVi.BLL
             message = result ? "Cập nhật like thành công" : "Cập nhật like thất bại";
             return result;
         }
+
+        // Thêm vào trong class ReviewBLL
+        public List<ReviewDTO> GetReviewsByMovie(int movieId, out string message)
+        {
+            try
+            {
+                var reviews = reviewDAL.GetAll()
+                    .Where(r => r.MovieID == movieId)
+                    .OrderByDescending(r => r.CreatedAt)
+                    .ToList();
+                message = "Thành công";
+                return reviews;
+            }
+            catch (Exception ex)
+            {
+                message = $"Lỗi: {ex.Message}";
+                return new List<ReviewDTO>();
+            }
+        }
     }
 }

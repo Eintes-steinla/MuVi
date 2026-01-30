@@ -233,5 +233,22 @@ namespace MuVi.BLL
         {
             return favoriteDAL.CountFavoritesByUserId(userId);
         }
+
+        public List<FavoriteDTO> GetFavoritesByUser(int userId, out string message)
+        {
+            try
+            {
+                message = "Thành công";
+                // Lấy tất cả và lọc theo UserID
+                return favoriteDAL.GetAll()
+                    .Where(f => f.UserID == userId)
+                    .ToList();
+            }
+            catch (Exception ex)
+            {
+                message = ex.Message;
+                return new List<FavoriteDTO>();
+            }
+        }
     }
 }

@@ -252,5 +252,18 @@ namespace MuVi.BLL
         {
             return castDAL.GetByMovieAndActor(movieId, actorId);
         }
+
+        public List<MovieCastDTO> GetCastByMovie(int movieId, out string message)
+        {
+            try
+            {
+                message = "Thành công";
+                return castDAL.GetAll().Where(c => c.MovieID == movieId).ToList();
+            }
+            catch (Exception ex)
+            {
+                message = ex.Message; return new List<MovieCastDTO>();
+            }
+        }
     }
 }

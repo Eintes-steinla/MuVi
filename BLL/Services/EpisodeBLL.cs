@@ -215,5 +215,25 @@ namespace MuVi.BLL
         {
             return movieDAL.GetAll().Where(m => m.MovieType == "Phim bộ");
         }
+
+        public List<EpisodeDTO> GetEpisodesByMovie(int movieId, out string message)
+        {
+            try
+            {
+                message = "Thành công";
+                // Lấy toàn bộ từ DAL và lọc theo MovieID
+                return episodeDAL.GetAll()
+                    .Where(e => e.MovieID == movieId)
+                    .OrderBy(e => e.EpisodeNumber)
+                    .ToList();
+            }
+            catch (Exception ex)
+            {
+                message = ex.Message;
+                return new List<EpisodeDTO>();
+            }
+        }
+
+        public EpisodeDTO? GetEpisodeById(int episodeId) => episodeDAL.GetById(episodeId);
     }
 }

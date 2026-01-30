@@ -19,6 +19,8 @@ namespace MuVi.DTO.DTOs
         public int? Duration { get; set; }
         public int? TotalEpisodes { get; set; }
         public decimal? Rating { get; set; }
+        public double AverageRating => (double)(Rating ?? 0); // !
+        public int TotalReviews { get; set; } = 0; // !
         public int? ViewCount { get; set; }
         public string Status { get; set; } = "Đang chiếu";
         public DateTime? CreatedAt { get; set; }

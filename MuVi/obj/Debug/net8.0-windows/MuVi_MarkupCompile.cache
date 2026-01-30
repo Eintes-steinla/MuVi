@@ -10,11 +10,11 @@ none
 false
 TRACE;DEBUG;NET;NET8_0;NETCOREAPP;WINDOWS;WINDOWS7_0;NET5_0_OR_GREATER;NET6_0_OR_GREATER;NET7_0_OR_GREATER;NET8_0_OR_GREATER;NETCOREAPP3_0_OR_GREATER;NETCOREAPP3_1_OR_GREATER;WINDOWS7_0_OR_GREATER
 E:\vstimPJ\MuVi\MuVi\App.xaml
-26-847858957
+32343600202
 22-932332663
-58741150866
+72-323340737
 2241005631928
-MainWindow.xaml;Resources\Themes\DarkPurpleTheme.xaml;Views\AddView\ActorAddView.xaml;Views\AddView\CountryAddView.xaml;Views\AddView\EpisodeAddView.xaml;Views\AddView\FavoriteAddView.xaml;Views\AddView\GenreAddView.xaml;Views\AddView\MovieAddView.xaml;Views\AddView\MovieCastAddView.xaml;Views\AddView\ReviewAddView.xaml;Views\AddView\UserAddView.xaml;Views\AddView\VideoUrlInputWindow.xaml;Views\AdminView.xaml;Views\DashboardView.xaml;Views\LoginView.xaml;Views\RegisterView.xaml;Views\UC\ActorUC.xaml;Views\UC\CountryUC.xaml;Views\UC\EpisodeUC.xaml;Views\UC\FavoriteUC.xaml;Views\UC\GenreUC.xaml;Views\UC\HistoryUC.xaml;Views\UC\MovieCastUC.xaml;Views\UC\MovieUC.xaml;Views\UC\ReviewUC.xaml;Views\UC\UserUC.xaml;
+MainWindow.xaml;Resources\Themes\DarkPurpleTheme.xaml;Views\AddView\ActorAddView.xaml;Views\AddView\CountryAddView.xaml;Views\AddView\EpisodeAddView.xaml;Views\AddView\FavoriteAddView.xaml;Views\AddView\GenreAddView.xaml;Views\AddView\MovieAddView.xaml;Views\AddView\MovieCastAddView.xaml;Views\AddView\ReviewAddView.xaml;Views\AddView\UserAddView.xaml;Views\AddView\VideoUrlInputWindow.xaml;Views\AdminView.xaml;Views\DashboardView.xaml;Views\LoginView.xaml;Views\RegisterView.xaml;Views\UC\ActorUC.xaml;Views\UC\CountryUC.xaml;Views\UC\EpisodeUC.xaml;Views\UC\FavoriteUC.xaml;Views\UC\GenreUC.xaml;Views\UC\HistoryUC.xaml;Views\UC\MovieCastUC.xaml;Views\UC\MovieUC.xaml;Views\UC\ReviewUC.xaml;Views\UC\UserUC.xaml;Views\UserFavoritesView.xaml;Views\UserHomeView.xaml;Views\UserMovieDetailView.xaml;Views\UserMovieListView.xaml;Views\UserWatchHistoryView.xaml;Views\VideoPlayerView.xaml;
 
 False
 

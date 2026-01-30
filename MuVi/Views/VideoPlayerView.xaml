@@ -1,0 +1,194 @@
+﻿<Window x:Class="MuVi.Views.VideoPlayerView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        Title="{Binding WindowTitle}" 
+        Height="700" Width="1200"
+        WindowStartupLocation="CenterScreen"
+        Background="Black"
+        WindowStyle="None"
+        KeyDown="Window_KeyDown"
+        Loaded="Window_Loaded"
+        Closing="Window_Closing">
+
+    <Grid x:Name="MainGrid" MouseMove="MainGrid_MouseMove">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- Video Player -->
+        <MediaElement x:Name="VideoPlayer"
+                      Grid.Row="0"
+                      Source="{Binding VideoSource}"
+                      LoadedBehavior="Manual"
+                      UnloadedBehavior="Stop"
+                      Stretch="Uniform"
+                      Volume="{Binding Volume}"
+                      MediaOpened="VideoPlayer_MediaOpened"
+                      MediaEnded="VideoPlayer_MediaEnded"
+                      MouseLeftButtonDown="VideoPlayer_MouseLeftButtonDown"/>
+
+        <!-- Loading Overlay -->
+        <Grid Grid.Row="0" 
+              Background="#80000000"
+              Visibility="{Binding IsLoading, Converter={StaticResource BoolToVisibilityConverter}}">
+            <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+                <ProgressBar IsIndeterminate="True" Width="200" Height="4"/>
+                <TextBlock Text="Đang tải video..."
+                           Foreground="White"
+                           FontSize="16"
+                           Margin="0,15,0,0"
+                           HorizontalAlignment="Center"/>
+            </StackPanel>
+        </Grid>
+
+        <!-- Play/Pause Overlay -->
+        <Border Grid.Row="0"
+                x:Name="PlayPauseOverlay"
+                Background="#60000000"
+                Opacity="0"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                CornerRadius="50"
+                Width="100" Height="100">
+            <TextBlock x:Name="PlayPauseIcon"
+                       Text="{Binding PlayPauseIcon}"
+                       FontSize="50"
+                       Foreground="White"
+                       HorizontalAlignment="Center"
+                       VerticalAlignment="Center"/>
+        </Border>
+
+        <!-- Controls Panel -->
+        <Grid Grid.Row="1" 
+              x:Name="ControlsPanel"
+              Background="#E0000000"
+              Height="100">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <!-- Progress Bar -->
+            <Grid Grid.Row="0" Margin="20,10,20,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <TextBlock Grid.Column="0"
+                           Text="{Binding PositionText}"
+                           Foreground="White"
+                           FontSize="12"
+                           VerticalAlignment="Center"
+                           Margin="0,0,10,0"/>
+
+                <Slider Grid.Column="1"
+                        x:Name="ProgressSlider"
+                        Minimum="0"
+                        Maximum="{Binding Duration}"
+                        Value="{Binding Position, Mode=TwoWay}"
+                        VerticalAlignment="Center"
+                        ValueChanged="ProgressSlider_ValueChanged"
+                        PreviewMouseLeftButtonDown="ProgressSlider_PreviewMouseLeftButtonDown"
+                        PreviewMouseLeftButtonUp="ProgressSlider_PreviewMouseLeftButtonUp"/>
+
+                <TextBlock Grid.Column="2"
+                           Text="{Binding DurationText}"
+                           Foreground="White"
+                           FontSize="12"
+                           VerticalAlignment="Center"
+                           Margin="10,0,0,0"/>
+            </Grid>
+
+            <!-- Control Buttons -->
+            <Grid Grid.Row="1" Margin="20,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <!-- Left Controls -->
+                <StackPanel Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center">
+                    <!-- Skip Backward -->
+                    <Button Style="{StaticResource PlayerButton}"
+                            Command="{Binding SkipBackwardCommand}"
+                            ToolTip="Tua lùi 10s">
+                        <TextBlock Text="⏪" FontSize="20"/>
+                    </Button>
+
+                    <!-- Play/Pause -->
+                    <Button x:Name="PlayPauseButton"
+                            Style="{StaticResource PlayerButton}"
+                            Click="PlayPauseButton_Click"
+                            Margin="10,0">
+                        <TextBlock Text="{Binding PlayPauseIcon}" FontSize="24"/>
+                    </Button>
+
+                    <!-- Skip Forward -->
+                    <Button Style="{StaticResource PlayerButton}"
+                            Command="{Binding SkipForwardCommand}"
+                            ToolTip="Tua tới 10s">
+                        <TextBlock Text="⏩" FontSize="20"/>
+                    </Button>
+
+                    <!-- Volume Control -->
+                    <StackPanel Orientation="Horizontal" Margin="20,0,0,0">
+                        <Button Style="{StaticResource PlayerButton}"
+                                Command="{Binding DecreaseVolumeCommand}">
+                            <TextBlock Text="🔉" FontSize="18"/>
+                        </Button>
+
+                        <Slider Width="100"
+                                Minimum="0"
+                                Maximum="1"
+                                Value="{Binding Volume}"
+                                VerticalAlignment="Center"
+                                Margin="10,0"/>
+
+                        <Button Style="{StaticResource PlayerButton}"
+                                Command="{Binding IncreaseVolumeCommand}">
+                            <TextBlock Text="🔊" FontSize="18"/>
+                        </Button>
+                    </StackPanel>
+                </StackPanel>
+
+                <!-- Center - Title -->
+                <TextBlock Grid.Column="1"
+                           Text="{Binding WindowTitle}"
+                           Foreground="White"
+                           FontSize="16"
+                           FontWeight="SemiBold"
+                           VerticalAlignment="Center"
+                           HorizontalAlignment="Center"/>
+
+                <!-- Right Controls -->
+                <StackPanel Grid.Column="2" 
+                            Orientation="Horizontal" 
+                            HorizontalAlignment="Right"
+                            VerticalAlignment="Center">
+                    <!-- Fullscreen -->
+                    <Button x:Name="FullscreenButton"
+                            Style="{StaticResource PlayerButton}"
+                            Click="FullscreenButton_Click"
+                            ToolTip="Toàn màn hình">
+                        <TextBlock x:Name="FullscreenIcon" Text="⛶" FontSize="20"/>
+                    </Button>
+
+                    <!-- Close -->
+                    <Button Style="{StaticResource PlayerButton}"
+                            Click="CloseButton_Click"
+                            Margin="10,0,0,0"
+                            ToolTip="Đóng">
+                        <TextBlock Text="✖" FontSize="18"/>
+                    </Button>
+                </StackPanel>
+            </Grid>
+        </Grid>
+    </Grid>
+</Window>

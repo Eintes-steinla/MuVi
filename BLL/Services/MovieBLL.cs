@@ -70,6 +70,24 @@ namespace MuVi.BLL
         }
 
         /// <summary>
+        /// Lấy toàn bộ danh sách phim (không phân trang) để dùng cho trang chủ
+        /// </summary>
+        public List<MovieDTO> GetAllMovies(out string message)
+        {
+            try
+            {
+                var movies = movieDAL.GetAll().ToList();
+                message = "Thành công";
+                return movies;
+            }
+            catch (Exception ex)
+            {
+                message = $"Lỗi: {ex.Message}";
+                return new List<MovieDTO>();
+            }
+        }
+
+        /// <summary>
         /// Lấy tổng số trang
         /// </summary>
         public int GetTotalPages()

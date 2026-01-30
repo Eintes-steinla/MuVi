@@ -192,5 +192,25 @@ namespace MuVi.BLL
                 .Distinct()
                 .OrderBy(n => n);
         }
+
+        public ActorDTO? GetActorById(int actorId, out string message)
+        {
+            try
+            {
+                var actor = actorDAL.GetById(actorId);
+                if (actor != null)
+                {
+                    message = "Thành công";
+                    return actor;
+                }
+                message = "Không tìm thấy thông tin diễn viên";
+                return null;
+            }
+            catch (Exception ex)
+            {
+                message = ex.Message;
+                return null;
+            }
+        }
     }
 }

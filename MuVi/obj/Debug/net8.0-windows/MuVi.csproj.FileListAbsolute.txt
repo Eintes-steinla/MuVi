@@ -129,3 +129,15 @@ E:\vstimPJ\MuVi\MuVi\obj\Debug\net8.0-windows\Views\AddView\MovieCastAddView.bam
 E:\vstimPJ\MuVi\MuVi\obj\Debug\net8.0-windows\Views\AddView\MovieCastAddView.g.cs
 E:\vstimPJ\MuVi\MuVi\obj\Debug\net8.0-windows\Views\UC\MovieCastUC.g.cs
 E:\vstimPJ\MuVi\MuVi\obj\Debug\net8.0-windows\Views\UC\MovieCastUC.baml
+E:\vstimPJ\MuVi\MuVi\obj\Debug\net8.0-windows\Views\UserFavoritesView.baml
+E:\vstimPJ\MuVi\MuVi\obj\Debug\net8.0-windows\Views\UserHomeView.baml
+E:\vstimPJ\MuVi\MuVi\obj\Debug\net8.0-windows\Views\UserMovieDetailView.baml
+E:\vstimPJ\MuVi\MuVi\obj\Debug\net8.0-windows\Views\UserMovieListView.baml
+E:\vstimPJ\MuVi\MuVi\obj\Debug\net8.0-windows\Views\UserWatchHistoryView.baml
+E:\vstimPJ\MuVi\MuVi\obj\Debug\net8.0-windows\Views\VideoPlayerView.baml
+E:\vstimPJ\MuVi\MuVi\obj\Debug\net8.0-windows\Views\UserFavoritesView.g.cs
+E:\vstimPJ\MuVi\MuVi\obj\Debug\net8.0-windows\Views\UserHomeView.g.cs
+E:\vstimPJ\MuVi\MuVi\obj\Debug\net8.0-windows\Views\UserMovieDetailView.g.cs
+E:\vstimPJ\MuVi\MuVi\obj\Debug\net8.0-windows\Views\UserMovieListView.g.cs
+E:\vstimPJ\MuVi\MuVi\obj\Debug\net8.0-windows\Views\UserWatchHistoryView.g.cs
+E:\vstimPJ\MuVi\MuVi\obj\Debug\net8.0-windows\Views\VideoPlayerView.g.cs

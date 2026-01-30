@@ -209,5 +209,20 @@ namespace MuVi.BLL
         {
             return countryDAL.GetById(countryId);
         }
+
+        public List<CountryDTO> GetAllCountries(out string message)
+        {
+            try
+            {
+                var countries = countryDAL.GetAll().ToList();
+                message = "Success";
+                return countries;
+            }
+            catch (Exception ex)
+            {
+                message = $"Error: {ex.Message}";
+                return new List<CountryDTO>();
+            }
+        }
     }
 }

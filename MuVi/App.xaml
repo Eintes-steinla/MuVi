@@ -3,7 +3,8 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:local="clr-namespace:MuVi"
-             StartupUri="Views/AdminView.xaml">
+             xmlns:helpers="clr-namespace:MuVi.Helpers"
+             StartupUri="Views/UserHomeView.xaml">
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -13,6 +14,11 @@
 
                 <ResourceDictionary Source="/Resources/Themes/DarkPurpleTheme.xaml"/>
             </ResourceDictionary.MergedDictionaries>
+
+            <!-- Converters -->
+            <helpers:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
+            <helpers:ZeroToVisibilityConverter x:Key="ZeroToVisibilityConverter"/>
+            <helpers:NotZeroToVisibilityConverter x:Key="NotZeroToVisibilityConverter"/>
         </ResourceDictionary>
     </Application.Resources>
 </Application>

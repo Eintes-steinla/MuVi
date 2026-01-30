@@ -252,5 +252,43 @@ namespace MuVi.BLL
         {
             return historyDAL.GetById(historyId);
         }
+
+        /// <summary>
+        /// Lấy lịch sử xem của một người dùng cụ thể
+        /// </summary>
+        public List<ViewHistoryDTO> GetViewHistoryByUser(int userId, out string message)
+        {
+            try
+            {
+                var history = historyDAL.GetAll()
+                    .Where(h => h.UserID == userId)
+                    .OrderByDescending(h => h.WatchedAt)
+                    .ToList();
+
+                message = "Thành công";
+                return history;
+            }
+            catch (Exception ex)
+            {
+                message = $"Lỗi: {ex.Message}";
+                return new List<ViewHistoryDTO>();
+            }
+        }
+
+        public bool AddViewHistory(ViewHistoryDTO history, out string message)
+        {
+            try
+            {
+                // Gọi lại hàm có sẵn hoặc gọi trực tiếp DAL
+                bool result = historyDAL.AddOrUpdateHistory(history);
+                message = result ? "Thành công" : "Thất bại";
+                return result;
+            }
+            catch (Exception ex)
+            {
+                message = ex.Message;
+                return false;
+            }
+        }
     }
 }

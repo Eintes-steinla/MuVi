@@ -158,5 +158,21 @@ namespace MuVi.BLL
             message = $"Đã xóa {successCount}/{genreIds.Count} thể loại";
             return successCount > 0;
         }
+
+        // Thêm phương thức này vào GenreBLL.cs
+        public List<GenreDTO> GetAllGenres(out string message)
+        {
+            try
+            {
+                var genres = genreDAL.GetAll().ToList();
+                message = "Thành công";
+                return genres;
+            }
+            catch (Exception ex)
+            {
+                message = $"Lỗi: {ex.Message}";
+                return new List<GenreDTO>();
+            }
+        }
     }
 }
