@@ -73,6 +73,7 @@
                                 IsSnapToTickEnabled="True"
                                 Value="{Binding Order, Mode=TwoWay}"
                                 VerticalAlignment="Center"
+                                Foreground="{StaticResource PrimaryPurpleDarkBrush}"
                                 Margin="0,0,10,0"/>
 
                         <StackPanel Grid.Column="1" VerticalAlignment="Center">

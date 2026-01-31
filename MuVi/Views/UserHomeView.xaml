@@ -118,7 +118,7 @@
                     </Border.Effect>
                     <Grid>
                         <!-- Featured Movie Background -->
-                        <Image
+                        <Image Source="https://i.pinimg.com/1200x/bd/e3/90/bde3904a0af0711287025bfc43b9cb56.jpg"
                                      Stretch="UniformToFill"
                                      Opacity="1"/>
 
@@ -136,7 +136,7 @@
                         <StackPanel VerticalAlignment="Bottom" 
                                           Margin="40,0,40,40">
                             <TextBlock x:Name="txtFeaturedTitle"
-                                             Text="Tên Phim Nổi Bật"
+                                             Text="Học Viện Siêu Anh Hùng"
                                              Foreground="White"
                                              FontSize="42"
                                              FontWeight="Bold"
@@ -147,7 +147,7 @@
                             </StackPanel>
 
                             <TextBlock x:Name="txtFeaturedDesc"
-                                             Text="Mô tả ngắn về bộ phim nổi bật..."
+                                             Text="Đây là câu chuyện về Midoriya Izuku (Deku)"
                                              Foreground="{StaticResource TextSecondaryBrush}"
                                              FontSize="16"
                                              TextWrapping="Wrap"

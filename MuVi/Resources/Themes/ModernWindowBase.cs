@@ -15,30 +15,6 @@ namespace MuVi.Resources.Themes
         {
             this.Style = (Style)Application.Current.FindResource("ModernWindowStyle");
             this.Loaded += ModernWindowBase_Loaded;
-            this.StateChanged += ModernWindowBase_StateChanged;
-        }
-
-        private void ModernWindowBase_StateChanged(object sender, EventArgs e)
-        {
-            var mainBorder = this.Template.FindName("MainBorder", this) as Border;
-
-            if (this.WindowState == WindowState.Maximized)
-            {
-                // Thêm margin để bù trừ phần window bị che
-                // Giá trị 7 phù hợp với Windows 11, có thể điều chỉnh thành 8 cho Windows 10
-                if (mainBorder != null)
-                {
-                    mainBorder.Margin = new Thickness(7);
-                }
-            }
-            else
-            {
-                // Khôi phục margin ban đầu
-                if (mainBorder != null)
-                {
-                    mainBorder.Margin = new Thickness(0);
-                }
-            }
         }
 
         private void ModernWindowBase_Loaded(object sender, RoutedEventArgs e)
@@ -50,13 +26,10 @@ namespace MuVi.Resources.Themes
 
             if (titleBar != null)
                 titleBar.MouseLeftButtonDown += TitleBar_MouseLeftButtonDown;
-
             if (minimizeButton != null)
                 minimizeButton.Click += MinimizeButton_Click;
-
             if (maximizeButton != null)
                 maximizeButton.Click += MaximizeButton_Click;
-
             if (closeButton != null)
                 closeButton.Click += CloseButton_Click;
         }
@@ -74,9 +47,9 @@ namespace MuVi.Resources.Themes
                     this.WindowState = WindowState.Normal;
                     var point = PointToScreen(e.GetPosition(this));
                     this.Left = point.X - (this.ActualWidth / 2);
-                    this.Top = point.Y;
+                    this.Top = point.Y - 25;
                 }
-                this.DragMove();
+                this.DragMove();    
             }
         }
 

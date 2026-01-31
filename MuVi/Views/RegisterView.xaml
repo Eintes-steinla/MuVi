@@ -61,7 +61,7 @@
             <!-- Left Side - Registration Form -->
             <Border Grid.Column="0" 
                     Style="{StaticResource GlassCard}"
-                    Margin="40,40,0,80"
+                    Margin="40,40,0,40"
                     Padding="50">
                 <Grid>
                     <!-- Register Form -->
