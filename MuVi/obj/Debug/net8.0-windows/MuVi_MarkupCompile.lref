@@ -3,6 +3,8 @@ FE:\vstimPJ\MuVi\MuVi\App.xaml;;
 FE:\vstimPJ\MuVi\MuVi\MainWindow.xaml;;
 FE:\vstimPJ\MuVi\MuVi\Views\AddView\FavoriteAddView.xaml;;
 FE:\vstimPJ\MuVi\MuVi\Views\AdminView.xaml;;
+FE:\vstimPJ\MuVi\MuVi\Views\LoginView.xaml;;
+FE:\vstimPJ\MuVi\MuVi\Views\RegisterView.xaml;;
 FE:\vstimPJ\MuVi\MuVi\Views\UC\ActorUC.xaml;;
 FE:\vstimPJ\MuVi\MuVi\Views\UC\CountryUC.xaml;;
 FE:\vstimPJ\MuVi\MuVi\Views\UC\EpisodeUC.xaml;;
@@ -13,4 +15,7 @@ FE:\vstimPJ\MuVi\MuVi\Views\UC\MovieCastUC.xaml;;
 FE:\vstimPJ\MuVi\MuVi\Views\UC\MovieUC.xaml;;
 FE:\vstimPJ\MuVi\MuVi\Views\UC\ReviewUC.xaml;;
 FE:\vstimPJ\MuVi\MuVi\Views\UC\UserUC.xaml;;
+FE:\vstimPJ\MuVi\MuVi\Views\UserDashboardView.xaml;;
+FE:\vstimPJ\MuVi\MuVi\Views\UserMovieDetailView.xaml;;
+FE:\vstimPJ\MuVi\MuVi\Views\VideoPlayerView.xaml;;
 

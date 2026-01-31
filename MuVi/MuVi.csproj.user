@@ -38,9 +38,6 @@
     <Compile Update="Views\AdminView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Views\DashBoardView.xaml.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Update="Views\LoginView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -75,6 +72,9 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Views\UC\UserUC.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Views\UserDashboardView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Views\UserFavoritesView.xaml.cs">

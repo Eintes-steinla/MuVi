@@ -4,7 +4,7 @@
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:local="clr-namespace:MuVi"
              xmlns:helpers="clr-namespace:MuVi.Helpers"
-             StartupUri="Views/UserHomeView.xaml">
+             StartupUri="Views/LoginView.xaml">
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -19,6 +19,8 @@
             <helpers:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
             <helpers:ZeroToVisibilityConverter x:Key="ZeroToVisibilityConverter"/>
             <helpers:NotZeroToVisibilityConverter x:Key="NotZeroToVisibilityConverter"/>
+
+            <Style TargetType="Window" BasedOn="{StaticResource ModernWindowStyle}"/>
         </ResourceDictionary>
     </Application.Resources>
 </Application>

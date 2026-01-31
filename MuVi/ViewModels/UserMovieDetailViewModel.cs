@@ -101,7 +101,7 @@ namespace MuVi.ViewModels
             }
         }
 
-        public string FavoriteButtonText => IsFavorite ? "Đã thích ❤" : "Yêu thích 🤍";
+        public string FavoriteButtonText => IsFavorite ? "/Assets/Icons/icons8-heart-48.png" : "/Assets/Icons/icons8-unheart-48.png";
 
         // Loading
         private bool _isLoading;

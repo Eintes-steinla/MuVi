@@ -1,4 +1,5 @@
-﻿using MuVi.ViewModels;
+﻿using MuVi.Resources.Themes;
+using MuVi.ViewModels;
 using MuVi.Views.UC;
 using System.Windows;
 using System.Windows.Controls;
@@ -9,14 +10,12 @@ namespace MuVi.Views
     /// <summary>
     /// Interaction logic for AdminView.xaml
     /// </summary>
-    public partial class AdminView : Window
+    public partial class AdminView : ModernWindowBase
     {
-        /// <summary>
-        /// Đóng window
-        /// </summary>
-        private void btnClose_Click(object sender, RoutedEventArgs e)
+        public AdminView()
         {
-            Application.Current.Shutdown();
+            InitializeComponent();
+            ContentArea.Content = new UserUC();
         }
 
         private void TabControl_SelectionChanged(object sender, SelectionChangedEventArgs e)

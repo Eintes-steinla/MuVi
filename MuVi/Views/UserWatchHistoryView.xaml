@@ -9,8 +9,8 @@
     <UserControl.Resources>
         <!-- History Item Template -->
         <DataTemplate x:Key="HistoryItemTemplate">
-            <Border Background="{StaticResource PrimaryPurpleDarkBrush}"
-                    BorderBrush="{StaticResource BorderBrush}"
+            <Border Background="{StaticResource BackgroundGradientBrush}"
+                    BorderBrush="{StaticResource PrimaryPurpleDarkBrush}"
                     BorderThickness="1"
                     CornerRadius="10"
                     Margin="0,0,0,15"
@@ -49,7 +49,7 @@
                                    Margin="0,8,0,0"/>
 
                         <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
-                            <TextBlock Text="⏱ Xem lúc: " 
+                            <TextBlock Text="Xem lúc: " 
                                        Foreground="{StaticResource TextSecondaryBrush}"
                                        FontSize="12"/>
                             <TextBlock Text="{Binding WatchedTime}"
@@ -74,15 +74,15 @@
                                            Text="{Binding ProgressText}"
                                            FontSize="11"
                                            FontWeight="Bold"
-                                           Foreground="{StaticResource AccentBrush}"/>
+                                           Foreground="{StaticResource MaterialDesignLightSeparatorBackground}"/>
                             </Grid>
 
-                            <ProgressBar Value="{Binding Progress}"
+                            <ProgressBar Value="{Binding Progress, Mode=OneWay}"
                                          Maximum="100"
                                          Height="6"
                                          Margin="0,5,0,0"
-                                         Foreground="{StaticResource AccentBrush}"
-                                         Background="{StaticResource BorderBrush}"/>
+                                         Foreground="{StaticResource BackgroundLightBrush}"
+                                         Background="{StaticResource PrimaryPurpleDarkBrush}"/>
                         </StackPanel>
                     </StackPanel>
 
@@ -93,21 +93,22 @@
                         <Button Style="{StaticResource PrimaryButton}"
                                 Command="{Binding DataContext.ContinueWatchingCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
                                 CommandParameter="{Binding}"
-                                Padding="20,10"
                                 Margin="0,0,0,10">
-                            <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="▶" FontSize="14" Margin="0,0,5,0"/>
+                            <StackPanel Orientation="Horizontal"
+                                        Margin="10,5">
+                                <Image Source="/Assets/Icons/icons8-play-48.png"
+                                       Width="20" Margin="0,0,5,0"/>
                                 <TextBlock Text="Xem tiếp"/>
                             </StackPanel>
                         </Button>
 
                         <Button Style="{StaticResource SecondaryButton}"
                                 Command="{Binding DataContext.ViewMovieDetailCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
-                                CommandParameter="{Binding}"
-                                Padding="20,10">
-                            <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="ℹ" FontSize="14" Margin="0,0,5,0"/>
-                                <TextBlock Text="Chi tiết"/>
+                                CommandParameter="{Binding}">
+                            <StackPanel Orientation="Horizontal" Margin="10,5">
+                                <Image Source="/Assets/Icons/icons8-info-white-48.png"
+                                        Width="20" Margin="0,0,5,0"/>
+                                <TextBlock Text="Chi tiết" Foreground="{StaticResource TextPrimaryBrush}"/>
                             </StackPanel>
                         </Button>
                     </StackPanel>
@@ -132,34 +133,37 @@
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
 
-                <StackPanel Grid.Column="0">
-                    <TextBlock Text="📜 Lịch Sử Xem Phim"
-                               FontSize="28"
+                <StackPanel Grid.Column="0" Orientation="Horizontal">
+                    <Image Source="/Assets/Icons/icons8-note-100.png"
+                           Width="40" Height="40"
+                           Margin="0,0,10,0"/>
+                    <TextBlock Text="Lịch Sử Xem Phim"
+                               FontSize="36"
                                FontWeight="Bold"
                                Foreground="{StaticResource TextPrimaryBrush}"/>
-                    <TextBlock Text="Tiếp tục xem những bộ phim bạn chưa hoàn thành"
-                               FontSize="14"
-                               Foreground="{StaticResource TextSecondaryBrush}"
-                               Margin="0,5,0,0"/>
                 </StackPanel>
 
                 <StackPanel Grid.Column="1" Orientation="Horizontal">
                     <Button Style="{StaticResource SecondaryButton}"
                             Command="{Binding LoadDataCommand}"
-                            Padding="15,10"
-                            Margin="0,0,10,0">
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="🔄" Margin="0,0,5,0"/>
-                            <TextBlock Text="Làm mới"/>
+                            Margin="0,0,10,0"
+                            VerticalAlignment="Center">
+                        <StackPanel Orientation="Horizontal"
+                                    Margin="10">   
+                            <Image Source="/Assets/Icons/icons8-refresh-48.png"
+                                   Width="20" Margin="0,0,5,0"/>
+                            <TextBlock Text="Làm mới" Foreground="{StaticResource TextPrimaryBrush}"/>
                         </StackPanel>
                     </Button>
 
                     <Button Style="{StaticResource SecondaryButton}"
                             Command="{Binding ClearHistoryCommand}"
-                            Padding="15,10">
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="🗑" Margin="0,0,5,0"/>
-                            <TextBlock Text="Xóa lịch sử"/>
+                            VerticalAlignment="Center">
+                        <StackPanel Orientation="Horizontal"
+                                    Margin="10">
+                            <Image Source="/Assets/Icons/icons8-remove-48.png"
+                                    Width="20" Margin="0,0,5,0"/>
+                            <TextBlock Text="Xóa lịch sử" Foreground="{StaticResource TextPrimaryBrush}"/>
                         </StackPanel>
                     </Button>
                 </StackPanel>

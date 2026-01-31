@@ -1,6 +1,7 @@
 ﻿using MuVi.BLL;
 using MuVi.Commands;
 using MuVi.Helpers;
+using MuVi.Views;
 using System;
 using System.Windows;
 using System.Windows.Input;
@@ -162,13 +163,19 @@ namespace MuVi.ViewModels
                         MessageBoxImage.Information
                     );
 
-                    // TODO: Lưu thông tin User vào Session hoặc Global Variable nếu cần
-                    // Ví dụ: App.CurrentUser = user;
-
-                    // TODO: Điều hướng sang màn hình chính
-                    // var mainWindow = new MainWindow();
-                    // mainWindow.Show();
-                    // CloseCurrentWindow(); // Bạn cần viết thêm hàm này để đóng cửa sổ Login
+                    // Kiểm tra role
+                    if (user.Role == "Admin")
+                    {
+                        // Mở AdminView
+                        var adminWindow = new AdminView();
+                        adminWindow.Show();
+                    }
+                    else
+                    {
+                        // Mở UserDashboardView cho người dùng thường
+                        var userDashboard = new UserDashboardView();
+                        userDashboard.Show();
+                    }
                 }
                 else
                 {

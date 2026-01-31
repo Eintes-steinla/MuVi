@@ -275,5 +275,47 @@ namespace Muvi.DAL
             int rows = conn.Execute(sql, new { Id = movieId });
             return rows > 0;
         }
+
+        /// <summary>
+        /// Lấy danh sách phim theo mã thể loại
+        /// </summary>
+        public IEnumerable<MovieDTO> GetByGenre(int genreId)
+        {
+            string sql = @"
+    SELECT 
+        m.*, 
+        c.CountryName,
+        STUFF((
+            SELECT ', ' + g.GenreName
+            FROM MovieCategory mc2
+            INNER JOIN Genres g ON mc2.GenreID = g.GenreID
+            WHERE mc2.MovieID = m.MovieID
+            ORDER BY g.GenreName
+            FOR XML PATH('')
+        ), 1, 2, '') AS GenreNames
+    FROM Movies m
+    LEFT JOIN Countries c ON m.CountryID = c.CountryID
+    INNER JOIN MovieCategory mc ON m.MovieID = mc.MovieID
+    WHERE mc.GenreID = @GenreID
+    ORDER BY m.CreatedAt DESC";
+
+            using SqlConnection conn = DapperProvider.GetConnection();
+            return conn.Query<MovieDTO>(sql, new { GenreID = genreId });
+        }
+
+        /// <summary>
+        /// Lấy danh sách phim theo loại phim (MovieType)
+        /// </summary>
+        public IEnumerable<MovieDTO> GetByType(string movieType)
+        {
+            string sql = @"
+    SELECT m.*, c.CountryName 
+    FROM Movies m 
+    LEFT JOIN Countries c ON m.CountryID = c.CountryID 
+    WHERE m.MovieType = @Type";
+
+            using SqlConnection conn = DapperProvider.GetConnection();
+            return conn.Query<MovieDTO>(sql, new { Type = movieType });
+        }
     }
 }

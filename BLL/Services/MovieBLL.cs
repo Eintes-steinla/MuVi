@@ -316,5 +316,78 @@ namespace MuVi.BLL
         {
             return movieDAL.GetById(movieId);
         }
+
+        /// <summary>
+        /// Lấy danh sách phim xu hướng dựa trên lượt xem
+        /// </summary>
+        public List<MovieDTO> GetTopMoviesByViewCount(int count)
+        {
+            try
+            {
+                // Get all movies, sort by ViewCount descending, and take the top N
+                return movieDAL.GetAll()
+                    .OrderByDescending(m => m.ViewCount)
+                    .Take(count)
+                    .ToList();
+            }
+            catch (Exception)
+            {
+                return new List<MovieDTO>();
+            }
+        }
+
+        /// <summary>
+        /// Lấy danh sách phim mới phát hành (sắp xếp theo năm)
+        /// </summary>
+        public List<MovieDTO> GetNewReleases(int count)
+        {
+            try
+            {
+                // Get all movies, order by ReleaseYear descending, and take the top N
+                return movieDAL.GetAll()
+                    .OrderByDescending(m => m.ReleaseYear)
+                    .Take(count)
+                    .ToList();
+            }
+            catch (Exception)
+            {
+                return new List<MovieDTO>();
+            }
+        }
+
+        /// <summary>
+        /// Tìm kiếm phim theo từ khóa (Dùng cho chức năng Search)
+        /// </summary>
+        public List<MovieDTO> SearchMovies(string searchText)
+        {
+            try
+            {
+                return movieDAL.GetAll()
+                    .Where(m => m.Title.Contains(searchText, StringComparison.OrdinalIgnoreCase))
+                    .ToList();
+            }
+            catch (Exception)
+            {
+                return new List<MovieDTO>();
+            }
+        }
+
+        /// <summary>
+        /// Lấy phim theo thể loại
+        /// </summary>
+        public List<MovieDTO> GetMoviesByGenre(int genreId)
+        {
+            try
+            {
+                // This requires the GetByGenre method in MovieDAL (see step 4)
+                return movieDAL.GetByGenre(genreId).ToList();
+            }
+            catch { return new List<MovieDTO>(); }
+        }
+
+        public List<MovieDTO> GetMoviesByType(string movieType)
+        {
+            return movieDAL.GetByType(movieType).ToList();
+        }
     }
 }

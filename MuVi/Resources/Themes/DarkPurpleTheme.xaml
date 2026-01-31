@@ -1081,4 +1081,190 @@
             </Setter.Value>
         </Setter>
     </Style>
+
+    <!-- ========== MODERN WINDOW TITLE BAR STYLES ========== -->
+
+    <!-- Title Bar Button Style -->
+    <Style x:Key="TitleBarButton" TargetType="Button">
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="Foreground" Value="{StaticResource TextSecondaryBrush}"/>
+        <Setter Property="Width" Value="46"/>
+        <Setter Property="Height" Value="50"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="Cursor" Value="Hand"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Border x:Name="border" 
+                           Background="{TemplateBinding Background}">
+                        <ContentPresenter HorizontalAlignment="Center" 
+                                        VerticalAlignment="Center"/>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="border" Property="Background" Value="{StaticResource BackgroundLightBrush}"/>
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter TargetName="border" Property="Background" Value="{StaticResource PrimaryPurpleBrush}"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- Title Bar Close Button Style (with red hover) -->
+    <Style x:Key="TitleBarCloseButton" TargetType="Button" BasedOn="{StaticResource TitleBarButton}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Border x:Name="border" 
+                           Background="{TemplateBinding Background}"
+                           CornerRadius="0,12,0,0">
+                        <ContentPresenter HorizontalAlignment="Center" 
+                                        VerticalAlignment="Center"/>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="border" Property="Background" Value="{StaticResource ErrorBrush}"/>
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter TargetName="border" Property="Background" Value="#C62828"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- Modern Window Style với Custom Title Bar -->
+    <Style x:Key="ModernWindowStyle" TargetType="Window">
+        <Setter Property="WindowStyle" Value="None"/>
+        <Setter Property="AllowsTransparency" Value="True"/>
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="ResizeMode" Value="CanResize"/>
+        <Setter Property="WindowChrome.WindowChrome">
+            <Setter.Value>
+                <WindowChrome CaptionHeight="50"
+                             ResizeBorderThickness="5"
+                             GlassFrameThickness="0"
+                             CornerRadius="12"
+                             UseAeroCaptionButtons="False"
+                              NonClientFrameEdges="None"/>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Window">
+                    <Border x:Name="MainBorder"
+                           Background="{StaticResource BackgroundDarkBrush}"
+                           BorderBrush="{StaticResource PrimaryPurpleBrush}"
+                           BorderThickness="1"
+                           CornerRadius="12">
+                        <Border.Effect>
+                            <DropShadowEffect Color="{StaticResource PrimaryPurple}" 
+                                            BlurRadius="30" 
+                                            ShadowDepth="0" 
+                                            Opacity="0.4"/>
+                        </Border.Effect>
+
+                        <Grid Margin="0,0,0,0" x:Name="PART_MainGrid">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="50"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+
+                            <!-- CUSTOM TITLE BAR -->
+                            <Border Grid.Row="0" 
+                                   x:Name="PART_TitleBar"
+                                   Background="{StaticResource BackgroundMediumBrush}"
+                                   CornerRadius="12,12,0,0"
+                                   BorderBrush="#2A2A2A"
+                                   BorderThickness="0,0,0,1">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <!-- App Icon -->
+                                    <Image Grid.Column="0"
+                                          Source="{TemplateBinding Icon}"
+                                          Width="24"
+                                          Height="24"
+                                          Margin="15,0,10,0"
+                                          VerticalAlignment="Center"/>
+
+                                    <!-- Window Title -->
+                                    <TextBlock Grid.Column="1"
+                                              Text="{TemplateBinding Title}"
+                                              Foreground="{StaticResource TextPrimaryBrush}"
+                                              FontSize="14"
+                                              FontWeight="SemiBold"
+                                              VerticalAlignment="Center"
+                                              Margin="5,0,0,0"/>
+
+                                    <!-- Window Control Buttons -->
+                                    <StackPanel Grid.Column="2"
+                                               Orientation="Horizontal"
+                                               WindowChrome.IsHitTestVisibleInChrome="True">
+
+                                        <!-- Minimize Button -->
+                                        <Button x:Name="PART_MinimizeButton"
+                                               Style="{StaticResource TitleBarButton}"
+                                               ToolTip="Thu nhỏ">
+                                            <Path Data="M0,0 H10" 
+                                                 Stroke="{StaticResource TextSecondaryBrush}"
+                                                 StrokeThickness="1.5"
+                                                 Stretch="None"/>
+                                        </Button>
+
+                                        <!-- Maximize/Restore Button -->
+                                        <Button x:Name="PART_MaximizeButton"
+                                               Style="{StaticResource TitleBarButton}"
+                                               ToolTip="Phóng to">
+                                            <Path x:Name="MaximizeIcon"
+                                                 Data="M0,0 H10 V10 H0 V0"
+                                                 Stroke="{StaticResource TextSecondaryBrush}"
+                                                 StrokeThickness="1.5"
+                                                 Stretch="None"
+                                                 Fill="Transparent"/>
+                                        </Button>
+
+                                        <!-- Close Button -->
+                                        <Button x:Name="PART_CloseButton"
+                                               Style="{StaticResource TitleBarCloseButton}"
+                                               ToolTip="Đóng">
+                                            <Path Data="M0,0 L10,10 M10,0 L0,10"
+                                                 Stroke="{StaticResource TextSecondaryBrush}"
+                                                 StrokeThickness="1.5"
+                                                 Stretch="None"/>
+                                        </Button>
+                                    </StackPanel>
+                                </Grid>
+                            </Border>
+
+                            <!-- WINDOW CONTENT -->
+                            <AdornerDecorator Grid.Row="1">
+                                <ContentPresenter />
+                            </AdornerDecorator>
+                        </Grid>
+                    </Border>
+
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="WindowState" Value="Maximized">
+                            <Setter TargetName="MainBorder" Property="BorderThickness" Value="0"/>
+                            <Setter TargetName="MainBorder" Property="CornerRadius" Value="0"/>
+                            <Setter TargetName="MainBorder" Property="Effect" Value="{x:Null}"/>
+                            <Setter TargetName="MainBorder" Property="Margin" Value="7,7,7,7"/>
+                            <Setter TargetName="PART_TitleBar" Property="CornerRadius" Value="0"/>
+                            <Setter TargetName="MaximizeIcon" Property="Data" Value="M0,2 H8 V10 H0 V2 M2,0 H10 V8"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
 </ResourceDictionary>

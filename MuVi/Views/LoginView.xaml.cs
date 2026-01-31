@@ -1,4 +1,5 @@
-﻿using MuVi.ViewModels;
+﻿using MuVi.Resources.Themes;
+using MuVi.ViewModels;
 using System.Windows;
 using System.Windows.Input;
 
@@ -7,7 +8,7 @@ namespace MuVi.Views
     /// <summary>
     /// Interaction logic for LoginView.xaml
     /// </summary>
-    public partial class LoginView : Window
+    public partial class LoginView : ModernWindowBase
     {
         private LoginViewModel _viewModel;
 
@@ -16,14 +17,6 @@ namespace MuVi.Views
             InitializeComponent();
             _viewModel = new LoginViewModel();
             DataContext = _viewModel;
-        }
-
-        /// <summary>
-        /// Đóng window
-        /// </summary>
-        private void btnClose_Click(object sender, RoutedEventArgs e)
-        {
-            Application.Current.Shutdown();
         }
 
         /// <summary>

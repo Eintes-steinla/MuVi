@@ -10,7 +10,7 @@
         <!-- Movie Grid Item Template -->
         <DataTemplate x:Key="MovieGridTemplate">
             <Border Width="200" Height="320" Margin="10"
-                    Background="{StaticResource PrimaryPurpleDarkBrush}"
+                    Background="{StaticResource BackgroundGradientBrush}"
                     CornerRadius="10"
                     Cursor="Hand">
                 <Border.Effect>
@@ -30,14 +30,14 @@
                                    Stretch="UniformToFill"/>
 
                             <!-- Movie Type Badge -->
-                            <Border Background="{StaticResource PrimaryBrush}"
+                            <Border Background="{StaticResource BackgroundDarkBrush}"
                                     CornerRadius="0,0,8,0"
-                                    Padding="8,3"
+                                    Padding="8,4"
                                     HorizontalAlignment="Left"
                                     VerticalAlignment="Top">
                                 <TextBlock Text="{Binding MovieType}" 
                                            Foreground="White"
-                                           FontSize="10"
+                                           FontSize="12"
                                            FontWeight="Bold"/>
                             </Border>
 
@@ -49,7 +49,9 @@
                                     VerticalAlignment="Top"
                                     Margin="10">
                                 <StackPanel Orientation="Horizontal">
-                                    <TextBlock Text="⭐" FontSize="12" Margin="0,0,3,0"/>
+                                    <Image Source="/Assets/Icons/icons8-star-48.png"
+                                           Width="12"
+                                           Margin="0,0,5,0"/>
                                     <TextBlock Text="{Binding AverageRating, StringFormat={}{0:F1}}" 
                                                Foreground="Gold"
                                                FontSize="12"
@@ -67,21 +69,26 @@
                                         <Button Style="{StaticResource PrimaryButton}"
                                                 Command="{Binding DataContext.PlayMovieCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
                                                 CommandParameter="{Binding}"
-                                                Width="100"
+                                                Width="115"
                                                 Margin="5">
-                                            <StackPanel Orientation="Horizontal">
-                                                <TextBlock Text="▶" Margin="0,0,5,0"/>
+                                            <StackPanel Orientation="Horizontal"
+                                                        Margin="10,5">
+                                                <Image Source="/Assets/Icons/icons8-play-48.png"
+                                                       Width="20" Height="20"
+                                                       Margin="0,0,5,0"/>
                                                 <TextBlock Text="Xem ngay"/>
                                             </StackPanel>
                                         </Button>
                                         <Button Style="{StaticResource SecondaryButton}"
                                                 Command="{Binding DataContext.ViewMovieDetailCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
                                                 CommandParameter="{Binding}"
-                                                Width="100"
+                                                Width="115"
                                                 Margin="5">
-                                            <StackPanel Orientation="Horizontal">
-                                                <TextBlock Text="ℹ" Margin="0,0,5,0"/>
-                                                <TextBlock Text="Chi tiết"/>
+                                            <StackPanel Orientation="Horizontal" Margin="10,5">
+                                                <Image Source="/Assets/Icons/icons8-info-white-48.png"
+                                                        Width="20" Height="20"
+                                                        Margin="0,0,5,0"/>
+                                                <TextBlock Text="Chi tiết" Foreground="{StaticResource TextPrimaryBrush}"/>
                                             </StackPanel>
                                         </Button>
                                     </StackPanel>
@@ -164,20 +171,21 @@
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
 
-                <StackPanel Grid.Column="0">
-                    <TextBlock Text="📽 Danh Sách Phim"
-                               FontSize="28"
+                <StackPanel Grid.Column="0"
+                            Orientation="Horizontal">
+                    <Image Source="/Assets/Icons/icons8-film-50.png"
+                           Height="30" Width="30"
+                           Margin="0,0,10,0"/>
+                    <TextBlock Text="Danh Sách Phim"
+                               FontSize="36"
                                FontWeight="Bold"
                                Foreground="{StaticResource TextPrimaryBrush}"/>
-                    <TextBlock Text="Khám phá hàng ngàn bộ phim hay"
-                               FontSize="14"
-                               Foreground="{StaticResource TextSecondaryBrush}"
-                               Margin="0,5,0,0"/>
                 </StackPanel>
 
                 <!-- Search Box -->
                 <Grid Margin="0,0,0,0" HorizontalAlignment="Right">
                     <TextBox x:Name="txtSearch"
+                             Width="200"
                              Style="{StaticResource SearchBox}"
                              Text="{Binding SearchKeyword, UpdateSourceTrigger=PropertyChanged}"/>
                 </Grid>
@@ -203,7 +211,7 @@
                 <!-- Genre Filter -->
                 <StackPanel Grid.Column="0" Margin="0,0,15,0">
                     <TextBlock Text="Thể loại" 
-                               FontSize="11"
+                               FontSize="12"
                                Foreground="{StaticResource TextSecondaryBrush}"
                                Margin="0,0,0,5"/>
                     <ComboBox ItemsSource="{Binding Genres}"
@@ -216,7 +224,7 @@
                 <!-- Country Filter -->
                 <StackPanel Grid.Column="1" Margin="0,0,15,0">
                     <TextBlock Text="Quốc gia" 
-                               FontSize="11"
+                               FontSize="12"
                                Foreground="{StaticResource TextSecondaryBrush}"
                                Margin="0,0,0,5"/>
                     <ComboBox ItemsSource="{Binding Countries}"
@@ -229,7 +237,7 @@
                 <!-- Movie Type Filter -->
                 <StackPanel Grid.Column="2" Margin="0,0,15,0">
                     <TextBlock Text="Loại phim" 
-                               FontSize="11"
+                               FontSize="12"
                                Foreground="{StaticResource TextSecondaryBrush}"
                                Margin="0,0,0,5"/>
                     <ComboBox SelectedItem="{Binding SelectedMovieType}"
@@ -244,7 +252,7 @@
                 <!-- Sort By -->
                 <StackPanel Grid.Column="3" Margin="0,0,15,0">
                     <TextBlock Text="Sắp xếp" 
-                               FontSize="11"
+                               FontSize="12"
                                Foreground="{StaticResource TextSecondaryBrush}"
                                Margin="0,0,0,5"/>
                     <ComboBox SelectedItem="{Binding SortBy}"
@@ -263,11 +271,17 @@
                 <Button Grid.Column="5"
                         Style="{StaticResource SecondaryButton}"
                         Command="{Binding ClearFiltersCommand}"
-                        Margin="10,18,0,0"
-                        Padding="15,8">
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="🔄" Margin="0,0,5,0"/>
-                        <TextBlock Text="Xóa bộ lọc"/>
+                        VerticalAlignment="Center"  >
+                    <StackPanel Orientation="Horizontal"
+                                Margin="10,5">
+                        <Image Source="/Assets/Icons/icons8-refresh-48.png"
+                               Width="25" Height="25"
+                               VerticalAlignment="Center"
+                               Margin="0,0,5,0"/>
+                        <TextBlock Text="Xóa bộ lọc"
+                                   FontSize="15"
+                                   VerticalAlignment="Center"
+                                   Foreground="{StaticResource TextPrimaryBrush}"/>
                     </StackPanel>
                 </Button>
             </Grid>

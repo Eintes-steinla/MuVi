@@ -1,13 +1,14 @@
-﻿using System.Windows;
-using System.Windows.Input;
+﻿using MuVi.Resources.Themes;
 using MuVi.ViewModels;
+using System.Windows;
+using System.Windows.Input;
 
 namespace MuVi.Views
 {
     /// <summary>
     /// Interaction logic for RegisterView.xaml
     /// </summary>
-    public partial class RegisterView : Window
+    public partial class RegisterView : ModernWindowBase
     {
         private RegisterViewModel _viewModel;
 
@@ -16,14 +17,6 @@ namespace MuVi.Views
             InitializeComponent();
             _viewModel = new RegisterViewModel();
             DataContext = _viewModel;
-        }
-
-        /// <summary>
-        /// Đóng window
-        /// </summary>
-        private void btnClose_Click(object sender, RoutedEventArgs e)
-        {
-            Application.Current.Shutdown();
         }
 
         /// <summary>

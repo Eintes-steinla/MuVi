@@ -1,17 +1,18 @@
-﻿using System;
+﻿using MuVi.DTO.DTOs;
+using MuVi.Resources.Themes;
+using MuVi.ViewModels;
+using System;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Threading;
-using MuVi.DTO.DTOs;
-using MuVi.ViewModels;
 
 namespace MuVi.Views
 {
     /// <summary>
     /// Code-behind cho VideoPlayerView
     /// </summary>
-    public partial class VideoPlayerView : Window
+    public partial class VideoPlayerView : ModernWindowBase
     {
         private VideoPlayerViewModel _viewModel;
         private DispatcherTimer _progressTimer;
@@ -226,7 +227,7 @@ namespace MuVi.Views
                 WindowState = WindowState.Normal;
                 ResizeMode = ResizeMode.CanResize;
                 _viewModel.IsFullScreen = false;
-                FullscreenIcon.Text = "⛶";
+                //FullscreenIcon.Text = "⛶";
             }
             else
             {
@@ -235,7 +236,7 @@ namespace MuVi.Views
                 WindowState = WindowState.Maximized;
                 ResizeMode = ResizeMode.NoResize;
                 _viewModel.IsFullScreen = true;
-                FullscreenIcon.Text = "⛶";
+                //FullscreenIcon.Text = "⛶";
             }
         }
 

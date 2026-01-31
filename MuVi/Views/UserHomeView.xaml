@@ -4,13 +4,13 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              mc:Ignorable="d" 
-             d:DesignHeight="800" d:DesignWidth="1200">
+             d:DesignHeight="1000" d:DesignWidth="1200">
 
     <UserControl.Resources>
         <!-- Movie Card Template -->
         <DataTemplate x:Key="MovieCardTemplate">
             <Border Width="180" Height="280" Margin="10"
-                    Background="{StaticResource PrimaryPurpleDarkBrush}"
+                    Background="{StaticResource BackgroundGradientBrush}"
                     CornerRadius="8"
                     Cursor="Hand">
                 <Border.Effect>
@@ -37,27 +37,34 @@
                         <StackPanel Margin="10,5">
                             <TextBlock Text="{Binding Title}" 
                                        Foreground="White"
-                                       FontSize="13"
+                                       FontSize="14"
                                        FontWeight="SemiBold"
                                        TextTrimming="CharacterEllipsis"
                                        MaxHeight="36"
                                        TextWrapping="Wrap"/>
-                            <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
-                                <TextBlock Text="⭐" FontSize="11" Foreground="Gold" Margin="0,0,3,0"/>
+                            <StackPanel Orientation="Horizontal" 
+                                        Margin="0,5,0,0" 
+                                        VerticalAlignment="Center">
+                                <Image Source="/Assets/Icons/icons8-star-48.png" 
+                                       Height="10" Width="10"
+                                       Margin="0,0,5,0"/>
                                 <TextBlock Text="{Binding AverageRating, StringFormat={}{0:F1}}" 
                                            Foreground="#FFD700"
-                                           FontSize="11"
-                                           FontWeight="Bold"/>
-                                <TextBlock Text="{Binding ViewCount, StringFormat={}  👁 {0}}" 
-                                           Foreground="LightGray"
                                            FontSize="10"
-                                           Margin="10,0,0,0"/>
+                                           FontWeight="Bold"/>
+                                <Image Source="/Assets/Icons/icons8-eye-gray-48.png" 
+                                       Height="13" Width="13"
+                                       Margin="15,0,5,0"/>
+                                <TextBlock Text="{Binding ViewCount, StringFormat={}{0}}" 
+                                           Foreground="{StaticResource TextSecondaryBrush}"
+                                           FontSize="10"
+                                           Margin="0,0,0,0"/>
                             </StackPanel>
                         </StackPanel>
                     </Grid>
 
                     <!-- Action Buttons -->
-                    <Grid Grid.Row="1" Background="{StaticResource PrimaryPurpleDarkBrush}">
+                    <Grid Grid.Row="1" Background="{StaticResource BackgroundDarkBrush}">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="*"/>
@@ -67,11 +74,14 @@
                                 Style="{StaticResource PrimaryButton}"
                                 Command="{Binding DataContext.PlayMovieCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
                                 CommandParameter="{Binding}"
-                                Margin="5"
-                                Padding="5">
-                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                                <TextBlock Text="▶" FontSize="10" Margin="0,0,3,0"/>
-                                <TextBlock Text="Xem" FontSize="10"/>
+                                Margin="10,5,5,5"
+                                ToolTip="Xem">
+                            <StackPanel Orientation="Horizontal" 
+                                        HorizontalAlignment="Center" 
+                                        VerticalAlignment="Center"
+                                        Margin="10,5">
+                                <Image Source="/Assets/Icons/icons8-play-48.png"
+                                       Width="20" Height="20"/>
                             </StackPanel>
                         </Button>
 
@@ -79,11 +89,11 @@
                                 Style="{StaticResource SecondaryButton}"
                                 Command="{Binding DataContext.ViewMovieDetailCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
                                 CommandParameter="{Binding}"
-                                Margin="5"
-                                Padding="5">
+                                Margin="5,5,10,5"
+                                ToolTip="Chi tiết">
                             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                                <TextBlock Text="ℹ" FontSize="10" Margin="0,0,3,0"/>
-                                <TextBlock Text="Chi tiết" FontSize="10"/>
+                                <Image Source="/Assets/Icons/icons8-info-white-48.png"
+                                       Width="20" Height="20"/>
                             </StackPanel>
                         </Button>
                     </Grid>
@@ -95,25 +105,81 @@
     <ScrollViewer VerticalScrollBarVisibility="Auto" 
                   Background="{StaticResource BackgroundGradientBrush}">
         <StackPanel>
-            <!-- Header Banner -->
-            <Border Height="120" 
-                    Background="{StaticResource BackgroundDarkBrush}"
-                    Margin="0,0,0,20">
-                <Grid>
-                    <StackPanel Grid.Column="0" 
-                                VerticalAlignment="Center" 
-                                Margin="40,0">
-                        <TextBlock Text="🎬 MuVi - Xem Phim Online"
-                                   FontSize="32"
-                                   FontWeight="Bold"
-                                   Foreground="White"/>
-                        <TextBlock Text="Hàng ngàn bộ phim hay đang chờ bạn khám phá"
-                                   FontSize="16"
-                                   Foreground="WhiteSmoke"
-                                   Margin="0,5,0,0"/>
-                    </StackPanel>
-                </Grid>
-            </Border>
+            <!-- Featured Section -->
+            <Grid x:Name="FeaturedSection" Margin="0,0,0,40">
+                <Border Height="400"
+                                CornerRadius="16"
+                                Background="{StaticResource BackgroundLightBrush}">
+                    <Border.Effect>
+                        <DropShadowEffect Color="{StaticResource PrimaryPurple}" 
+                                                BlurRadius="40" 
+                                                ShadowDepth="0" 
+                                                Opacity="0.3"/>
+                    </Border.Effect>
+                    <Grid>
+                        <!-- Featured Movie Background -->
+                        <Image
+                                     Stretch="UniformToFill"
+                                     Opacity="1"/>
+
+                        <!-- Gradient Overlay -->
+                        <Border>
+                            <Border.Background>
+                                <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                                    <GradientStop Color="Transparent" Offset="0"/>
+                                    <GradientStop Color="#0F0F0F" Offset="1"/>
+                                </LinearGradientBrush>
+                            </Border.Background>
+                        </Border>
+
+                        <!-- Featured Movie Info -->
+                        <StackPanel VerticalAlignment="Bottom" 
+                                          Margin="40,0,40,40">
+                            <TextBlock x:Name="txtFeaturedTitle"
+                                             Text="Tên Phim Nổi Bật"
+                                             Foreground="White"
+                                             FontSize="42"
+                                             FontWeight="Bold"
+                                             Margin="0,0,0,10"/>
+
+                            <StackPanel>
+
+                            </StackPanel>
+
+                            <TextBlock x:Name="txtFeaturedDesc"
+                                             Text="Mô tả ngắn về bộ phim nổi bật..."
+                                             Foreground="{StaticResource TextSecondaryBrush}"
+                                             FontSize="16"
+                                             TextWrapping="Wrap"
+                                             MaxWidth="700"
+                                             HorizontalAlignment="Left"
+                                             Margin="0,0,0,20"/>
+                            <StackPanel Orientation="Horizontal">
+                                <Button
+                                              Style="{StaticResource PrimaryButton}"
+                                              Command="{Binding DataContext.PlayMovieCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                            CommandParameter="{Binding}"
+                                              Margin="0,0,20,0">
+                                    <Image Source="/Assets/Icons/icons8-play-48.png" Width="20" Margin="5" />
+                                </Button>
+
+                                <Button
+                                              Style="{StaticResource SecondaryButton}"
+                                              Margin="0,0,10,0">
+                                    <Image Source="/Assets/Icons/icons8-heart-48.png" Width="20" Margin="5" />
+                                </Button>
+
+                                <Button
+                                              Style="{StaticResource SecondaryButton}"
+                                              Command="{Binding DataContext.ViewMovieDetailCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                              CommandParameter="{Binding}">
+                                    <Image Source="/Assets/Icons/icons8-info-48.png" Width="20" Margin="5" />
+                                </Button>
+                            </StackPanel>
+                        </StackPanel>
+                    </Grid>
+                </Border>
+            </Grid>
 
             <!-- Loading Indicator -->
             <ProgressBar IsIndeterminate="{Binding IsLoading}"
@@ -123,11 +189,18 @@
 
             <!-- New Movies Section -->
             <StackPanel Margin="30,0,30,30">
-                <TextBlock Text="🆕 Phim Mới Cập Nhật"
-                           FontSize="24"
+                <StackPanel Margin="0,0,0,20"
+                            Orientation="Horizontal"
+                            VerticalAlignment="Center">
+                    <Image Source="/Assets/Icons/icons8-movie-48.png" 
+                           Width="35" Height="35" 
+                           Margin="0,0,10,0"/>
+                    <TextBlock Text="Phim Mới Cập Nhật"
+                           FontSize="25"
                            FontWeight="Bold"
                            Foreground="{StaticResource TextPrimaryBrush}"
-                           Margin="0,0,0,15"/>
+                           />
+                </StackPanel>
 
                 <ScrollViewer HorizontalScrollBarVisibility="Auto" 
                               VerticalScrollBarVisibility="Disabled">
@@ -146,11 +219,18 @@
 
             <!-- Featured Movies Section -->
             <StackPanel Margin="30,30,30,30">
-                <TextBlock Text="⭐ Phim Nổi Bật"
-                           FontSize="24"
-                           FontWeight="Bold"
-                           Foreground="{StaticResource TextPrimaryBrush}"
-                           Margin="0,0,0,15"/>
+                <StackPanel Margin="0,0,0,20"
+            Orientation="Horizontal"
+            VerticalAlignment="Center">
+                    <Image Source="/Assets/Icons/icons8-star-48.png" 
+           Width="30" Height="30" 
+           Margin="0,0,10,0"/>
+                    <TextBlock Text="Phim Nổi Bật"
+           FontSize="25"
+           FontWeight="Bold"
+           Foreground="{StaticResource TextPrimaryBrush}"
+           />
+                </StackPanel>
 
                 <ScrollViewer HorizontalScrollBarVisibility="Auto" 
                               VerticalScrollBarVisibility="Disabled">
@@ -169,11 +249,18 @@
 
             <!-- Popular Movies Section -->
             <StackPanel Margin="30,30,30,30">
-                <TextBlock Text="🔥 Phim Xem Nhiều"
-                           FontSize="24"
-                           FontWeight="Bold"
-                           Foreground="{StaticResource TextPrimaryBrush}"
-                           Margin="0,0,0,15"/>
+                <StackPanel Margin="0,0,0,20"
+ Orientation="Horizontal"
+ VerticalAlignment="Center">
+                    <Image Source="/Assets/Icons/icons8-fire-48.png" 
+Width="30" Height="30" 
+Margin="0,0,10,0"/>
+                    <TextBlock Text="Phim Xem Nhiều"
+FontSize="25"
+FontWeight="Bold"
+Foreground="{StaticResource TextPrimaryBrush}"
+/>
+                </StackPanel>
 
                 <ScrollViewer HorizontalScrollBarVisibility="Auto" 
                               VerticalScrollBarVisibility="Disabled">
@@ -192,11 +279,18 @@
 
             <!-- Recommended Movies Section -->
             <StackPanel Margin="30,30,30,30">
-                <TextBlock Text="💡 Phim Đề Xuất Cho Bạn"
-                           FontSize="24"
-                           FontWeight="Bold"
-                           Foreground="{StaticResource TextPrimaryBrush}"
-                           Margin="0,0,0,15"/>
+                <StackPanel Margin="0,0,0,20"
+ Orientation="Horizontal"
+ VerticalAlignment="Center">
+                    <Image Source="/Assets/Icons/icons8-light-48.png" 
+Width="30" Height="30" 
+Margin="0,0,10,0"/>
+                    <TextBlock Text="Phim Đề Xuất Cho Bạn"
+FontSize="25"
+FontWeight="Bold"
+Foreground="{StaticResource TextPrimaryBrush}"
+/>
+                </StackPanel>
 
                 <ScrollViewer HorizontalScrollBarVisibility="Auto" 
                               VerticalScrollBarVisibility="Disabled">
@@ -210,16 +304,6 @@
                     </ItemsControl>
                 </ScrollViewer>
             </StackPanel>
-
-            <!-- Footer -->
-            <Border Height="60" 
-                    Background="{StaticResource BackgroundDarkBrush}"
-                    Margin="0,30,0,0">
-                <TextBlock Text="© 2026 MuVi - Movie Viewing Application"
-                           HorizontalAlignment="Center"
-                           VerticalAlignment="Center"
-                           Foreground="{StaticResource TextSecondaryBrush}"/>
-            </Border>
         </StackPanel>
     </ScrollViewer>
 </UserControl>

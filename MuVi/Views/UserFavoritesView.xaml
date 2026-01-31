@@ -10,8 +10,8 @@
         <!-- Favorite Movie Card Template -->
         <DataTemplate x:Key="FavoriteMovieCardTemplate">
             <Border Width="200" Height="340" Margin="10"
-                    Background="{StaticResource PrimaryPurpleDarkBrush}"
-                    CornerRadius="10"
+                    Background="{StaticResource BackgroundGradientBrush}"
+                    CornerRadius="0"
                     Cursor="Hand">
                 <Border.Effect>
                     <DropShadowEffect BlurRadius="12" ShadowDepth="3" Opacity="0.4"/>
@@ -19,7 +19,7 @@
 
                 <Grid>
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="260"/>
+                        <RowDefinition Height="240"/>
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
 
@@ -31,12 +31,13 @@
                     <!-- Love Badge -->
                     <Border Grid.Row="0"
                             Background="#CCE91E63"
-                            CornerRadius="20"
-                            Padding="10,5"
+                            CornerRadius="100"
+                            Padding="5"
                             HorizontalAlignment="Right"
                             VerticalAlignment="Top"
                             Margin="10">
-                        <TextBlock Text="❤" FontSize="16"/>
+                        <Image Source="/Assets/Icons/icons8-heart-48.png"
+                               Width="20" Height="20"/>
                     </Border>
 
                     <!-- Movie Info -->
@@ -57,12 +58,13 @@
                                    TextWrapping="Wrap"/>
 
                         <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="0,5,0,0">
-                            <TextBlock Text="⭐" FontSize="12"/>
+                            <Image Source="/Assets/Icons/icons8-star-48.png"
+                                   Width="12" Height="12"
+                                   Margin="0,0,5,0"/>
                             <TextBlock Text="{Binding AverageRating, StringFormat={}{0:F1}}" 
                                        Foreground="Gold"
                                        FontSize="12"
-                                       FontWeight="Bold"
-                                       Margin="3,0"/>
+                                       FontWeight="Bold"/>
                         </StackPanel>
 
                         <!-- Action Buttons -->
@@ -76,11 +78,13 @@
                                     Style="{StaticResource PrimaryButton}"
                                     Command="{Binding DataContext.PlayMovieCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
                                     CommandParameter="{Binding}"
-                                    Padding="8,5"
-                                    Margin="0,0,5,0">
-                                <StackPanel Orientation="Horizontal">
-                                    <TextBlock Text="▶" FontSize="10" Margin="0,0,3,0"/>
-                                    <TextBlock Text="Xem" FontSize="10"/>
+                                    Margin="0,0,10,0">
+                                <StackPanel Orientation="Horizontal"
+                                            Margin="10,5">
+                                    <Image Source="/Assets/Icons/icons8-play-48.png"
+                                           Width="20" Height="20"
+                                           Margin="0,0,5,0"/>
+                                    <TextBlock Text="Xem" FontSize="15"/>
                                 </StackPanel>
                             </Button>
 
@@ -88,9 +92,10 @@
                                     Style="{StaticResource SecondaryButton}"
                                     Command="{Binding DataContext.RemoveFavoriteCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
                                     CommandParameter="{Binding}"
-                                    Padding="8,5"
                                     ToolTip="Xóa khỏi yêu thích">
-                                <TextBlock Text="🗑" FontSize="12"/>
+                                <Image Source="/Assets/Icons/icons8-remove-48.png"
+                                        Width="18" Height="18"
+                                       Margin="5"/>
                             </Button>
                         </Grid>
                     </Grid>
@@ -116,23 +121,31 @@
                 </Grid.ColumnDefinitions>
 
                 <StackPanel Grid.Column="0">
-                    <TextBlock Text="❤ Phim Yêu Thích"
+                    <StackPanel Orientation="Horizontal">
+                        <Image Source="/Assets/Icons/icons8-unheart-48.png"
+                               Width="36" Height="36"
+                               Margin="0,0,10,0"/>
+                    <TextBlock Text="Phim Yêu Thích"
                                FontSize="28"
                                FontWeight="Bold"
                                Foreground="{StaticResource TextPrimaryBrush}"/>
+                    </StackPanel>
                     <TextBlock Text="{Binding TotalFavorites, StringFormat={}Bạn có {0} phim yêu thích}"
                                FontSize="14"
                                Foreground="{StaticResource TextSecondaryBrush}"
-                               Margin="0,5,0,0"/>
+                               Margin="47,5,0,0"/>
                 </StackPanel>
 
                 <Button Grid.Column="1"
                         Style="{StaticResource SecondaryButton}"
                         Command="{Binding LoadDataCommand}"
-                        Padding="15,10">
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="🔄" Margin="0,0,5,0"/>
-                        <TextBlock Text="Làm mới"/>
+                        VerticalAlignment="Center">
+                    <StackPanel Orientation="Horizontal"
+                                Margin="10,5">
+                        <Image Source="/Assets/Icons/icons8-refresh-48.png"
+                               Width="20" Height="20"
+                               Margin="0,0,5,0"/>
+                        <TextBlock Text="Làm mới" Foreground="{StaticResource TextPrimaryBrush}"/>
                     </StackPanel>
                 </Button>
             </Grid>

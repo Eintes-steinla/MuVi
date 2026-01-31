@@ -84,7 +84,7 @@ namespace MuVi.ViewModels
             }
         }
 
-        public string PlayPauseIcon => IsPlaying ? "⏸" : "▶";
+        public string PlayPauseIcon => IsPlaying ? "/Assets/Icons/icons8-pause-60.png" : "/Assets/Icons/icons8-play-48.png";
 
         // Volume
         private double _volume = 0.5;

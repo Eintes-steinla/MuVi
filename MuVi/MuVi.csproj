@@ -18,21 +18,33 @@
   <ItemGroup>
     <None Remove="Assets\Icons\icons8-actor-64.png" />
     <None Remove="Assets\Icons\icons8-back-48.png" />
+    <None Remove="Assets\Icons\icons8-close-60.png" />
     <None Remove="Assets\Icons\icons8-close-window-64.png" />
+    <None Remove="Assets\Icons\icons8-comment-64.png" />
     <None Remove="Assets\Icons\icons8-earth-50.png" />
     <None Remove="Assets\Icons\icons8-end-50.png" />
     <None Remove="Assets\Icons\icons8-expand-arrow-48.png" />
     <None Remove="Assets\Icons\icons8-export-60.png" />
     <None Remove="Assets\Icons\icons8-eye-48.png" />
+    <None Remove="Assets\Icons\icons8-eye-gray-48.png" />
+    <None Remove="Assets\Icons\icons8-film-50.png" />
+    <None Remove="Assets\Icons\icons8-fire-48.png" />
+    <None Remove="Assets\Icons\icons8-full-screen-48.png" />
     <None Remove="Assets\Icons\icons8-heart-48.png" />
     <None Remove="Assets\Icons\icons8-history-50.png" />
     <None Remove="Assets\Icons\icons8-home-page-50.png" />
     <None Remove="Assets\Icons\icons8-info-48.png" />
+    <None Remove="Assets\Icons\icons8-info-white-48.png" />
+    <None Remove="Assets\Icons\icons8-light-48.png" />
     <None Remove="Assets\Icons\icons8-list-view-60.png" />
     <None Remove="Assets\Icons\icons8-logout-64.png" />
+    <None Remove="Assets\Icons\icons8-low-volume-64.png" />
+    <None Remove="Assets\Icons\icons8-movie-48.png" />
     <None Remove="Assets\Icons\icons8-movies-60.png" />
     <None Remove="Assets\Icons\icons8-multicultural-people-50.png" />
     <None Remove="Assets\Icons\icons8-next-48.png" />
+    <None Remove="Assets\Icons\icons8-note-100.png" />
+    <None Remove="Assets\Icons\icons8-pause-60.png" />
     <None Remove="Assets\Icons\icons8-pencil-48.png" />
     <None Remove="Assets\Icons\icons8-play-48.png" />
     <None Remove="Assets\Icons\icons8-plus-60.png" />
@@ -41,8 +53,12 @@
     <None Remove="Assets\Icons\icons8-review-48.png" />
     <None Remove="Assets\Icons\icons8-search-48.png" />
     <None Remove="Assets\Icons\icons8-series-48.png" />
+    <None Remove="Assets\Icons\icons8-star-48.png" />
     <None Remove="Assets\Icons\icons8-start-50.png" />
+    <None Remove="Assets\Icons\icons8-television-64.png" />
+    <None Remove="Assets\Icons\icons8-unheart-48.png" />
     <None Remove="Assets\Icons\icons8-user-60.png" />
+    <None Remove="Assets\Icons\icons8-voice-64.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -62,7 +78,13 @@
     <Resource Include="Assets\Icons\icons8-back-48.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
+    <Resource Include="Assets\Icons\icons8-close-60.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="Assets\Icons\icons8-close-window-64.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Assets\Icons\icons8-comment-64.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Assets\Icons\icons8-earth-50.png">
@@ -80,6 +102,18 @@
     <Resource Include="Assets\Icons\icons8-eye-48.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
+    <Resource Include="Assets\Icons\icons8-eye-gray-48.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Assets\Icons\icons8-film-50.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Assets\Icons\icons8-fire-48.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Assets\Icons\icons8-full-screen-48.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="Assets\Icons\icons8-heart-48.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
@@ -92,10 +126,22 @@
     <Resource Include="Assets\Icons\icons8-info-48.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
+    <Resource Include="Assets\Icons\icons8-info-white-48.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Assets\Icons\icons8-light-48.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="Assets\Icons\icons8-list-view-60.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Assets\Icons\icons8-logout-64.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Assets\Icons\icons8-low-volume-64.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Assets\Icons\icons8-movie-48.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Assets\Icons\icons8-movies-60.png">
@@ -105,6 +151,12 @@
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Assets\Icons\icons8-next-48.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Assets\Icons\icons8-note-100.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Assets\Icons\icons8-pause-60.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Assets\Icons\icons8-pencil-48.png">
@@ -131,10 +183,22 @@
     <Resource Include="Assets\Icons\icons8-series-48.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
+    <Resource Include="Assets\Icons\icons8-star-48.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="Assets\Icons\icons8-start-50.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
+    <Resource Include="Assets\Icons\icons8-television-64.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Assets\Icons\icons8-unheart-48.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="Assets\Icons\icons8-user-60.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Assets\Icons\icons8-voice-64.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
   </ItemGroup>

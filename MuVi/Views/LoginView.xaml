@@ -1,20 +1,19 @@
-﻿<Window x:Class="MuVi.Views.LoginView"
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        mc:Ignorable="d"
-        Title="MuVi - Login" 
-        d:Height="720" 
-        d:Width="1280"
-        WindowStyle="None"
-        AllowsTransparency="True"
-        Background="Transparent"
-        WindowState="Maximized"
-        WindowStartupLocation="CenterScreen"
-        ResizeMode="NoResize">
+﻿<themes:ModernWindowBase x:Class="MuVi.Views.LoginView"
+                        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                        xmlns:themes="clr-namespace:MuVi.Resources.Themes"
+                        mc:Ignorable="d"
+                        Title="MuVi - Login" 
+                        d:Height="720" 
+                        d:Width="1280"
+                        Background="Transparent"
+                        WindowState="Maximized"
+                        WindowStartupLocation="CenterScreen"
+                        Style="{StaticResource ModernWindowStyle}">
 
-    <Window.Resources>
+    <themes:ModernWindowBase.Resources>
         <ResourceDictionary>
 
             <!-- Storyboard for fade-in animation -->
@@ -33,13 +32,13 @@
                 </ThicknessAnimation>
             </Storyboard>
         </ResourceDictionary>
-    </Window.Resources>
+    </themes:ModernWindowBase.Resources>
 
-    <Window.Triggers>
+    <themes:ModernWindowBase.Triggers>
         <EventTrigger RoutedEvent="Window.Loaded">
             <BeginStoryboard Storyboard="{StaticResource FadeInAnimation}"/>
         </EventTrigger>
-    </Window.Triggers>
+    </themes:ModernWindowBase.Triggers>
 
     <!-- Main Container -->
     <Grid Background="{StaticResource BackgroundGradientBrush}">
@@ -121,43 +120,9 @@
             <!-- Right Side - Login Form -->
             <Border Grid.Column="1" 
                     Style="{StaticResource GlassCard}"
-                    Margin="0,40,40,40"
+                    Margin="0,40,40,80"
                     Padding="50">
                 <Grid>
-                    <!-- Close Button -->
-                    <Button x:Name="btnClose"
-                            HorizontalAlignment="Right" 
-                            VerticalAlignment="Top"
-                            Width="36" Height="36"
-                            Background="Transparent"
-                            Foreground="{StaticResource TextSecondaryBrush}"
-                            BorderThickness="0"
-                            Cursor="Hand"
-                            Click="btnClose_Click">
-                        <Image Source="/Assets/Icons/icons8-close-window-64.png"/>
-                        <Button.Style>
-                            <Style TargetType="Button">
-                                <Setter Property="Template">
-                                    <Setter.Value>
-                                        <ControlTemplate TargetType="Button">
-                                            <Border x:Name="border" 
-                                                  Background="{TemplateBinding Background}"
-                                                  CornerRadius="18">
-                                                <ContentPresenter HorizontalAlignment="Center" 
-                                                                VerticalAlignment="Center"/>
-                                            </Border>
-                                            <ControlTemplate.Triggers>
-                                                <Trigger Property="IsMouseOver" Value="True">
-                                                    <Setter TargetName="border" Property="Background" Value="Transparent"/>
-                                                </Trigger>
-                                            </ControlTemplate.Triggers>
-                                        </ControlTemplate>
-                                    </Setter.Value>
-                                </Setter>
-                            </Style>
-                        </Button.Style>
-                    </Button>
-
                     <!-- Login Form -->
                     <StackPanel VerticalAlignment="Center" Margin="0,0,0,0">
                         <!-- Title -->
@@ -241,4 +206,4 @@
             </Border>
         </Grid>
     </Grid>
-</Window>
+</themes:ModernWindowBase>

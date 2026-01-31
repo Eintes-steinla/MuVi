@@ -174,5 +174,14 @@ namespace MuVi.BLL
                 return new List<GenreDTO>();
             }
         }
+
+        /// <summary>
+        /// Lấy toàn bộ danh sách thể loại không cần tham số out
+        /// </summary>
+        public List<GenreDTO> GetAllGenres()
+        {
+            string ignoreMessage;
+            return GetAllGenres(out ignoreMessage);
+        }
     }
 }
