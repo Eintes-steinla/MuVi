@@ -120,15 +120,14 @@
                         <!-- User Info -->
                         <StackPanel Grid.Column="1" 
                                   Margin="12,0,0,0"
-                                  VerticalAlignment="Center">
+                                  VerticalAlignment="Center"
+                                    Orientation="Horizontal">
                             <TextBlock x:Name="txtUsername"
                                        Text="{Binding Username}" 
                                      Foreground="{StaticResource TextPrimaryBrush}"
-                                     FontSize="13"
-                                     FontWeight="SemiBold"/>
-                            <TextBlock Text="{Binding UserRole}" 
-                                     Foreground="{StaticResource TextHintBrush}"
-                                     FontSize="11"/>
+                                     FontSize="15"
+                                     FontWeight="SemiBold"
+                                       VerticalAlignment="Center"/>
                         </StackPanel>
 
                         <!-- Logout Icon -->
